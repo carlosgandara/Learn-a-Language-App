@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Word Shooter — Tagalog Practice</title>
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='word-shooter.css') }}"
+  >
+</head>
+
+<body>
+
+  <div class="game-page">
+
+    <header class="game-header">
+
+      <a href="/menu" class="back-link">
+        ← Levels
+      </a>
+
+      <div class="game-title">
+        WORD SHOOTER
+      </div>
+
+      <div class="score-box">
+        Score:
+        <span id="score">0</span>
+      </div>
+
+    </header>
+
+
+    <main id="gameArea" class="game-area">
+
+      <div class="hud">
+
+        <div class="prompt-label">
+          SHOOT THE CORRECT TAGALOG SPELLING
+        </div>
+
+        <div
+          id="englishPrompt"
+          class="english-prompt"
+        >
+          LOADING...
+        </div>
+
+        <div class="game-stats">
+
+          <span>
+            ❤️
+            <span id="lives">3</span>
+          </span>
+
+          <span>
+            Round
+            <span id="round">1</span>
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+
+      <div
+        id="targets"
+        class="targets"
+      ></div>
+
+
+      <div
+        id="player"
+        class="player"
+      >
+
+        <div class="player-gun">
+          ▲
+        </div>
+
+        <div class="player-body">
+          🙂
+        </div>
+
+        <div class="player-name">
+          CARLOS
+        </div>
+
+      </div>
+
+
+      <div
+        id="gameOver"
+        class="game-over hidden"
+      >
+
+        <div class="game-over-card">
+
+          <div class="game-over-title">
+            GAME OVER
+          </div>
+
+          <div class="final-score">
+            Score:
+            <span id="finalScore">0</span>
+          </div>
+
+          <button
+            id="restartButton"
+            class="restart-button"
+          >
+            PLAY AGAIN
+          </button>
+
+          <a
+            href="/menu"
+            class="menu-button"
+          >
+            BACK TO LEVELS
+          </a>
+
+        </div>
+
+      </div>
+
+    </main>
+
+
+    <footer class="controls">
+
+      <span>
+        ← → Move
+      </span>
+
+      <span>
+        SPACE Shoot
+      </span>
+
+    </footer>
+
+  </div>
+
+
+  <!-- WORDS PROVIDED BY FLASK -->
+  <script
+    id="wordShooterData"
+    type="application/json"
+  >{{ game_words | tojson }}</script>
+
+
+  <!-- WORD SHOOTER -->
+  <script
+    src="{{ url_for('static', filename='word-shooter.js') }}"
+  ></script>
+
+
+  <!--
+    EXISTING STUDY TIMER
+
+    This makes time spent actively playing
+    Word Shooter count toward today's study
+    time and lifetime study time.
+  -->
+  <script
+    src="{{ url_for('static', filename='study-timer.js') }}"
+  ></script>
+
+</body>
+</html>

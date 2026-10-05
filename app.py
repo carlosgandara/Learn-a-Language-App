@@ -268,6 +268,116 @@ def level_view(level_id):
     )
 
 
+
+@app.route("/word-shooter")
+def word_shooter():
+    p = get_progress()
+
+    progress_words = p.get("words", {})
+    vocabulary_words = VOCAB.get("words", {})
+
+    game_words = []
+
+    for word, stats in progress_words.items():
+        vocab = vocabulary_words.get(word)
+
+        if not vocab:
+            continue
+
+        english = vocab.get("english")
+
+        if not english:
+            continue
+
+        correct = stats.get("correct", 0)
+        wrong = stats.get("wrong", 0)
+        wrong_streak = stats.get("wrong_streak", 0)
+
+        attempts = correct + wrong
+
+        if attempts == 0:
+            continue
+
+        accuracy = correct / attempts
+
+        game_words.append({
+            "answer": word,
+            "english": english,
+            "correct": correct,
+            "wrong": wrong,
+            "wrong_streak": wrong_streak,
+            "accuracy": accuracy
+        })
+
+    # Weakest words first
+    game_words.sort(
+        key=lambda item: (
+            item["accuracy"],
+            -item["wrong"]
+        )
+    )
+
+    # Limit game pool
+    game_words = game_words[:30]
+
+    return render_template(
+        "word-shooter.html",
+        game_words=game_words
+    )
+
+
+@app.route("/word-shooter-answer", methods=["POST"])
+def word_shooter_answer():
+    data = request.get_json(silent=True) or {}
+
+    word = data.get("word")
+    correct = data.get("correct")
+
+    if not word:
+        return jsonify({
+            "ok": False,
+            "error": "Missing word"
+        }), 400
+
+    if not isinstance(correct, bool):
+        return jsonify({
+            "ok": False,
+            "error": "Invalid correct value"
+        }), 400
+
+    p = get_progress()
+
+    if "words" not in p:
+        p["words"] = {}
+
+    if word not in p["words"]:
+        p["words"][word] = {
+            "correct": 0,
+            "wrong": 0,
+            "wrong_streak": 0
+        }
+
+    stats = p["words"][word]
+
+    if correct:
+        stats["correct"] = stats.get("correct", 0) + 1
+        stats["wrong_streak"] = 0
+
+    else:
+        stats["wrong"] = stats.get("wrong", 0) + 1
+        stats["wrong_streak"] = stats.get("wrong_streak", 0) + 1
+
+    save_progress(p)
+
+    return jsonify({
+        "ok": True,
+        "word": word,
+        "correct": stats["correct"],
+        "wrong": stats["wrong"],
+        "wrong_streak": stats["wrong_streak"]
+    })
+
+
 @app.route("/next-level")
 def next_level():
     p = get_progress()
