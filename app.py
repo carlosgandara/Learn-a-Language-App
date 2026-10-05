@@ -1,6 +1,9 @@
 import json
 import os
+from datetime import date
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+
+
 
 app = Flask(__name__)
 
@@ -81,12 +84,28 @@ validate_levels()
 
 
 def get_progress():
-    return load_json("progress.json", {
+    p = load_json("progress.json", {
         "level_id": LEVELS["levels"][0]["id"] if LEVELS["levels"] else None,
         "step_index": 0,
         "words": {},
         "completed_levels": [],
+        "study": {
+            "daily_goal_minutes": 120,
+            "total_seconds": 0,
+            "days": {}
+        }
     })
+
+    # Automatically add study tracking to old progress.json files
+    if "study" not in p:
+        p["study"] = {
+            "daily_goal_minutes": 120,
+            "total_seconds": 0,
+            "days": {}
+        }
+        save_json("progress.json", p)
+
+    return p
 
 
 def save_progress(p):
@@ -171,6 +190,7 @@ def menu():
     levels_view = []
     for i, lvl in enumerate(LEVELS["levels"]):
         status = level_status(lvl["id"], completed)
+
         if lvl["id"] == current_id and status != "completed":
             progress_info = f"Step {p['step_index'] + 1} of {len(lvl['steps'])}"
         elif status == "completed":
@@ -190,8 +210,15 @@ def menu():
             "is_current": lvl["id"] == current_id,
         })
 
-    return render_template("menu.html", levels=levels_view)
+    today = date.today().isoformat()
+    study = p["study"]
 
+    return render_template(
+        "menu.html",
+        levels=levels_view,
+        study=study,
+        today_seconds=study["days"].get(today, 0)
+    )
 
 @app.route("/level/<level_id>")
 def level_view(level_id):
@@ -297,14 +324,80 @@ def answer():
     })
 
 
+# ---------------- STUDY TIMER ----------------
+
+@app.route("/study-time", methods=["GET"])
+def study_time():
+    p = get_progress()
+    study = p["study"]
+    today = date.today().isoformat()
+    today_seconds = study["days"].get(today, 0)
+    goal_seconds = study["daily_goal_minutes"] * 60
+
+    return jsonify({
+        "today_seconds": today_seconds,
+        "total_seconds": study["total_seconds"],
+        "daily_goal_minutes": study["daily_goal_minutes"],
+        "goal_met": today_seconds >= goal_seconds,
+    })
+
+
+@app.route("/study-time", methods=["POST"])
+def save_study_time():
+    data = request.get_json(silent=True) or {}
+    seconds = int(data.get("seconds", 0))
+
+    # Only accept small timer updates
+    seconds = max(0, min(seconds, 60))
+
+    p = get_progress()
+    today = date.today().isoformat()
+
+    p["study"]["days"][today] = p["study"]["days"].get(today, 0) + seconds
+    p["study"]["total_seconds"] += seconds
+
+    save_progress(p)
+
+    return jsonify({
+        "ok": True,
+        "today_seconds": p["study"]["days"][today],
+        "total_seconds": p["study"]["total_seconds"],
+    })
+
+
+@app.route("/study-goal", methods=["POST"])
+def study_goal():
+    data = request.get_json(silent=True) or {}
+    minutes = int(data.get("minutes", 120))
+
+    # 5 minutes minimum, 8 hours maximum
+    minutes = max(5, min(minutes, 480))
+
+    p = get_progress()
+    p["study"]["daily_goal_minutes"] = minutes
+    save_progress(p)
+
+    return jsonify({
+        "ok": True,
+        "daily_goal_minutes": minutes,
+    })
+
+
 @app.route("/reset")
 def reset():
+    p = get_progress()
+
+    # Keep study history even when learning progress is reset
+    study = p["study"]
+
     save_progress({
         "level_id": LEVELS["levels"][0]["id"],
         "step_index": 0,
         "words": {},
         "completed_levels": [],
+        "study": study,
     })
+
     return redirect(url_for("menu"))
 
 
