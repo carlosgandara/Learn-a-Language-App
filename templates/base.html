@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ level.title }} — Tagalog</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="/menu" class="brand">← Levels</a>
+      <div class="topbar-center">{{ level.title }}</div>
+      <div class="step-counter">{{ step_index + 1 }} / {{ total_steps }}</div>
+    </div>
+  </header>
+
+  <main class="stage">
+    {% block body %}{% endblock %}
+  </main>
+
+  <script src="{{ url_for('static', filename='level.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,596 @@
+{
+  "level_id": "level-24-coming-leaving",
+  "step_index": 0,
+  "words": {
+    "gusto": {
+      "correct": 22,
+      "wrong": 42,
+      "wrong_streak": 0
+    },
+    "kape": {
+      "correct": 5,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "isang": {
+      "correct": 5,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "please": {
+      "correct": 5,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "may": {
+      "correct": 11,
+      "wrong": 3,
+      "wrong_streak": 0
+    },
+    "asukal": {
+      "correct": 29,
+      "wrong": 16,
+      "wrong_streak": 0
+    },
+    "ba": {
+      "correct": 9,
+      "wrong": 2,
+      "wrong_streak": 0
+    },
+    "kanin": {
+      "correct": 6,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "tubig": {
+      "correct": 6,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "puwede": {
+      "correct": 51,
+      "wrong": 49,
+      "wrong_streak": 0
+    },
+    "menu": {
+      "correct": 9,
+      "wrong": 2,
+      "wrong_streak": 0
+    },
+    "mesa": {
+      "correct": 7,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "magkano": {
+      "correct": 7,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "prutas": {
+      "correct": 10,
+      "wrong": 2,
+      "wrong_streak": 0
+    },
+    "isda": {
+      "correct": 6,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "gulay": {
+      "correct": 9,
+      "wrong": 3,
+      "wrong_streak": 0
+    },
+    "pera": {
+      "correct": 5,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "ako": {
+      "correct": 6,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "si": {
+      "correct": 15,
+      "wrong": 7,
+      "wrong_streak": 0
+    },
+    "kumusta": {
+      "correct": 7,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "ka": {
+      "correct": 47,
+      "wrong": 37,
+      "wrong_streak": 0
+    },
+    "mabuti": {
+      "correct": 9,
+      "wrong": 2,
+      "wrong_streak": 0
+    },
+    "naman": {
+      "correct": 48,
+      "wrong": 47,
+      "wrong_streak": 0
+    },
+    "taga": {
+      "correct": 49,
+      "wrong": 56,
+      "wrong_streak": 0
+    },
+    "ito": {
+      "correct": 4,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "tatay": {
+      "correct": 5,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "nanay": {
+      "correct": 29,
+      "wrong": 17,
+      "wrong_streak": 0
+    },
+    "kuya": {
+      "correct": 5,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "ate": {
+      "correct": 3,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "ilang": {
+      "correct": 3,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "dalawa": {
+      "correct": 23,
+      "wrong": 14,
+      "wrong_streak": 0
+    },
+    "tatlo": {
+      "correct": 40,
+      "wrong": 25,
+      "wrong_streak": 0
+    },
+    "apat": {
+      "correct": 3,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "lima": {
+      "correct": 5,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "saan": {
+      "correct": 5,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "kaliwa": {
+      "correct": 3,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "kanan": {
+      "correct": 7,
+      "wrong": 3,
+      "wrong_streak": 0
+    },
+    "diretso": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "malayo": {
+      "correct": 3,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "puti": {
+      "correct": 17,
+      "wrong": 11,
+      "wrong_streak": 0
+    },
+    "damit": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "itim": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "pula": {
+      "correct": 3,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "asul": {
+      "correct": 3,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "sakit": {
+      "correct": 13,
+      "wrong": 8,
+      "wrong_streak": 0
+    },
+    "ulo": {
+      "correct": 3,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "tiyan": {
+      "correct": 5,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "lagnat": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "gamot": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "punta": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "tayo": {
+      "correct": 3,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "ngayon": {
+      "correct": 26,
+      "wrong": 17,
+      "wrong_streak": 0
+    },
+    "bukas": {
+      "correct": 3,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "mamaya": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "sakayan": {
+      "correct": 29,
+      "wrong": 95,
+      "wrong_streak": 0
+    },
+    "sakay": {
+      "correct": 30,
+      "wrong": 27,
+      "wrong_streak": 0
+    },
+    "jeep": {
+      "correct": 2,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "pamasahe": {
+      "correct": 8,
+      "wrong": 6,
+      "wrong_streak": 0
+    },
+    "dito": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "mahal": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "mura": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "iba": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "pa": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "bahay": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "nasa": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "kusina": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "kuwarto": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "malaki": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "mainit": {
+      "correct": 1,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "malamig": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "umuulan": {
+      "correct": 7,
+      "wrong": 6,
+      "wrong_streak": 0
+    },
+    "maaraw": {
+      "correct": 14,
+      "wrong": 11,
+      "wrong_streak": 0
+    },
+    "masama": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "panahon": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "gumigising": {
+      "correct": 20,
+      "wrong": 22,
+      "wrong_streak": 0
+    },
+    "umaga": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "kumakain": {
+      "correct": 1,
+      "wrong": 3,
+      "wrong_streak": 0
+    },
+    "nagtatrabaho": {
+      "correct": 20,
+      "wrong": 30,
+      "wrong_streak": 0
+    },
+    "umuwi": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "gabi": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "natutulog": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "trabaho": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "nars": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "mahirap": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "pagod": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "mahilig": {
+      "correct": 3,
+      "wrong": 4,
+      "wrong_streak": 0
+    },
+    "musika": {
+      "correct": 4,
+      "wrong": 6,
+      "wrong_streak": 0
+    },
+    "sayaw": {
+      "correct": 11,
+      "wrong": 9,
+      "wrong_streak": 0
+    },
+    "pelikula": {
+      "correct": 2,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "maglakad": {
+      "correct": 2,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "gawin": {
+      "correct": 2,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "masaya": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "malungkot": {
+      "correct": 3,
+      "wrong": 6,
+      "wrong_streak": 0
+    },
+    "galit": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "kinakabahan": {
+      "correct": 13,
+      "wrong": 31,
+      "wrong_streak": 0
+    },
+    "hindi": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "alam": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "maintindihan": {
+      "correct": 11,
+      "wrong": 45,
+      "wrong_streak": 0
+    },
+    "pakiulit": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "dahan-dahan": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "ibig": {
+      "correct": 11,
+      "wrong": 18,
+      "wrong_streak": 0
+    },
+    "ibig sabihin": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "pangalan": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "nakatira": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "ginagawa": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "makilala": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "kita": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "ulit": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "kailangan": {
+      "correct": 1,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "ayaw": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "kaya": {
+      "correct": 1,
+      "wrong": 3,
+      "wrong_streak": 0
+    },
+    "pupunta": {
+      "correct": 3,
+      "wrong": 14,
+      "wrong_streak": 0
+    },
+    "doon": {
+      "correct": 1,
+      "wrong": 3,
+      "wrong_streak": 0
+    }
+  },
+  "completed_levels": [
+    "level-1-cafe",
+    "level-2-restaurant",
+    "level-3-market",
+    "level-4-meeting",
+    "level-5-family",
+    "level-6-numbers",
+    "level-7-directions",
+    "level-8-colors",
+    "level-9-doctor",
+    "level-10-plans",
+    "level-11-transportation",
+    "level-12-shopping",
+    "level-13-home",
+    "level-14-weather",
+    "level-15-daily-routine",
+    "level-16-work",
+    "level-17-hobbies",
+    "level-18-feelings",
+    "level-19-communication",
+    "level-20-social",
+    "level-21-needs",
+    "level-22-ability",
+    "level-23-going-places"
+  ]
+}

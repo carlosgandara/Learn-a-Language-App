@@ -1,0 +1,563 @@
+{
+  "words": {
+    "kape": {
+      "english": "coffee",
+      "image": "https://picsum.photos/seed/kape/800/800"
+    },
+    "gusto": {
+      "english": "want / like"
+    },
+    "isang": {
+      "english": "one"
+    },
+    "please": {
+      "english": "please"
+    },
+    "asukal": {
+      "english": "sugar",
+      "image": "https://picsum.photos/seed/asukal/800/800"
+    },
+    "may": {
+      "english": "there is / are"
+    },
+    "ba": {
+      "english": "question marker"
+    },
+    "kanin": {
+      "english": "rice",
+      "image": "https://picsum.photos/seed/kanin/800/800"
+    },
+    "tubig": {
+      "english": "water",
+      "image": "https://picsum.photos/seed/tubig/800/800"
+    },
+    "mesa": {
+      "english": "table",
+      "image": "https://picsum.photos/seed/mesa/800/800"
+    },
+    "menu": {
+      "english": "menu",
+      "image": "https://picsum.photos/seed/menu/800/800"
+    },
+    "puwede": {
+      "english": "can / may"
+    },
+    "magkano": {
+      "english": "how much"
+    },
+    "prutas": {
+      "english": "fruit",
+      "image": "https://picsum.photos/seed/prutas/800/800"
+    },
+    "isda": {
+      "english": "fish",
+      "image": "https://picsum.photos/seed/isda/800/800"
+    },
+    "gulay": {
+      "english": "vegetable",
+      "image": "https://picsum.photos/seed/gulay/800/800"
+    },
+    "pera": {
+      "english": "money",
+      "image": "https://picsum.photos/seed/pera/800/800"
+    },
+    "ako": {
+      "english": "I / me"
+    },
+    "ka": {
+      "english": "you (singular)"
+    },
+    "si": {
+      "english": "name marker (before a name)"
+    },
+    "kumusta": {
+      "english": "how are you"
+    },
+    "mabuti": {
+      "english": "fine / good"
+    },
+    "naman": {
+      "english": "softener particle"
+    },
+    "taga": {
+      "english": "from (origin)"
+    },
+    "ito": {
+      "english": "this"
+    },
+    "tatay": {
+      "english": "father / dad",
+      "image": "https://picsum.photos/seed/tatay/800/800"
+    },
+    "nanay": {
+      "english": "mother / mom",
+      "image": "https://picsum.photos/seed/nanay/800/800"
+    },
+    "kuya": {
+      "english": "older brother",
+      "image": "https://picsum.photos/seed/kuya/800/800"
+    },
+    "ate": {
+      "english": "older sister",
+      "image": "https://picsum.photos/seed/ate/800/800"
+    },
+    "ilang": {
+      "english": "how many"
+    },
+    "dalawa": {
+      "english": "two"
+    },
+    "tatlo": {
+      "english": "three"
+    },
+    "apat": {
+      "english": "four"
+    },
+    "lima": {
+      "english": "five"
+    },
+    "saan": {
+      "english": "where"
+    },
+    "kaliwa": {
+      "english": "left"
+    },
+    "kanan": {
+      "english": "right"
+    },
+    "diretso": {
+      "english": "straight"
+    },
+    "malayo": {
+      "english": "far"
+    },
+    "puti": {
+      "english": "white"
+    },
+    "itim": {
+      "english": "black"
+    },
+    "pula": {
+      "english": "red"
+    },
+    "asul": {
+      "english": "blue"
+    },
+    "damit": {
+      "english": "clothes",
+      "image": "https://picsum.photos/seed/damit/800/800"
+    },
+    "sakit": {
+      "english": "pain / sick"
+    },
+    "ulo": {
+      "english": "head"
+    },
+    "tiyan": {
+      "english": "stomach"
+    },
+    "lagnat": {
+      "english": "fever"
+    },
+    "gamot": {
+      "english": "medicine",
+      "image": "https://picsum.photos/seed/gamot/800/800"
+    },
+    "bukas": {
+      "english": "tomorrow"
+    },
+    "ngayon": {
+      "english": "now / today"
+    },
+    "mamaya": {
+      "english": "later"
+    },
+    "tayo": {
+      "english": "we / us"
+    },
+    "punta": {
+      "english": "go"
+    },
+    "sakayan": {
+      "english": "place to catch transportation"
+    },
+    "sakay": {
+      "english": "ride / get on"
+    },
+    "jeep": {
+      "english": "jeepney"
+    },
+    "pamasahe": {
+      "english": "fare"
+    },
+    "dito": {
+      "english": "here"
+    },
+    "nasaan": {
+      "english": "where is"
+    },
+    "ng": {
+      "english": "linker / of"
+    },
+    "sa": {
+      "english": "in / at / to"
+    },
+    "piso": {
+      "english": "peso"
+    },
+    "dalawampung": {
+      "english": "twenty"
+    },
+    "oo": {
+      "english": "yes"
+    },
+    "mahal": {
+      "english": "expensive"
+    },
+    "mura": {
+      "english": "cheap"
+    },
+    "iba": {
+      "english": "other / different"
+    },
+    "pa": {
+      "english": "still / more / another"
+    },
+    "ko": {
+      "english": "my / me"
+    },
+    "ang": {
+      "english": "the / topic marker"
+    },
+    "limang": {
+      "english": "five"
+    },
+    "daang": {
+      "english": "hundred"
+    },
+    "bahay": {
+      "english": "house / home"
+    },
+    "nasa": {
+      "english": "is at / located at"
+    },
+    "kusina": {
+      "english": "kitchen"
+    },
+    "kuwarto": {
+      "english": "room"
+    },
+    "malaki": {
+      "english": "big / large"
+    },
+    "mainit": {
+      "english": "hot"
+    },
+    "malamig": {
+      "english": "cold"
+    },
+    "umuulan": {
+      "english": "raining"
+    },
+    "maaraw": {
+      "english": "sunny"
+    },
+    "masama": {
+      "english": "bad"
+    },
+    "panahon": {
+      "english": "weather / time / period"
+    },
+    "gumigising": {
+      "english": "wake up"
+    },
+    "umaga": {
+      "english": "morning"
+    },
+    "kumakain": {
+      "english": "eating"
+    },
+    "nagtatrabaho": {
+      "english": "working"
+    },
+    "umuwi": {
+      "english": "went home / go home"
+    },
+    "gabi": {
+      "english": "night / evening"
+    },
+    "natutulog": {
+      "english": "sleeping"
+    },
+    "trabaho": {
+      "english": "job / work"
+    },
+    "nars": {
+      "english": "nurse"
+    },
+    "mahirap": {
+      "english": "difficult / hard"
+    },
+    "pagod": {
+      "english": "tired"
+    },
+    "ano": {
+      "english": "what"
+    },
+    "mo": {
+      "english": "your / you"
+    },
+    "mahilig": {
+      "english": "fond of / likes"
+    },
+    "musika": {
+      "english": "music"
+    },
+    "sayaw": {
+      "english": "dance / dancing"
+    },
+    "pelikula": {
+      "english": "movie / film"
+    },
+    "maglakad": {
+      "english": "to walk"
+    },
+    "gawin": {
+      "english": "to do"
+    },
+    "kong": {
+      "english": "my / I + linker"
+    },
+    "mong": {
+      "english": "your + linker"
+    },
+    "masaya": {
+      "english": "happy"
+    },
+    "malungkot": {
+      "english": "sad"
+    },
+    "galit": {
+      "english": "angry"
+    },
+    "kinakabahan": {
+      "english": "nervous"
+    },
+    "hindi": {
+      "english": "no / not"
+    },
+    "alam": {
+      "english": "know"
+    },
+    "maintindihan": {
+      "english": "understand"
+    },
+    "pakiulit": {
+      "english": "please repeat"
+    },
+    "dahan-dahan": {
+      "english": "slowly / take it slowly"
+    },
+    "ibig": {
+      "english": "want / mean"
+    },
+    "ibig sabihin": {
+      "english": "meaning / to mean"
+    },
+    "lang": {
+      "english": "just / only"
+    },
+    "pangalan": {
+      "english": "name"
+    },
+    "nakatira": {
+      "english": "lives / residing"
+    },
+    "ginagawa": {
+      "english": "doing"
+    },
+    "makilala": {
+      "english": "meet / get to know"
+    },
+    "kita": {
+      "english": "see you / I see you"
+    },
+    "ulit": {
+      "english": "again"
+    },
+    "rin": {
+      "english": "also / too"
+    },
+    "akong": {
+      "english": "I / my + linker"
+    },
+    "Maynila": {
+      "english": "Manila"
+    },
+    "kailangan": {
+      "english": "need / necessary"
+    },
+    "ayaw": {
+      "english": "don't want / dislike"
+    },
+    "kaya": {
+      "english": "can / able to"
+    },
+    "pupunta": {
+      "english": "will go / going"
+    },
+    "doon": {
+      "english": "there"
+    },
+    "aalis": {
+      "english": "will leave / leaving"
+    },
+    "darating": {
+      "english": "will arrive / arriving"
+    },
+    "kailan": {
+      "english": "when"
+    },
+    "kumain": {
+      "english": "ate / ate food"
+    },
+    "uminom": {
+      "english": "drank"
+    },
+    "pumunta": {
+      "english": "went"
+    },
+    "ginawa": {
+      "english": "did / done"
+    },
+    "kakain": {
+      "english": "will eat"
+    },
+    "iinom": {
+      "english": "will drink"
+    },
+    "gagawin": {
+      "english": "will do"
+    },
+    "nangyari": {
+      "english": "happened"
+    },
+    "bakit": {
+      "english": "why"
+    },
+    "dahil": {
+      "english": "because"
+    },
+    "tingin": {
+      "english": "opinion / view / look"
+    },
+    "tama": {
+      "english": "correct / right"
+    },
+    "mas": {
+      "english": "more"
+    },
+    "o": {
+      "english": "or"
+    },
+    "kaysa": {
+      "english": "than / compared with"
+    },
+    "marunong": {
+      "english": "know how / skilled at"
+    },
+    "sumayaw": {
+      "english": "to dance"
+    },
+    "magluto": {
+      "english": "to cook"
+    },
+    "pakibigay": {
+      "english": "please give"
+    },
+    "tulungan": {
+      "english": "help"
+    },
+    "pumasok": {
+      "english": "enter / go inside"
+    },
+    "umupo": {
+      "english": "sit down"
+    },
+    "bawal": {
+      "english": "not allowed / prohibited"
+    },
+    "akin": {
+      "english": "mine"
+    },
+    "iyo": {
+      "english": "yours"
+    },
+    "kanya": {
+      "english": "his / hers"
+    },
+    "kanino": {
+      "english": "whose"
+    },
+    "malapit": {
+      "english": "near / close"
+    },
+    "tabi": {
+      "english": "side / beside"
+    },
+    "harap": {
+      "english": "front"
+    },
+    "likod": {
+      "english": "back / behind"
+    },
+    "oras": {
+      "english": "time / hour"
+    },
+    "bago": {
+      "english": "before"
+    },
+    "pagkatapos": {
+      "english": "after / afterward"
+    },
+    "lagi": {
+      "english": "always"
+    },
+    "umiinom": {
+      "english": "drinking / drinks"
+    },
+    "madalas": {
+      "english": "often"
+    },
+    "magkape": {
+      "english": "to drink coffee"
+    },
+    "minsan": {
+      "english": "sometimes"
+    },
+    "bihira": {
+      "english": "rarely"
+    },
+    "kasi": {
+      "english": "because"
+    },
+    "pero": {
+      "english": "but"
+    },
+    "nandito": {
+      "english": "here / is here"
+    },
+    "talaga": {
+      "english": "really"
+    },
+    "siguro": {
+      "english": "maybe / probably"
+    },
+    "depende": {
+      "english": "depends"
+    },
+    "sige": {
+      "english": "okay / go ahead"
+    }
+  }
+}

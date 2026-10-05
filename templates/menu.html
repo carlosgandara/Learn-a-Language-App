@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tagalog Practice</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Tagalog Practice</span>
+    </div>
+  </header>
+
+  <main class="stage">
+    <h1 class="menu-title">Your Levels</h1>
+    <p class="menu-sub">Pick up where you left off, or review an earlier level.</p>
+
+    <div class="level-grid">
+      {% for lvl in levels %}
+        {% if lvl.status == "locked" %}
+          <div class="level-card locked">
+            <div class="level-lock">🔒</div>
+            <div class="level-info">
+              <div class="level-title">{{ lvl.title }}</div>
+              <div class="level-desc">{{ lvl.description }}</div>
+              <div class="level-progress">{{ lvl.progress_info }}</div>
+            </div>
+          </div>
+        {% else %}
+          <a class="level-card {{ lvl.status }} {% if lvl.is_current %}current{% endif %}"
+             href="{{ url_for('level_view', level_id=lvl.id) }}{% if lvl.status == 'completed' %}?restart=1{% endif %}">
+            <div class="level-badge">
+              {% if lvl.status == "completed" %}✓{% else %}▶{% endif %}
+            </div>
+            <div class="level-info">
+              <div class="level-title">{{ lvl.title }}</div>
+              <div class="level-desc">{{ lvl.description }}</div>
+              <div class="level-progress">{{ lvl.progress_info }}</div>
+            </div>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="menu-footer">
+      <a class="btn" href="/reset">Reset all progress</a>
+    </div>
+  </main>
+</body>
+</html>

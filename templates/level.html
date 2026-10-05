@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="step" data-step-type="{{ step.type }}">
+
+{% if step.type == "scene" %}
+  <div class="scene">
+    <img src="{{ step.image }}" alt="">
+    <p class="caption">{{ step.caption }}</p>
+  </div>
+  <div class="actions">
+    <button class="btn primary" data-next>Continue</button>
+  </div>
+
+{% elif step.type == "preview" %}
+  <div class="preview">
+    <div class="phrase">{{ step.phrase }}</div>
+    <div class="translation">{{ step.translation }}</div>
+    {% if step.note %}<div class="note">{{ step.note }}</div>{% endif %}
+  </div>
+  <div class="actions">
+    <button class="btn primary" data-next>Continue</button>
+  </div>
+
+{% elif step.type == "word" %}
+  {% set w = vocab[step.key] %}
+  <div class="word-card">
+    {% if w.image %}
+      <img class="word-image" src="{{ w.image }}" alt="">
+    {% endif %}
+    <div class="word-english">{{ w.english }}</div>
+    <input class="word-input" type="text" autocomplete="off" spellcheck="false"
+           autocapitalize="off" placeholder="Type the Tagalog…"
+           data-answer="{{ step.key }}"
+           data-aliases='{{ w.aliases | default([]) | tojson }}'>
+    <div class="feedback"></div>
+  </div>
+  <div class="actions">
+    <button class="btn primary" data-submit>Check</button>
+  </div>
+
+{% elif step.type == "drill" %}
+  <div class="drill"
+       data-words='{{ step.words | tojson }}'
+       data-vocab='{{ vocab | tojson }}'>
+    <div class="drill-progress">1 / 1</div>
+    <div class="drill-prompt"></div>
+    <input class="drill-input" type="text" autocomplete="off" spellcheck="false"
+           autocapitalize="off" placeholder="Type your answer…">
+    <div class="feedback"></div>
+  </div>
+  <div class="actions">
+    <button class="btn primary" data-drill-check>Check</button>
+  </div>
+
+{% elif step.type == "dialogue" %}
+  <div class="dialogue" data-lines='{{ step.lines | tojson }}'>
+    {% for line in step.lines %}
+      <div class="line">
+        <span class="speaker">{{ line.speaker }}</span>
+        {% if line.answer %}
+          <div class="dialogue-turn">
+            <div class="dialogue-hint">{{ line.hint }}</div>
+            <div class="dialogue-answer">Answer: <strong>{{ line.answer }}</strong></div>
+            <input class="dialogue-input" type="text"
+                   data-answer="{{ line.answer }}"
+                   data-line-idx="{{ loop.index0 }}"
+                   data-aliases='{{ line.aliases | default([]) | tojson }}'
+                   placeholder="Type the answer above…"
+                   autocomplete="off" spellcheck="false" autocapitalize="off">
+          </div>
+        {% else %}
+          <span class="text">{{ line.text }}</span>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  <div class="actions">
+    <button class="btn primary" data-dialogue-check>Check</button>
+  </div>
+
+{% elif step.type == "win" %}
+  <div class="win">
+    <div class="win-icon">✓</div>
+    <div class="win-message">{{ step.message }}</div>
+  </div>
+  <div class="actions">
+    {% if step.next_level %}
+      <a class="btn primary" href="/next-level">Next Level →</a>
+    {% endif %}
+    <a class="btn" href="/menu">Back to Levels</a>
+  </div>
+
+{% endif %}
+
+</div>
+{% endblock %}
