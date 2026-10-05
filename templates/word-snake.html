@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>
+    Word Snake — Tagalog Practice
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for(
+      'static',
+      filename='games/word-snake/word-snake.css'
+    ) }}"
+  >
+</head>
+
+<body>
+
+  <div class="game-page">
+
+    <header class="game-header">
+
+      <a
+        href="/menu"
+        class="back-link"
+      >
+        ← Levels
+      </a>
+
+      <div class="game-title">
+        WORD SNAKE
+      </div>
+
+      <div class="score-box">
+        Score:
+        <span id="score">0</span>
+      </div>
+
+    </header>
+
+
+    <main class="game-main">
+
+      <section class="word-panel">
+
+        <div class="prompt-label">
+          BUILD THE TAGALOG WORD
+        </div>
+
+        <div
+          id="englishPrompt"
+          class="english-prompt"
+        >
+          LOADING...
+        </div>
+
+        <div
+          id="wordProgress"
+          class="word-progress"
+        ></div>
+
+        <div class="game-stats">
+
+          <span>
+            ❤️
+            <span id="lives">3</span>
+          </span>
+
+          <span>
+            Word
+            <span id="round">1</span>
+          </span>
+
+        </div>
+
+      </section>
+
+
+      <section
+        id="gameBoard"
+        class="game-board"
+      >
+
+        <div
+          id="message"
+          class="message"
+        ></div>
+
+        <div
+          id="letters"
+          class="letters"
+        ></div>
+
+        <div
+          id="snake"
+          class="snake"
+        ></div>
+
+      </section>
+
+
+      <section class="controls">
+
+        <span>
+          ↑ ↓ ← → Move
+        </span>
+
+        <span>
+          Eat the letters in order
+        </span>
+
+      </section>
+
+
+      <div
+        id="gameOver"
+        class="game-over hidden"
+      >
+
+        <div class="game-over-card">
+
+          <div
+            id="gameOverTitle"
+            class="game-over-title"
+          >
+            GAME OVER
+          </div>
+
+          <div class="final-score">
+            Score:
+            <span id="finalScore">0</span>
+          </div>
+
+          <button
+            id="restartButton"
+            class="restart-button"
+          >
+            PLAY AGAIN
+          </button>
+
+          <a
+            href="/menu"
+            class="menu-button"
+          >
+            BACK TO LEVELS
+          </a>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!--
+    Flask supplies the words.
+
+    Expected objects:
+
+    {
+      "answer": "pupunta",
+      "english": "going / will go",
+      "correct": 5,
+      "wrong": 3
+    }
+
+    No vocabulary is hardcoded in the game.
+  -->
+  <script
+    id="wordSnakeData"
+    type="application/json"
+  >{{ game_words | tojson }}</script>
+
+
+  <script
+    src="{{ url_for(
+      'static',
+      filename='games/word-snake/word-snake.js'
+    ) }}"
+  ></script>
+
+
+  <!--
+    Existing study timer.
+
+    Time actively spent playing Word Snake
+    counts toward study time.
+  -->
+  <script
+    src="{{ url_for(
+      'static',
+      filename='study-timer.js'
+    ) }}"
+  ></script>
+
+</body>
+</html>

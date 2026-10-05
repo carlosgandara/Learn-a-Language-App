@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Restaurant — Tagalog Practice</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='games/restaurant/restaurant.css') }}"
+    >
+</head>
+
+<body>
+
+<div id="restaurant-game">
+
+    <header class="game-header">
+
+        <div class="header-left">
+            <a href="{{ url_for('menu') }}" class="back-button">
+                ← Levels
+            </a>
+
+            <div>
+                <h1>🍽️ Restaurant</h1>
+                <div id="level-title">Level 1 — Basic Orders</div>
+            </div>
+        </div>
+
+        <div class="game-status">
+            <span>
+                Served:
+                <strong id="served-count">0</strong>/5
+            </span>
+
+            <span>
+                Angry:
+                <strong id="angry-count">0</strong>/3
+            </span>
+        </div>
+
+    </header>
+
+
+    <div class="instructions">
+        <span>← ↑ ↓ → Move</span>
+        <span>Enter: Interact</span>
+    </div>
+
+
+    <main id="restaurant">
+
+        <div class="table" id="table-1">
+            <div class="customer">🙂</div>
+            <div class="table-surface">TABLE 1</div>
+        </div>
+
+        <div class="table" id="table-2">
+            <div class="customer">🙂</div>
+            <div class="table-surface">TABLE 2</div>
+        </div>
+
+        <div class="table" id="table-3">
+            <div class="customer">🙂</div>
+            <div class="table-surface">TABLE 3</div>
+        </div>
+
+        <div class="table" id="table-4">
+            <div class="customer">🙂</div>
+            <div class="table-surface">TABLE 4</div>
+        </div>
+
+        <div class="table" id="table-5">
+            <div class="customer">🙂</div>
+            <div class="table-surface">TABLE 5</div>
+        </div>
+
+
+        <div id="dictionary-station">
+            <div class="dictionary-icon">📖</div>
+            <div>DICTIONARY</div>
+        </div>
+
+
+        <div id="player">
+            <div class="player-character">🧍</div>
+            <div class="player-name">CARLOS</div>
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- CUSTOMER REQUEST -->
+
+<div id="customer-dialog" class="modal hidden">
+
+    <div class="modal-card">
+
+        <div class="modal-customer">🙂</div>
+
+        <h2 id="customer-table-name">
+            Table 1
+        </h2>
+
+        <p id="customer-request" class="tagalog-request">
+            Gusto ko ng tubig.
+        </p>
+
+        <p class="dialog-help">
+            Remember the customer's request.
+        </p>
+
+        <button id="close-customer-dialog">
+            Continue
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- DICTIONARY -->
+
+<div id="dictionary-dialog" class="modal hidden">
+
+    <div class="modal-card dictionary-card">
+
+        <h2>📖 Dictionary</h2>
+
+        <div class="dictionary-entry">
+
+            <div
+                id="dictionary-tagalog"
+                class="dictionary-tagalog">
+            </div>
+
+            <div
+                id="dictionary-english"
+                class="dictionary-english">
+            </div>
+
+        </div>
+
+        <p class="dialog-help">
+            Remember the sentence, then return to the customer.
+        </p>
+
+        <button id="close-dictionary">
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ANSWER -->
+
+<div id="answer-dialog" class="modal hidden">
+
+    <div class="modal-card">
+
+        <div class="modal-customer">🙂</div>
+
+        <h2 id="answer-table-name">
+            Table 1
+        </h2>
+
+        <div
+            id="english-prompt"
+            class="english-prompt">
+        </div>
+
+        <div
+            id="sentence-pattern"
+            class="sentence-pattern">
+        </div>
+
+        <p class="dialog-help">
+            Type only the missing letters, in order.
+        </p>
+
+        <input
+            id="answer-input"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Missing letters"
+        >
+
+        <button id="submit-answer">
+            Serve Customer
+        </button>
+
+        <div
+            id="answer-feedback"
+            class="answer-feedback">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- GAME OVER -->
+
+<div id="game-over-dialog" class="modal hidden">
+
+    <div class="modal-card">
+
+        <div class="result-icon">😠</div>
+
+        <h2>Shift Failed</h2>
+
+        <p>
+            Three customers became angry.
+        </p>
+
+        <button id="restart-game">
+            Retry Shift
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- SHIFT COMPLETE -->
+
+<div id="shift-complete-dialog" class="modal hidden">
+
+    <div class="modal-card">
+
+        <div class="result-icon">🎉</div>
+
+        <h2>Shift Complete</h2>
+
+        <p>
+            You served
+            <strong id="final-served-count">0</strong>
+            of 5 customers correctly.
+        </p>
+
+        <button id="next-level">
+            Next Shift →
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ALL LEVELS COMPLETE -->
+
+<div id="restaurant-complete-dialog" class="modal hidden">
+
+    <div class="modal-card">
+
+        <div class="result-icon">🏆</div>
+
+        <h2>Restaurant Complete</h2>
+
+        <p>
+            You completed every Restaurant shift.
+        </p>
+
+        <button id="restart-restaurant">
+            Start Again
+        </button>
+
+    </div>
+
+</div>
+
+
+<script
+    src="{{ url_for('static', filename='games/restaurant/restaurant.js') }}">
+</script>
+
+<script
+    src="{{ url_for('static', filename='study-timer.js') }}">
+</script>
+
+</body>
+</html>

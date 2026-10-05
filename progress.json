@@ -1,10 +1,10 @@
 {
-  "level_id": "level-24-coming-leaving",
-  "step_index": 0,
+  "level_id": "level-27-what-happened",
+  "step_index": 1,
   "words": {
     "gusto": {
-      "correct": 22,
-      "wrong": 42,
+      "correct": 39,
+      "wrong": 46,
       "wrong_streak": 0
     },
     "kape": {
@@ -48,8 +48,8 @@
       "wrong_streak": 0
     },
     "puwede": {
-      "correct": 51,
-      "wrong": 49,
+      "correct": 68,
+      "wrong": 58,
       "wrong_streak": 0
     },
     "menu": {
@@ -103,8 +103,8 @@
       "wrong_streak": 0
     },
     "ka": {
-      "correct": 47,
-      "wrong": 37,
+      "correct": 61,
+      "wrong": 42,
       "wrong_streak": 0
     },
     "mabuti": {
@@ -113,13 +113,13 @@
       "wrong_streak": 0
     },
     "naman": {
-      "correct": 48,
-      "wrong": 47,
+      "correct": 70,
+      "wrong": 51,
       "wrong_streak": 0
     },
     "taga": {
-      "correct": 49,
-      "wrong": 56,
+      "correct": 67,
+      "wrong": 67,
       "wrong_streak": 0
     },
     "ito": {
@@ -158,7 +158,7 @@
       "wrong_streak": 0
     },
     "tatlo": {
-      "correct": 40,
+      "correct": 42,
       "wrong": 25,
       "wrong_streak": 0
     },
@@ -198,8 +198,8 @@
       "wrong_streak": 0
     },
     "puti": {
-      "correct": 17,
-      "wrong": 11,
+      "correct": 18,
+      "wrong": 12,
       "wrong_streak": 0
     },
     "damit": {
@@ -258,7 +258,7 @@
       "wrong_streak": 0
     },
     "ngayon": {
-      "correct": 26,
+      "correct": 28,
       "wrong": 17,
       "wrong_streak": 0
     },
@@ -273,13 +273,13 @@
       "wrong_streak": 0
     },
     "sakayan": {
-      "correct": 29,
-      "wrong": 95,
+      "correct": 55,
+      "wrong": 115,
       "wrong_streak": 0
     },
     "sakay": {
-      "correct": 30,
-      "wrong": 27,
+      "correct": 44,
+      "wrong": 35,
       "wrong_streak": 0
     },
     "jeep": {
@@ -353,7 +353,7 @@
       "wrong_streak": 0
     },
     "umuulan": {
-      "correct": 7,
+      "correct": 8,
       "wrong": 6,
       "wrong_streak": 0
     },
@@ -373,8 +373,8 @@
       "wrong_streak": 0
     },
     "gumigising": {
-      "correct": 20,
-      "wrong": 22,
+      "correct": 27,
+      "wrong": 23,
       "wrong_streak": 0
     },
     "umaga": {
@@ -388,8 +388,8 @@
       "wrong_streak": 0
     },
     "nagtatrabaho": {
-      "correct": 20,
-      "wrong": 30,
+      "correct": 39,
+      "wrong": 41,
       "wrong_streak": 0
     },
     "umuwi": {
@@ -463,8 +463,8 @@
       "wrong_streak": 0
     },
     "malungkot": {
-      "correct": 3,
-      "wrong": 6,
+      "correct": 14,
+      "wrong": 17,
       "wrong_streak": 0
     },
     "galit": {
@@ -473,8 +473,8 @@
       "wrong_streak": 0
     },
     "kinakabahan": {
-      "correct": 13,
-      "wrong": 31,
+      "correct": 25,
+      "wrong": 43,
       "wrong_streak": 0
     },
     "hindi": {
@@ -488,9 +488,9 @@
       "wrong_streak": 0
     },
     "maintindihan": {
-      "correct": 11,
-      "wrong": 45,
-      "wrong_streak": 0
+      "correct": 28,
+      "wrong": 57,
+      "wrong_streak": 1
     },
     "pakiulit": {
       "correct": 1,
@@ -503,8 +503,8 @@
       "wrong_streak": 0
     },
     "ibig": {
-      "correct": 11,
-      "wrong": 18,
+      "correct": 27,
+      "wrong": 34,
       "wrong_streak": 0
     },
     "ibig sabihin": {
@@ -558,13 +558,63 @@
       "wrong_streak": 0
     },
     "pupunta": {
-      "correct": 3,
-      "wrong": 14,
+      "correct": 15,
+      "wrong": 19,
       "wrong_streak": 0
     },
     "doon": {
       "correct": 1,
       "wrong": 3,
+      "wrong_streak": 0
+    },
+    "aalis": {
+      "correct": 1,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "darating": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "kailan": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "kumain": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "uminom": {
+      "correct": 12,
+      "wrong": 20,
+      "wrong_streak": 0
+    },
+    "pumunta": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "ginawa": {
+      "correct": 2,
+      "wrong": 9,
+      "wrong_streak": 0
+    },
+    "kakain": {
+      "correct": 3,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "iinom": {
+      "correct": 10,
+      "wrong": 32,
+      "wrong_streak": 0
+    },
+    "gagawin": {
+      "correct": 3,
+      "wrong": 0,
       "wrong_streak": 0
     }
   },
@@ -591,6 +641,16 @@
     "level-20-social",
     "level-21-needs",
     "level-22-ability",
-    "level-23-going-places"
-  ]
+    "level-23-going-places",
+    "level-24-coming-leaving",
+    "level-25-past-actions",
+    "level-26-future-actions"
+  ],
+  "study": {
+    "daily_goal_minutes": 120,
+    "total_seconds": 3734,
+    "days": {
+      "2026-10-05": 3734
+    }
+  }
 }
