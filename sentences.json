@@ -1,0 +1,91 @@
+{
+  "sentences": [
+{
+  "id": "sentence-001",
+  "english": "I would like to see Santa Claus.",
+  "tagalog": "Gusto ko sanang makita si Santa Claus.",
+  "image": "/static/images/sentences/sentence-001.png"
+},
+    {
+      "id": "sentence-002",
+      "english": "The dog is sleeping on the floor.",
+      "tagalog": "Natutulog ang aso sa sahig.",
+  "image": "/static/images/sentences/sentence-002.png"
+    },
+{
+  "id": "sentence-003",
+  "english": "The man walks slowly.",
+  "tagalog": "Mabagal maglakad ang lalaki.",
+  "image": "/static/images/sentences/sentence-003.png"
+},
+    {
+  "id": "sentence-004",
+  "english": "Why are people always on their phones?",
+  "tagalog": "Bakit laging nasa cellphone ang mga tao?",
+  "image": "/static/images/sentences/sentence-004.png"
+},
+{
+  "id": "sentence-005",
+  "english": "I would like to buy a jeep.",
+  "tagalog": "Gusto ko sanang bumili ng jeep.",
+  "image": "/static/images/sentences/sentence-005.png"
+},
+   {
+  "id": "sentence-006",
+  "english": "I saw Dr. Reyes.",
+  "tagalog": "Nakita ko si Dr. Reyes.",
+  "image": "/static/images/sentences/sentence-006.png"
+},
+
+    {
+  "id": "sentence-007",
+  "english": "The grass is green.",
+  "tagalog": "Ang damo ay berde.",
+  "image": "/static/images/sentences/sentence-007.png"
+},
+
+{
+  "id": "sentence-008",
+  "english": "I am happier every day than sad.",
+  "tagalog": "Mas masaya ako araw-araw kaysa malungkot.",
+  "image": "/static/images/sentences/sentence-008.png"
+},
+
+{
+  "id": "sentence-009",
+  "english": "I'll go home first to rest.",
+  "tagalog": "Punta muna ako sa bahay para magpahinga.",
+  "image": "/static/images/sentences/sentence-009.png"
+},
+{
+  "id": "sentence-010",
+  "english": "Take a breath first.",
+  "tagalog": "Hinga muna.",
+  "image": "/static/images/sentences/sentence-010.png"
+},
+{
+  "id": "sentence-011",
+  "english": "I am inside the car.",
+  "tagalog": "Nasa loob ako ng kotse.",
+  "image": "/static/images/sentences/sentence-011.png"
+},
+{
+  "id": "sentence-012",
+  "english": "I'm thirsty, so I'm going to buy water and Diet Coke.",
+  "tagalog": "Uhaw ako, kaya bibili ako ng tubig at Diet Coke.",
+  "image": "/static/images/sentences/sentence-012.png"
+},
+{
+  "id": "sentence-013",
+  "english": "Do you want more bread?",
+  "tagalog": "Gusto mo pa ba ng tinapay?",
+  "image": "/static/images/sentences/sentence-013.png"
+},
+{
+  "id": "sentence-014",
+  "english": "May I please have some water and Diet Coke?",
+  "tagalog": "Pwede po ba akong humingi ng tubig at Diet Coke?",
+  "image": "/static/images/sentences/sentence-014.png"
+}
+  ]
+}

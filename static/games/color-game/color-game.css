@@ -1,0 +1,173 @@
+
+:root {
+  color-scheme: dark;
+  font-family: system-ui, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #0b1020;
+  color: #f8fafc;
+}
+
+.cg-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px max(20px, calc((100vw - 700px)/2));
+  background: #151e32;
+}
+
+.cg-top a {
+  color: #cbd5e1;
+  text-decoration: none;
+}
+
+.cg-app {
+  max-width: 640px;
+  margin: 35px auto;
+  padding: 0 18px;
+}
+
+.cg-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cg-head h1 {
+  font-size: clamp(22px, 4vw, 30px);
+}
+
+#cg-mastered {
+  font-size: 14px;
+  color: #a7f3d0;
+}
+
+.cg-progress {
+  height: 9px;
+  border-radius: 20px;
+  background: #334155;
+  overflow: hidden;
+}
+
+.cg-progress > div {
+  height: 100%;
+  width: 0;
+  background: #34d399;
+  transition: width .3s;
+}
+
+.cg-meta {
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 0;
+  color: #cbd5e1;
+}
+
+.cg-card {
+  background: #18243b;
+  border: 1px solid #334155;
+  border-radius: 22px;
+  padding: 30px 20px;
+  text-align: center;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#cg-instruction {
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+#cg-swatch {
+  width: min(230px, 80%);
+  height: 150px;
+  border-radius: 16px;
+  border: 2px solid #94a3b8;
+  box-shadow: 0 10px 28px #0004;
+}
+
+#cg-english {
+  margin: 0;
+  font-size: 30px;
+}
+
+#cg-word {
+  font-size: 32px;
+  font-weight: 800;
+  min-height: 42px;
+}
+
+#cg-countdown {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+  min-height: 32px;
+}
+
+#cg-answer-area {
+  width: min(100%, 360px);
+}
+
+#cg-answer-area[hidden],
+#cg-next[hidden] {
+  display: none;
+}
+
+#cg-answer-area label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+#cg-answer {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #64748b;
+  border-radius: 10px;
+  font-size: 18px;
+  background: #fff;
+  color: #111827;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 20px;
+  font-weight: 700;
+  font-size: 16px;
+  background: #38bdf8;
+  color: #082f49;
+}
+
+button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+#cg-check {
+  margin-top: 12px;
+  width: 100%;
+}
+
+#cg-feedback {
+  min-height: 26px;
+  font-weight: 600;
+}
+
+.cg-secondary {
+  display: block;
+  margin: 22px auto;
+  background: #334155;
+  color: #fff;
+}
+
+#cg-error {
+  color: #fca5a5;
+  text-align: center;
+}

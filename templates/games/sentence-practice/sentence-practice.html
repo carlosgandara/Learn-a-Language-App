@@ -1,0 +1,304 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sentence Practice</title>
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='sentence-practice/sentence-practice.css') }}"
+  >
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header class="topbar">
+
+    <div class="topbar-inner">
+
+      <a
+        class="brand"
+        href="{{ url_for('menu') }}"
+      >
+        Tagalog Practice
+      </a>
+
+      <div class="topbar-nav">
+
+        <a
+          class="btn"
+          href="{{ url_for('menu') }}"
+        >
+          ← Levels
+        </a>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- MAIN -->
+
+  <main class="sentence-page">
+
+
+    <!-- TITLE -->
+
+    <div class="sentence-header">
+
+      <div>
+
+        <h1 class="sentence-title">
+          Sentence Practice
+        </h1>
+
+        <div class="sentence-counter">
+          Sentence
+          <span id="sentence-number">1</span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- MASTERY -->
+
+    <section class="mastery-card">
+
+      <div class="mastery-top">
+
+        <span class="mastery-label">
+          Sentence Mastery
+        </span>
+
+        <span class="mastery-number">
+
+          <strong id="mastered-count">
+            0
+          </strong>
+
+          /
+
+          <span id="total-count">
+            0
+          </span>
+
+          Mastered
+
+        </span>
+
+      </div>
+
+
+      <div class="mastery-progress">
+
+        <div
+          id="mastery-progress-bar"
+          style="width: 0%;"
+        ></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SENTENCE CARD -->
+
+    <section
+      id="sentence-card"
+      class="sentence-card"
+    >
+
+
+      <!-- IMAGE -->
+
+      <div class="sentence-image-container">
+
+        <img
+          id="sentence-image"
+          src=""
+          alt="Sentence practice image"
+        >
+
+      </div>
+
+
+      <!-- CONTENT -->
+
+      <div class="sentence-content">
+
+
+        <!-- ========================= -->
+        <!-- LEARN SCREEN -->
+        <!-- ========================= -->
+
+        <div id="learn-section">
+
+          <div id="tagalog-text">
+            Loading...
+          </div>
+
+
+          <div id="english-text">
+          </div>
+
+
+          <button
+            id="next-button"
+            class="primary-button"
+            type="button"
+          >
+            Next
+          </button>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- RECALL SCREEN -->
+        <!-- ========================= -->
+
+        <div
+          id="recall-section"
+          class="hidden"
+        >
+
+          <div class="recall-label">
+            Translate into Tagalog
+          </div>
+
+
+          <div
+            id="recall-english"
+            class="recall-english"
+          >
+          </div>
+
+
+          <input
+            id="answer-input"
+            type="text"
+            autocomplete="off"
+            autocapitalize="sentences"
+            spellcheck="false"
+            placeholder="Type the Tagalog sentence..."
+          >
+
+
+          <!-- FEEDBACK -->
+
+          <div
+            id="feedback"
+            class="feedback"
+          >
+          </div>
+
+
+          <!-- CORRECT ANSWER -->
+
+          <div
+            id="correct-answer"
+            class="hidden"
+          >
+
+            <div class="answer-label">
+              Correct answer
+            </div>
+
+            <div id="correct-answer-text">
+            </div>
+
+          </div>
+
+
+          <!-- CHECK / NEXT -->
+
+          <button
+            id="check-button"
+            class="primary-button"
+            type="button"
+          >
+            Check
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- COMPLETE SCREEN -->
+    <!-- ========================= -->
+
+    <section
+      id="complete-screen"
+      class="hidden"
+    >
+
+      <div class="complete-title">
+        ✓ Sentence Practice Complete
+      </div>
+
+
+      <div class="complete-message">
+        You mastered all available sentences.
+      </div>
+
+
+      <a
+        href="{{ url_for('menu') }}"
+        class="primary-button"
+      >
+        Back to Menu
+      </a>
+
+    </section>
+
+
+    <!-- RESET -->
+
+    <div class="reset-area">
+
+      <button
+        id="reset-sentence-progress"
+        class="secondary-button"
+        type="button"
+      >
+        Reset Sentence Progress
+      </button>
+
+    </div>
+
+  </main>
+
+
+  <!-- STUDY TIMER -->
+
+  <script
+    src="{{ url_for('static', filename='study-timer.js') }}"
+  ></script>
+
+
+  <!-- SENTENCE PRACTICE -->
+
+  <script
+    src="{{ url_for('static', filename='sentence-practice/sentence-practice.js') }}"
+  ></script>
+
+</body>
+</html>

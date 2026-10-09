@@ -1,0 +1,131 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Color Memory Game</title>
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='games/color-game/color-game.css') }}"
+  >
+</head>
+
+<body>
+
+  <header class="cg-top">
+    <a href="{{ url_for('menu') }}">← Levels</a>
+    <strong>MISSION 1 · COLORS</strong>
+  </header>
+
+  <main class="cg-app">
+
+    <div class="cg-head">
+      <h1>Master the Colors</h1>
+      <div id="cg-mastered">0 / 10 mastered</div>
+    </div>
+
+    <div class="cg-progress">
+      <div id="cg-progress-fill"></div>
+    </div>
+
+    <div class="cg-meta">
+      <span id="cg-round">Round 1</span>
+      <span id="cg-score">Score: 0</span>
+    </div>
+
+    <section class="cg-card" id="cg-card">
+
+      <div id="cg-instruction">
+        Memorize the Tagalog word
+      </div>
+
+      <div
+        id="cg-swatch"
+        role="img"
+        aria-label="Color swatch"
+      ></div>
+
+      <h2 id="cg-english">Loading…</h2>
+
+      <div id="cg-word"></div>
+
+      <div
+        id="cg-countdown"
+        aria-live="polite"
+      ></div>
+
+      <div id="cg-answer-area" hidden>
+
+        <label for="cg-answer">
+          Type the Tagalog color
+        </label>
+
+        <input
+          id="cg-answer"
+          type="text"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          placeholder="Your answer"
+        >
+
+        <button
+          id="cg-check"
+          type="button"
+        >
+          Check
+        </button>
+
+      </div>
+
+      <div
+        id="cg-feedback"
+        role="status"
+      ></div>
+
+      <button
+        id="cg-next"
+        type="button"
+        hidden
+      >
+        Next color →
+      </button>
+
+    </section>
+
+    <button
+      id="cg-reset"
+      class="cg-secondary"
+      type="button"
+    >
+      Reset color progress
+    </button>
+
+    <p id="cg-error" role="alert"></p>
+
+  </main>
+
+  <!-- Flask/Jinja data: no Jinja inside JavaScript -->
+  <div
+    id="color-game-config"
+    hidden
+    data-colors='{{ colors | tojson | forceescape }}'
+    data-progress='{{ color_progress | default({}, true) | tojson | forceescape }}'
+  ></div>
+
+  <!-- Existing study timer -->
+  <script src="{{ url_for('static', filename='study-timer.js') }}"></script>
+
+  <!-- Color Memory Game -->
+  <script src="{{ url_for('static', filename='games/color-game/color-game.js') }}"></script>
+
+</body>
+</html>
