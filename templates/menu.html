@@ -1,126 +1,145 @@
+
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tagalog Practice</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <title>{{ language_name }} Practice — Despacio</title>
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+  >
 </head>
 
-<body>
+<body
+  data-language="{{ current_language }}"
+  data-language-name="{{ language_name }}"
+>
 
   <header class="topbar">
     <div class="topbar-inner">
 
       <span class="brand">
-        Tagalog Practice
+        {{ language_name }} Practice
       </span>
-
 
       <div class="topbar-nav">
 
-   <!-- GAMES -->
-<div class="nav-dropdown">
+        <!-- LANGUAGE SELECTOR -->
+        <div class="nav-dropdown">
+          <button
+            id="languageButton"
+            class="nav-dropdown-button"
+            type="button"
+            aria-expanded="false"
+          >
+            {{ language_name }} ▾
+          </button>
 
-  <button
-    id="gamesButton"
-    class="nav-dropdown-button"
-    type="button"
-  >
-    Games ▾
-  </button>
+          <div
+            id="languageDropdown"
+            class="nav-dropdown-menu"
+          >
+            {% for code, name in available_languages.items() %}
+              <a
+                href="{{ url_for('select_language', language=code) }}"
+                class="nav-dropdown-item"
+                {% if code == current_language %}
+                  aria-current="page"
+                {% endif %}
+              >
+                <strong>
+                  {% if code == current_language %}✓ {% endif %}
+                  {{ name }}
+                </strong>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
 
-  <div
-    id="gamesDropdown"
-    class="nav-dropdown-menu"
-  >
+        <!-- GAMES -->
+        <div class="nav-dropdown">
+          <button
+            id="gamesButton"
+            class="nav-dropdown-button"
+            type="button"
+            aria-expanded="false"
+          >
+            Games ▾
+          </button>
 
-    <a
-      href="{{ url_for('word_shooter') }}"
-      class="nav-dropdown-item"
-    >
-      <strong>🎯 Word Shooter</strong>
-      <span>
-        Shoot the correct spelling
-      </span>
-    </a>
+          <div
+            id="gamesDropdown"
+            class="nav-dropdown-menu"
+          >
 
-    <a
-      href="{{ url_for('word_snake') }}"
-      class="nav-dropdown-item"
-    >
-      <strong>🐍 Word Snake</strong>
-      <span>
-        Build words letter by letter
-      </span>
-    </a>
+            <a
+              href="{{ url_for('word_shooter') }}"
+              class="nav-dropdown-item"
+            >
+              <strong>🎯 Word Shooter</strong>
+              <span>Shoot the correct spelling</span>
+            </a>
 
-    <a
-      href="{{ url_for('restaurant_game') }}"
-      class="nav-dropdown-item"
-    >
-      <strong>🍽️ Restaurant</strong>
-      <span>
-        Serve customers in Tagalog
-      </span>
-    </a>
+            <a
+              href="{{ url_for('word_snake') }}"
+              class="nav-dropdown-item"
+            >
+              <strong>🐍 Word Snake</strong>
+              <span>Build words letter by letter</span>
+            </a>
 
+            <a
+              href="{{ url_for('restaurant_game') }}"
+              class="nav-dropdown-item"
+            >
+              <strong>🍽️ Restaurant</strong>
+              <span>Serve customers in {{ language_name }}</span>
+            </a>
 
-    <a
-  href="{{ url_for('sentence_practice') }}"
-  class="nav-dropdown-item"
->
-  <strong>🖼️ Sentence Practice</strong>
-  <span>
-    Learn sentences with pictures
-  </span>
-</a>
+            <a
+              href="{{ url_for('sentence_practice') }}"
+              class="nav-dropdown-item"
+            >
+              <strong>🖼️ Sentence Practice</strong>
+              <span>Learn sentences with pictures</span>
+            </a>
 
+            <a
+              href="{{ url_for('colors_page') }}"
+              class="nav-dropdown-item"
+            >
+              <strong>🎨 Color Memory</strong>
+              <span>Master 10 {{ language_name }} colors</span>
+            </a>
 
+            <a
+              href="{{ url_for('word_rain_game') }}"
+              class="nav-dropdown-item"
+            >
+              <strong>🌧️ Word Rain</strong>
+              <span>
+                Translate falling {{ language_name }} words
+              </span>
+            </a>
 
-
-<a
-  href="{{ url_for('colors_page') }}"
-  class="nav-dropdown-item"
->
-  <strong>🎨 Color Memory</strong>
-  <span>
-    Master 10 Tagalog colors
-  </span>
-</a>
-
-
-
-
-
-<a
-  href="{{ url_for('word_rain_game') }}"
-  class="nav-dropdown-item"
->
-  <strong>🌧️ Word Rain</strong>
-  <span>Translate falling Tagalog words</span>
-</a>
-
-
-
-
-  </div>
-
-</div>
+          </div>
+        </div>
 
         <!-- STUDY -->
         <div class="nav-dropdown">
-
           <button
             id="studyButton"
             class="nav-dropdown-button study-button"
             type="button"
+            aria-expanded="false"
           >
             Study:
             <strong id="studyHeaderTime">0m</strong>
             ▾
           </button>
-
 
           <div
             id="studyDropdown"
@@ -142,7 +161,6 @@
               </span>
             </div>
 
-
             <div class="mini-study-progress">
               <div
                 id="studyProgressBar"
@@ -150,9 +168,7 @@
               ></div>
             </div>
 
-
             <div class="mini-study-info">
-
               <div>
                 <strong id="studyTotal">0m</strong>
                 <span>total learning</span>
@@ -161,16 +177,12 @@
               <div id="studyMessage">
                 Loading...
               </div>
-
             </div>
 
-
             <label class="mini-goal-control">
-
               <span>Daily goal</span>
 
               <select id="studyGoal">
-
                 <option
                   value="30"
                   {% if study.daily_goal_minutes == 30 %}selected{% endif %}
@@ -205,47 +217,37 @@
                 >
                   3 hr
                 </option>
-
               </select>
-
             </label>
 
           </div>
-
         </div>
 
       </div>
-
     </div>
   </header>
-
 
   <main class="stage">
 
     <!-- LEVELS -->
     <h1 class="menu-title">
-      Your Levels
+      Your {{ language_name }} Levels
     </h1>
 
     <p class="menu-sub">
       Pick up where you left off, or review an earlier level.
     </p>
 
-
     <div class="level-grid">
-
       {% for lvl in levels %}
 
         {% if lvl.status == "locked" %}
-
           <div class="level-card locked">
-
             <div class="level-lock">
               🔒
             </div>
 
             <div class="level-info">
-
               <div class="level-title">
                 {{ lvl.title }}
               </div>
@@ -257,30 +259,23 @@
               <div class="level-progress">
                 {{ lvl.progress_info }}
               </div>
-
             </div>
-
           </div>
 
         {% else %}
-
           <a
             class="level-card {{ lvl.status }} {% if lvl.is_current %}current{% endif %}"
             href="{{ url_for('level_view', level_id=lvl.id) }}{% if lvl.status == 'completed' %}?restart=1{% endif %}"
           >
-
             <div class="level-badge">
-
               {% if lvl.status == "completed" %}
                 ✓
               {% else %}
                 ▶
               {% endif %}
-
             </div>
 
             <div class="level-info">
-
               <div class="level-title">
                 {{ lvl.title }}
               </div>
@@ -292,336 +287,217 @@
               <div class="level-progress">
                 {{ lvl.progress_info }}
               </div>
-
             </div>
-
           </a>
-
         {% endif %}
 
       {% endfor %}
-
     </div>
 
-
     <div class="menu-footer">
-
       <a
         class="btn"
-        href="/reset"
+        href="{{ url_for('reset') }}"
       >
-        Reset all progress
+        Reset {{ language_name }} progress
       </a>
-
     </div>
 
   </main>
 
-
   <script>
-
-    // --------------------------------------------------
+    // ==================================================
     // DROPDOWNS
-    // --------------------------------------------------
+    // ==================================================
 
-    const gamesButton =
-      document.getElementById("gamesButton");
-
-    const gamesDropdown =
-      document.getElementById("gamesDropdown");
-
-    const studyButton =
-      document.getElementById("studyButton");
-
-    const studyDropdown =
-      document.getElementById("studyDropdown");
-
+    const dropdowns = [
+      {
+        button: document.getElementById("languageButton"),
+        menu: document.getElementById("languageDropdown")
+      },
+      {
+        button: document.getElementById("gamesButton"),
+        menu: document.getElementById("gamesDropdown")
+      },
+      {
+        button: document.getElementById("studyButton"),
+        menu: document.getElementById("studyDropdown")
+      }
+    ];
 
     function closeDropdowns() {
-
-      gamesDropdown.classList.remove(
-        "open"
-      );
-
-      studyDropdown.classList.remove(
-        "open"
-      );
-
+      dropdowns.forEach(({ button, menu }) => {
+        menu.classList.remove("open");
+        button.setAttribute("aria-expanded", "false");
+      });
     }
 
-
-    gamesButton.addEventListener(
-      "click",
-      event => {
-
+    dropdowns.forEach(({ button, menu }) => {
+      button.addEventListener("click", event => {
         event.stopPropagation();
 
-        const shouldOpen =
-          !gamesDropdown.classList.contains(
-            "open"
-          );
+        const shouldOpen = !menu.classList.contains("open");
 
         closeDropdowns();
 
         if (shouldOpen) {
-          gamesDropdown.classList.add(
-            "open"
-          );
+          menu.classList.add("open");
+          button.setAttribute("aria-expanded", "true");
         }
+      });
 
-      }
-    );
-
-
-    studyButton.addEventListener(
-      "click",
-      event => {
-
+      menu.addEventListener("click", event => {
         event.stopPropagation();
+      });
+    });
 
-        const shouldOpen =
-          !studyDropdown.classList.contains(
-            "open"
-          );
+    document.addEventListener("click", closeDropdowns);
 
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
         closeDropdowns();
-
-        if (shouldOpen) {
-          studyDropdown.classList.add(
-            "open"
-          );
-        }
-
       }
-    );
+    });
 
 
-    gamesDropdown.addEventListener(
-      "click",
-      event => {
-        event.stopPropagation();
-      }
-    );
-
-
-    studyDropdown.addEventListener(
-      "click",
-      event => {
-        event.stopPropagation();
-      }
-    );
-
-
-    document.addEventListener(
-      "click",
-      closeDropdowns
-    );
-
-
-    // --------------------------------------------------
+    // ==================================================
     // STUDY TIME
-    // --------------------------------------------------
+    // ==================================================
 
     const studyToday =
-      document.getElementById(
-        "studyToday"
-      );
+      document.getElementById("studyToday");
 
     const studyHeaderTime =
-      document.getElementById(
-        "studyHeaderTime"
-      );
+      document.getElementById("studyHeaderTime");
 
     const studyTotal =
-      document.getElementById(
-        "studyTotal"
-      );
+      document.getElementById("studyTotal");
 
     const studyGoal =
-      document.getElementById(
-        "studyGoal"
-      );
+      document.getElementById("studyGoal");
 
     const studyGoalText =
-      document.getElementById(
-        "studyGoalText"
-      );
+      document.getElementById("studyGoalText");
 
     const studyMessage =
-      document.getElementById(
-        "studyMessage"
-      );
+      document.getElementById("studyMessage");
 
     const studyProgressBar =
-      document.getElementById(
-        "studyProgressBar"
-      );
+      document.getElementById("studyProgressBar");
 
 
     function formatTime(seconds) {
+      const hours = Math.floor(seconds / 3600);
 
-      const hours =
-        Math.floor(
-          seconds / 3600
-        );
+      const minutes = Math.floor(
+        (seconds % 3600) / 60
+      );
 
-      const minutes =
-        Math.floor(
-          (seconds % 3600) / 60
-        );
-
-
-      if (
-        hours > 0 &&
-        minutes > 0
-      ) {
+      if (hours > 0 && minutes > 0) {
         return `${hours}h ${minutes}m`;
       }
-
 
       if (hours > 0) {
         return `${hours}h`;
       }
-
 
       return `${minutes}m`;
     }
 
 
     async function loadStudyTime() {
-
       try {
+        const response = await fetch("/study-time");
 
-        const response =
-          await fetch(
-            "/study-time"
-          );
+        if (!response.ok) {
+          throw new Error("Study time request failed");
+        }
 
-        const data =
-          await response.json();
-
+        const data = await response.json();
 
         const goalSeconds =
           data.daily_goal_minutes * 60;
 
+        const percent = Math.min(
+          100,
+          (data.today_seconds / goalSeconds) * 100
+        );
 
-        const percent =
-          Math.min(
-            100,
-            (
-              data.today_seconds /
-              goalSeconds
-            ) * 100
-          );
+        const todayText = formatTime(
+          data.today_seconds
+        );
 
+        studyToday.textContent = todayText;
+        studyHeaderTime.textContent = todayText;
 
-        const todayText =
-          formatTime(
-            data.today_seconds
-          );
-
-
-        studyToday.textContent =
-          todayText;
-
-
-        studyHeaderTime.textContent =
-          todayText;
-
-
-        studyTotal.textContent =
-          formatTime(
-            data.total_seconds
-          );
-
+        studyTotal.textContent = formatTime(
+          data.total_seconds
+        );
 
         studyGoalText.textContent =
           data.daily_goal_minutes;
 
-
         studyProgressBar.style.width =
           percent + "%";
 
-
         if (data.goal_met) {
-
           studyMessage.textContent =
             "✓ Daily goal complete";
-
         } else {
-
-          const remaining =
-            goalSeconds -
-            data.today_seconds;
-
+          const remaining = Math.max(
+            0,
+            goalSeconds - data.today_seconds
+          );
 
           studyMessage.textContent =
-            `${formatTime(
-              remaining
-            )} remaining today`;
-
+            `${formatTime(remaining)} remaining today`;
         }
 
       } catch (error) {
-
         console.error(
           "Could not load study time:",
           error
         );
 
-
         studyMessage.textContent =
           "Could not load study time";
-
       }
-
     }
 
 
     studyGoal.addEventListener(
       "change",
       async () => {
-
         try {
-
-          await fetch(
+          const response = await fetch(
             "/study-goal",
             {
               method: "POST",
-
               headers: {
-                "Content-Type":
-                  "application/json"
+                "Content-Type": "application/json"
               },
-
-              body:
-                JSON.stringify({
-                  minutes:
-                    Number(
-                      studyGoal.value
-                    )
-                })
+              body: JSON.stringify({
+                minutes: Number(studyGoal.value)
+              })
             }
           );
 
+          if (!response.ok) {
+            throw new Error("Could not save study goal");
+          }
 
-          loadStudyTime();
+          await loadStudyTime();
 
         } catch (error) {
-
           console.error(
             "Could not change study goal:",
             error
           );
-
         }
-
       }
     );
 
-
     loadStudyTime();
-
   </script>
 
 </body>

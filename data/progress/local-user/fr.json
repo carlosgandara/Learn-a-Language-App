@@ -1,0 +1,49 @@
+{
+  "level_id": "level-1-cafe",
+  "step_index": 6,
+  "words": {
+    "veux": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "café": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    }
+  },
+  "vocabulary_words": {
+    "lait": {
+      "correct": 0,
+      "wrong": 1,
+      "wrong_streak": 1
+    },
+    "eau": {
+      "correct": 0,
+      "wrong": 1,
+      "wrong_streak": 1
+    },
+    "cheval": {
+      "correct": 0,
+      "wrong": 1,
+      "wrong_streak": 1
+    }
+  },
+  "sentences": {},
+  "games": {
+    "word_rain": {
+      "words": {},
+      "highest_unlocked_level": 1,
+      "best_score": 0
+    }
+  },
+  "completed_levels": [],
+  "study": {
+    "daily_goal_minutes": 120,
+    "total_seconds": 72,
+    "days": {
+      "2026-10-14": 72
+    }
+  }
+}

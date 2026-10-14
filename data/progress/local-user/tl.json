@@ -1,0 +1,121 @@
+{
+  "level_id": "level-1-cafe",
+  "step_index": 2,
+  "words": {
+    "gusto": {
+      "correct": 6,
+      "wrong": 1,
+      "wrong_streak": 0
+    },
+    "kape": {
+      "correct": 6,
+      "wrong": 7,
+      "wrong_streak": 0
+    },
+    "isang": {
+      "correct": 6,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "please": {
+      "correct": 6,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "may": {
+      "correct": 7,
+      "wrong": 12,
+      "wrong_streak": 0
+    },
+    "asukal": {
+      "correct": 6,
+      "wrong": 8,
+      "wrong_streak": 0
+    },
+    "ba": {
+      "correct": 6,
+      "wrong": 0,
+      "wrong_streak": 0
+    },
+    "kanin": {
+      "correct": 3,
+      "wrong": 4,
+      "wrong_streak": 0
+    },
+    "tubig": {
+      "correct": 1,
+      "wrong": 0,
+      "wrong_streak": 0
+    }
+  },
+  "sentences": {},
+  "games": {
+    "word_rain": {
+      "words": {
+        "pinto": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0
+        },
+        "lampara": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0
+        },
+        "upuan": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0
+        },
+        "sopa": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0
+        },
+        "mesa": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0
+        },
+        "kama": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0
+        },
+        "bahay": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0
+        },
+        "kusina": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0
+        },
+        "bintana": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0
+        },
+        "banyo": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0
+        }
+      },
+      "highest_unlocked_level": 2,
+      "best_score": 0
+    }
+  },
+  "completed_levels": [
+    "level-1-cafe"
+  ],
+  "study": {
+    "daily_goal_minutes": 120,
+    "total_seconds": 291,
+    "days": {
+      "2026-10-14": 291
+    }
+  },
+  "vocabulary_words": {}
+}

@@ -8,7 +8,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/cafe-scene/1600/1000",
+          "image": "/static/images/scenes/cafe.png",
           "caption": "You walk into a café in Manila."
         },
         {
@@ -18,7 +18,11 @@
           "new_words": [
             "gusto",
             "kape"
-          ]
+          ],
+          "word_definitions": {
+            "gusto": "want",
+            "kape": "coffee"
+          }
         },
         {
           "type": "teach",
@@ -27,7 +31,11 @@
           "new_words": [
             "isang",
             "please"
-          ]
+          ],
+          "word_definitions": {
+            "isang": "one",
+            "please": "please"
+          }
         },
         {
           "type": "teach",
@@ -37,7 +45,12 @@
             "may",
             "asukal",
             "ba"
-          ]
+          ],
+          "word_definitions": {
+            "may": "there is / have",
+            "asukal": "sugar",
+            "ba": "question marker"
+          }
         },
         {
           "type": "drill"
@@ -84,7 +97,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/restaurant-scene/1600/1000",
+          "image": "/static/images/scenes/restaurant.png",
           "caption": "You sit down at a restaurant in Manila."
         },
         {
@@ -93,7 +106,10 @@
           "translation": "I want rice.",
           "new_words": [
             "kanin"
-          ]
+          ],
+          "word_definitions": {
+            "kanin": "cooked rice"
+          }
         },
         {
           "type": "teach",
@@ -101,7 +117,10 @@
           "translation": "I want water.",
           "new_words": [
             "tubig"
-          ]
+          ],
+          "word_definitions": {
+            "tubig": "water"
+          }
         },
         {
           "type": "teach",
@@ -110,7 +129,11 @@
           "new_words": [
             "puwede",
             "menu"
-          ]
+          ],
+          "word_definitions": {
+            "puwede": "can / may",
+            "menu": "menu"
+          }
         },
         {
           "type": "teach",
@@ -118,7 +141,10 @@
           "translation": "Is there a table?",
           "new_words": [
             "mesa"
-          ]
+          ],
+          "word_definitions": {
+            "mesa": "table"
+          }
         },
         {
           "type": "drill"
@@ -170,7 +196,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/market-scene/1600/1000",
+          "image": "/static/images/scenes/market.png",
           "caption": "You walk through a busy market in Manila."
         },
         {
@@ -180,7 +206,11 @@
           "new_words": [
             "magkano",
             "prutas"
-          ]
+          ],
+          "word_definitions": {
+            "magkano": "how much",
+            "prutas": "fruit"
+          }
         },
         {
           "type": "teach",
@@ -188,7 +218,10 @@
           "translation": "How much is the fish?",
           "new_words": [
             "isda"
-          ]
+          ],
+          "word_definitions": {
+            "isda": "fish"
+          }
         },
         {
           "type": "teach",
@@ -196,7 +229,10 @@
           "translation": "I want vegetables.",
           "new_words": [
             "gulay"
-          ]
+          ],
+          "word_definitions": {
+            "gulay": "vegetables"
+          }
         },
         {
           "type": "teach",
@@ -204,7 +240,10 @@
           "translation": "I have money.",
           "new_words": [
             "pera"
-          ]
+          ],
+          "word_definitions": {
+            "pera": "money"
+          }
         },
         {
           "type": "drill"
@@ -256,7 +295,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/meeting-scene/1600/1000",
+          "image": "/static/images/scenes/meeting.png",
           "caption": "You meet someone new at a gathering."
         },
         {
@@ -265,7 +304,10 @@
           "translation": "I am Maria.",
           "new_words": [
             "ako"
-          ]
+          ],
+          "word_definitions": {
+            "ako": "I / me"
+          }
         },
         {
           "type": "teach",
@@ -273,7 +315,10 @@
           "translation": "How are you?",
           "new_words": [
             "kumusta"
-          ]
+          ],
+          "word_definitions": {
+            "kumusta": "how are you"
+          }
         },
         {
           "type": "teach",
@@ -281,7 +326,10 @@
           "translation": "I'm fine.",
           "new_words": [
             "mabuti"
-          ]
+          ],
+          "word_definitions": {
+            "mabuti": "fine / good"
+          }
         },
         {
           "type": "teach",
@@ -289,7 +337,10 @@
           "translation": "I am from Manila.",
           "new_words": [
             "taga"
-          ]
+          ],
+          "word_definitions": {
+            "taga": "from (a place)"
+          }
         },
         {
           "type": "drill"
@@ -341,7 +392,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/family-scene/1600/1000",
+          "image": "/static/images/scenes/family.png",
           "caption": "You're at a family gathering. Someone points at a photo."
         },
         {
@@ -351,7 +402,11 @@
           "new_words": [
             "ito",
             "tatay"
-          ]
+          ],
+          "word_definitions": {
+            "ito": "this",
+            "tatay": "father"
+          }
         },
         {
           "type": "teach",
@@ -359,7 +414,10 @@
           "translation": "This is my mother.",
           "new_words": [
             "nanay"
-          ]
+          ],
+          "word_definitions": {
+            "nanay": "mother"
+          }
         },
         {
           "type": "teach",
@@ -367,7 +425,10 @@
           "translation": "I have an older brother.",
           "new_words": [
             "kuya"
-          ]
+          ],
+          "word_definitions": {
+            "kuya": "older brother"
+          }
         },
         {
           "type": "teach",
@@ -375,7 +436,10 @@
           "translation": "I have an older sister.",
           "new_words": [
             "ate"
-          ]
+          ],
+          "word_definitions": {
+            "ate": "older sister"
+          }
         },
         {
           "type": "drill"
@@ -427,7 +491,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/numbers-scene/1600/1000",
+          "image": "/static/images/scenes/numbers.png",
           "caption": "You're ordering for a group of friends."
         },
         {
@@ -436,7 +500,10 @@
           "translation": "How many coffees?",
           "new_words": [
             "ilang"
-          ]
+          ],
+          "word_definitions": {
+            "ilang": "how many"
+          }
         },
         {
           "type": "teach",
@@ -444,7 +511,10 @@
           "translation": "Two coffees.",
           "new_words": [
             "dalawa"
-          ]
+          ],
+          "word_definitions": {
+            "dalawa": "two"
+          }
         },
         {
           "type": "teach",
@@ -452,7 +522,10 @@
           "translation": "Three coffees.",
           "new_words": [
             "tatlo"
-          ]
+          ],
+          "word_definitions": {
+            "tatlo": "three"
+          }
         },
         {
           "type": "teach",
@@ -460,7 +533,10 @@
           "translation": "Four coffees.",
           "new_words": [
             "apat"
-          ]
+          ],
+          "word_definitions": {
+            "apat": "four"
+          }
         },
         {
           "type": "teach",
@@ -468,7 +544,10 @@
           "translation": "Five coffees.",
           "new_words": [
             "lima"
-          ]
+          ],
+          "word_definitions": {
+            "lima": "five"
+          }
         },
         {
           "type": "drill"
@@ -515,7 +594,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/directions-scene/1600/1000",
+          "image": "/static/images/scenes/directions.png",
           "caption": "You're lost in an unfamiliar part of the city."
         },
         {
@@ -524,7 +603,10 @@
           "translation": "Where is the bathroom?",
           "new_words": [
             "saan"
-          ]
+          ],
+          "word_definitions": {
+            "saan": "where"
+          }
         },
         {
           "type": "teach",
@@ -532,7 +614,10 @@
           "translation": "On the left.",
           "new_words": [
             "kaliwa"
-          ]
+          ],
+          "word_definitions": {
+            "kaliwa": "left"
+          }
         },
         {
           "type": "teach",
@@ -540,7 +625,10 @@
           "translation": "On the right.",
           "new_words": [
             "kanan"
-          ]
+          ],
+          "word_definitions": {
+            "kanan": "right"
+          }
         },
         {
           "type": "teach",
@@ -548,7 +636,10 @@
           "translation": "Just go straight.",
           "new_words": [
             "diretso"
-          ]
+          ],
+          "word_definitions": {
+            "diretso": "straight"
+          }
         },
         {
           "type": "teach",
@@ -556,7 +647,10 @@
           "translation": "Is it far?",
           "new_words": [
             "malayo"
-          ]
+          ],
+          "word_definitions": {
+            "malayo": "far"
+          }
         },
         {
           "type": "drill"
@@ -612,7 +706,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/clothes-scene/1600/1000",
+          "image": "/static/images/scenes/colors.png",
           "caption": "You're at a clothing stall in a market."
         },
         {
@@ -622,7 +716,11 @@
           "new_words": [
             "puti",
             "damit"
-          ]
+          ],
+          "word_definitions": {
+            "puti": "white",
+            "damit": "clothes"
+          }
         },
         {
           "type": "teach",
@@ -630,7 +728,10 @@
           "translation": "Black clothes.",
           "new_words": [
             "itim"
-          ]
+          ],
+          "word_definitions": {
+            "itim": "black"
+          }
         },
         {
           "type": "teach",
@@ -638,7 +739,10 @@
           "translation": "Red clothes.",
           "new_words": [
             "pula"
-          ]
+          ],
+          "word_definitions": {
+            "pula": "red"
+          }
         },
         {
           "type": "teach",
@@ -646,7 +750,10 @@
           "translation": "Blue clothes.",
           "new_words": [
             "asul"
-          ]
+          ],
+          "word_definitions": {
+            "asul": "blue"
+          }
         },
         {
           "type": "drill"
@@ -698,7 +805,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/doctor-scene/1600/1000",
+          "image": "/static/images/scenes/doctor.png",
           "caption": "You wake up feeling sick and go to a clinic."
         },
         {
@@ -708,7 +815,11 @@
           "new_words": [
             "sakit",
             "ulo"
-          ]
+          ],
+          "word_definitions": {
+            "sakit": "pain / hurt",
+            "ulo": "head"
+          }
         },
         {
           "type": "teach",
@@ -716,7 +827,10 @@
           "translation": "My stomach hurts.",
           "new_words": [
             "tiyan"
-          ]
+          ],
+          "word_definitions": {
+            "tiyan": "stomach"
+          }
         },
         {
           "type": "teach",
@@ -724,7 +838,10 @@
           "translation": "I have a fever.",
           "new_words": [
             "lagnat"
-          ]
+          ],
+          "word_definitions": {
+            "lagnat": "fever"
+          }
         },
         {
           "type": "teach",
@@ -732,7 +849,10 @@
           "translation": "I need medicine.",
           "new_words": [
             "gamot"
-          ]
+          ],
+          "word_definitions": {
+            "gamot": "medicine"
+          }
         },
         {
           "type": "drill"
@@ -784,7 +904,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/plans-scene/1600/1000",
+          "image": "/static/images/scenes/plans.png",
           "caption": "A friend wants to make plans with you."
         },
         {
@@ -794,7 +914,11 @@
           "new_words": [
             "punta",
             "tayo"
-          ]
+          ],
+          "word_definitions": {
+            "punta": "go",
+            "tayo": "we / us (including listener)"
+          }
         },
         {
           "type": "teach",
@@ -802,7 +926,10 @@
           "translation": "Right now.",
           "new_words": [
             "ngayon"
-          ]
+          ],
+          "word_definitions": {
+            "ngayon": "now / today"
+          }
         },
         {
           "type": "teach",
@@ -810,7 +937,10 @@
           "translation": "Tomorrow then.",
           "new_words": [
             "bukas"
-          ]
+          ],
+          "word_definitions": {
+            "bukas": "tomorrow"
+          }
         },
         {
           "type": "teach",
@@ -818,7 +948,10 @@
           "translation": "Later then.",
           "new_words": [
             "mamaya"
-          ]
+          ],
+          "word_definitions": {
+            "mamaya": "later"
+          }
         },
         {
           "type": "drill"
@@ -865,7 +998,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/transportation-scene/1600/1000",
+          "image": "/static/images/scenes/transportation.png",
           "caption": "You're trying to get across Manila."
         },
         {
@@ -874,7 +1007,10 @@
           "translation": "Where is the place to catch transportation?",
           "new_words": [
             "sakayan"
-          ]
+          ],
+          "word_definitions": {
+            "sakayan": "transport pickup point"
+          }
         },
         {
           "type": "teach",
@@ -883,7 +1019,11 @@
           "new_words": [
             "sakay",
             "jeep"
-          ]
+          ],
+          "word_definitions": {
+            "sakay": "ride / board",
+            "jeep": "jeepney"
+          }
         },
         {
           "type": "teach",
@@ -891,7 +1031,10 @@
           "translation": "How much is the fare?",
           "new_words": [
             "pamasahe"
-          ]
+          ],
+          "word_definitions": {
+            "pamasahe": "fare"
+          }
         },
         {
           "type": "teach",
@@ -899,7 +1042,10 @@
           "translation": "Just here.",
           "new_words": [
             "dito"
-          ]
+          ],
+          "word_definitions": {
+            "dito": "here"
+          }
         },
         {
           "type": "drill"
@@ -951,7 +1097,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/shopping-scene/1600/1000",
+          "image": "/static/images/scenes/shopping.png",
           "caption": "You're shopping at a busy store."
         },
         {
@@ -961,7 +1107,11 @@
           "new_words": [
             "magkano",
             "ito"
-          ]
+          ],
+          "word_definitions": {
+            "magkano": "how much",
+            "ito": "this"
+          }
         },
         {
           "type": "teach",
@@ -969,7 +1119,10 @@
           "translation": "This is expensive.",
           "new_words": [
             "mahal"
-          ]
+          ],
+          "word_definitions": {
+            "mahal": "expensive"
+          }
         },
         {
           "type": "teach",
@@ -977,7 +1130,10 @@
           "translation": "This is cheap.",
           "new_words": [
             "mura"
-          ]
+          ],
+          "word_definitions": {
+            "mura": "cheap"
+          }
         },
         {
           "type": "teach",
@@ -992,7 +1148,11 @@
           "new_words": [
             "iba",
             "pa"
-          ]
+          ],
+          "word_definitions": {
+            "iba": "other / different",
+            "pa": "still / more"
+          }
         },
         {
           "type": "drill"
@@ -1044,7 +1204,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/home-scene/1600/1000",
+          "image": "/static/images/scenes/home.png",
           "caption": "You're showing a friend around your home."
         },
         {
@@ -1053,7 +1213,10 @@
           "translation": "This is my house.",
           "new_words": [
             "bahay"
-          ]
+          ],
+          "word_definitions": {
+            "bahay": "house / home"
+          }
         },
         {
           "type": "teach",
@@ -1061,7 +1224,10 @@
           "translation": "I am at home.",
           "new_words": [
             "nasa"
-          ]
+          ],
+          "word_definitions": {
+            "nasa": "at / in (a location)"
+          }
         },
         {
           "type": "teach",
@@ -1069,7 +1235,10 @@
           "translation": "There is a kitchen here.",
           "new_words": [
             "kusina"
-          ]
+          ],
+          "word_definitions": {
+            "kusina": "kitchen"
+          }
         },
         {
           "type": "teach",
@@ -1077,7 +1246,10 @@
           "translation": "There is a room here.",
           "new_words": [
             "kuwarto"
-          ]
+          ],
+          "word_definitions": {
+            "kuwarto": "room"
+          }
         },
         {
           "type": "teach",
@@ -1085,7 +1257,10 @@
           "translation": "The house is big.",
           "new_words": [
             "malaki"
-          ]
+          ],
+          "word_definitions": {
+            "malaki": "big"
+          }
         },
         {
           "type": "drill"
@@ -1137,7 +1312,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/weather-scene/1600/1000",
+          "image": "/static/images/scenes/weather.png",
           "caption": "You step outside and notice the weather."
         },
         {
@@ -1146,7 +1321,10 @@
           "translation": "It's hot today.",
           "new_words": [
             "mainit"
-          ]
+          ],
+          "word_definitions": {
+            "mainit": "hot"
+          }
         },
         {
           "type": "teach",
@@ -1154,7 +1332,10 @@
           "translation": "It's cold today.",
           "new_words": [
             "malamig"
-          ]
+          ],
+          "word_definitions": {
+            "malamig": "cold"
+          }
         },
         {
           "type": "teach",
@@ -1162,7 +1343,10 @@
           "translation": "It's raining.",
           "new_words": [
             "umuulan"
-          ]
+          ],
+          "word_definitions": {
+            "umuulan": "it is raining"
+          }
         },
         {
           "type": "teach",
@@ -1170,7 +1354,10 @@
           "translation": "It's sunny today.",
           "new_words": [
             "maaraw"
-          ]
+          ],
+          "word_definitions": {
+            "maaraw": "sunny"
+          }
         },
         {
           "type": "teach",
@@ -1179,7 +1366,11 @@
           "new_words": [
             "masama",
             "panahon"
-          ]
+          ],
+          "word_definitions": {
+            "masama": "bad",
+            "panahon": "weather"
+          }
         },
         {
           "type": "drill"
@@ -1222,7 +1413,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/routine-scene/1600/1000",
+          "image": "/static/images/scenes/daily-routine.png",
           "caption": "You describe your normal day to a friend."
         },
         {
@@ -1232,7 +1423,11 @@
           "new_words": [
             "gumigising",
             "umaga"
-          ]
+          ],
+          "word_definitions": {
+            "gumigising": "wake up",
+            "umaga": "morning"
+          }
         },
         {
           "type": "teach",
@@ -1240,7 +1435,10 @@
           "translation": "I eat.",
           "new_words": [
             "kumakain"
-          ]
+          ],
+          "word_definitions": {
+            "kumakain": "eating / eat"
+          }
         },
         {
           "type": "teach",
@@ -1248,7 +1446,10 @@
           "translation": "I work.",
           "new_words": [
             "nagtatrabaho"
-          ]
+          ],
+          "word_definitions": {
+            "nagtatrabaho": "working / work"
+          }
         },
         {
           "type": "teach",
@@ -1257,7 +1458,11 @@
           "new_words": [
             "umuwi",
             "gabi"
-          ]
+          ],
+          "word_definitions": {
+            "umuwi": "went home",
+            "gabi": "night"
+          }
         },
         {
           "type": "teach",
@@ -1265,7 +1470,10 @@
           "translation": "I sleep.",
           "new_words": [
             "natutulog"
-          ]
+          ],
+          "word_definitions": {
+            "natutulog": "sleeping / sleep"
+          }
         },
         {
           "type": "drill"
@@ -1317,7 +1525,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/work-scene/1600/1000",
+          "image": "/static/images/scenes/work.png",
           "caption": "Someone asks you about your work."
         },
         {
@@ -1332,7 +1540,10 @@
           "translation": "What is your job?",
           "new_words": [
             "trabaho"
-          ]
+          ],
+          "word_definitions": {
+            "trabaho": "work / job"
+          }
         },
         {
           "type": "teach",
@@ -1340,7 +1551,10 @@
           "translation": "I am a nurse.",
           "new_words": [
             "nars"
-          ]
+          ],
+          "word_definitions": {
+            "nars": "nurse"
+          }
         },
         {
           "type": "teach",
@@ -1348,7 +1562,10 @@
           "translation": "The work is difficult.",
           "new_words": [
             "mahirap"
-          ]
+          ],
+          "word_definitions": {
+            "mahirap": "difficult"
+          }
         },
         {
           "type": "teach",
@@ -1356,7 +1573,10 @@
           "translation": "I am tired.",
           "new_words": [
             "pagod"
-          ]
+          ],
+          "word_definitions": {
+            "pagod": "tired"
+          }
         },
         {
           "type": "drill"
@@ -1408,7 +1628,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/hobbies-scene/1600/1000",
+          "image": "/static/images/scenes/hobbies.png",
           "caption": "A new friend asks what you like to do."
         },
         {
@@ -1418,7 +1638,11 @@
           "new_words": [
             "mahilig",
             "musika"
-          ]
+          ],
+          "word_definitions": {
+            "mahilig": "fond of / like",
+            "musika": "music"
+          }
         },
         {
           "type": "teach",
@@ -1426,7 +1650,10 @@
           "translation": "I like dancing.",
           "new_words": [
             "sayaw"
-          ]
+          ],
+          "word_definitions": {
+            "sayaw": "dance / dancing"
+          }
         },
         {
           "type": "teach",
@@ -1434,7 +1661,10 @@
           "translation": "I like movies.",
           "new_words": [
             "pelikula"
-          ]
+          ],
+          "word_definitions": {
+            "pelikula": "movie"
+          }
         },
         {
           "type": "teach",
@@ -1442,7 +1672,10 @@
           "translation": "I like to walk.",
           "new_words": [
             "maglakad"
-          ]
+          ],
+          "word_definitions": {
+            "maglakad": "to walk"
+          }
         },
         {
           "type": "teach",
@@ -1450,7 +1683,10 @@
           "translation": "What do you like to do?",
           "new_words": [
             "gawin"
-          ]
+          ],
+          "word_definitions": {
+            "gawin": "to do"
+          }
         },
         {
           "type": "drill"
@@ -1493,7 +1729,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/feelings-scene/1600/1000",
+          "image": "/static/images/scenes/feelings.png",
           "caption": "A friend asks how you're feeling."
         },
         {
@@ -1502,7 +1738,10 @@
           "translation": "I am happy.",
           "new_words": [
             "masaya"
-          ]
+          ],
+          "word_definitions": {
+            "masaya": "happy"
+          }
         },
         {
           "type": "teach",
@@ -1510,7 +1749,10 @@
           "translation": "I am sad.",
           "new_words": [
             "malungkot"
-          ]
+          ],
+          "word_definitions": {
+            "malungkot": "sad"
+          }
         },
         {
           "type": "teach",
@@ -1524,7 +1766,10 @@
           "translation": "I am angry.",
           "new_words": [
             "galit"
-          ]
+          ],
+          "word_definitions": {
+            "galit": "angry"
+          }
         },
         {
           "type": "teach",
@@ -1532,7 +1777,10 @@
           "translation": "I am nervous.",
           "new_words": [
             "kinakabahan"
-          ]
+          ],
+          "word_definitions": {
+            "kinakabahan": "nervous"
+          }
         },
         {
           "type": "drill"
@@ -1584,7 +1832,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/communication-scene/1600/1000",
+          "image": "/static/images/scenes/communication.png",
           "caption": "Someone speaks Tagalog quickly and you need help."
         },
         {
@@ -1594,7 +1842,11 @@
           "new_words": [
             "hindi",
             "alam"
-          ]
+          ],
+          "word_definitions": {
+            "hindi": "not / no",
+            "alam": "know"
+          }
         },
         {
           "type": "teach",
@@ -1602,7 +1854,10 @@
           "translation": "I don't understand.",
           "new_words": [
             "maintindihan"
-          ]
+          ],
+          "word_definitions": {
+            "maintindihan": "understand"
+          }
         },
         {
           "type": "teach",
@@ -1610,7 +1865,10 @@
           "translation": "Please repeat.",
           "new_words": [
             "pakiulit"
-          ]
+          ],
+          "word_definitions": {
+            "pakiulit": "please repeat"
+          }
         },
         {
           "type": "teach",
@@ -1618,7 +1876,10 @@
           "translation": "Slowly, please.",
           "new_words": [
             "dahan-dahan"
-          ]
+          ],
+          "word_definitions": {
+            "dahan-dahan": "slowly"
+          }
         },
         {
           "type": "teach",
@@ -1627,7 +1888,11 @@
           "new_words": [
             "ibig",
             "ibig sabihin"
-          ]
+          ],
+          "word_definitions": {
+            "ibig": "meaning / intent (in expressions)",
+            "ibig sabihin": "mean / meaning"
+          }
         },
         {
           "type": "drill"
@@ -1679,7 +1944,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/social-scene/1600/1000",
+          "image": "/static/images/scenes/social.png",
           "caption": "You meet someone new at a gathering."
         },
         {
@@ -1688,7 +1953,10 @@
           "translation": "What is your name?",
           "new_words": [
             "pangalan"
-          ]
+          ],
+          "word_definitions": {
+            "pangalan": "name"
+          }
         },
         {
           "type": "teach",
@@ -1696,7 +1964,10 @@
           "translation": "Where do you live?",
           "new_words": [
             "nakatira"
-          ]
+          ],
+          "word_definitions": {
+            "nakatira": "live / reside"
+          }
         },
         {
           "type": "teach",
@@ -1704,7 +1975,10 @@
           "translation": "What are you doing?",
           "new_words": [
             "ginagawa"
-          ]
+          ],
+          "word_definitions": {
+            "ginagawa": "doing"
+          }
         },
         {
           "type": "teach",
@@ -1712,7 +1986,10 @@
           "translation": "I'm happy to meet you.",
           "new_words": [
             "makilala"
-          ]
+          ],
+          "word_definitions": {
+            "makilala": "to meet / get to know"
+          }
         },
         {
           "type": "teach",
@@ -1721,7 +1998,11 @@
           "new_words": [
             "kita",
             "ulit"
-          ]
+          ],
+          "word_definitions": {
+            "kita": "see you (in this phrase)",
+            "ulit": "again"
+          }
         },
         {
           "type": "drill"
@@ -1782,7 +2063,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/needs-scene/1600/1000",
+          "image": "/static/images/scenes/needs.png",
           "caption": "Level 21: Needs & Wants."
         },
         {
@@ -1791,7 +2072,10 @@
           "translation": "I need water.",
           "new_words": [
             "kailangan"
-          ]
+          ],
+          "word_definitions": {
+            "kailangan": "need"
+          }
         },
         {
           "type": "teach",
@@ -1805,7 +2089,10 @@
           "translation": "I don't want sugar.",
           "new_words": [
             "ayaw"
-          ]
+          ],
+          "word_definitions": {
+            "ayaw": "do not want"
+          }
         },
         {
           "type": "teach",
@@ -1854,7 +2141,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/ability-scene/1600/1000",
+          "image": "/static/images/scenes/ability.png",
           "caption": "Level 22: Can & Can't."
         },
         {
@@ -1863,7 +2150,10 @@
           "translation": "I can do it.",
           "new_words": [
             "kaya"
-          ]
+          ],
+          "word_definitions": {
+            "kaya": "can / able"
+          }
         },
         {
           "type": "teach",
@@ -1924,7 +2214,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/going-places-scene/1600/1000",
+          "image": "/static/images/scenes/going-places.png",
           "caption": "Level 23: Going Places."
         },
         {
@@ -1933,7 +2223,10 @@
           "translation": "I'm going home.",
           "new_words": [
             "pupunta"
-          ]
+          ],
+          "word_definitions": {
+            "pupunta": "going to go"
+          }
         },
         {
           "type": "teach",
@@ -1947,7 +2240,10 @@
           "translation": "I'm going there.",
           "new_words": [
             "doon"
-          ]
+          ],
+          "word_definitions": {
+            "doon": "there"
+          }
         },
         {
           "type": "teach",
@@ -1996,7 +2292,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/coming-leaving-scene/1600/1000",
+          "image": "/static/images/scenes/coming-leaving.png",
           "caption": "Level 24: Coming & Leaving."
         },
         {
@@ -2005,7 +2301,10 @@
           "translation": "I'm leaving later.",
           "new_words": [
             "aalis"
-          ]
+          ],
+          "word_definitions": {
+            "aalis": "leaving"
+          }
         },
         {
           "type": "teach",
@@ -2013,7 +2312,10 @@
           "translation": "I'll arrive later.",
           "new_words": [
             "darating"
-          ]
+          ],
+          "word_definitions": {
+            "darating": "arriving / will arrive"
+          }
         },
         {
           "type": "teach",
@@ -2021,7 +2323,10 @@
           "translation": "When are you leaving?",
           "new_words": [
             "kailan"
-          ]
+          ],
+          "word_definitions": {
+            "kailan": "when"
+          }
         },
         {
           "type": "teach",
@@ -2070,7 +2375,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/past-actions-scene/1600/1000",
+          "image": "/static/images/scenes/past-actions.png",
           "caption": "Level 25: Past Actions."
         },
         {
@@ -2079,7 +2384,10 @@
           "translation": "I ate rice.",
           "new_words": [
             "kumain"
-          ]
+          ],
+          "word_definitions": {
+            "kumain": "ate"
+          }
         },
         {
           "type": "teach",
@@ -2087,7 +2395,10 @@
           "translation": "I drank water.",
           "new_words": [
             "uminom"
-          ]
+          ],
+          "word_definitions": {
+            "uminom": "drank"
+          }
         },
         {
           "type": "teach",
@@ -2095,7 +2406,10 @@
           "translation": "I went home.",
           "new_words": [
             "pumunta"
-          ]
+          ],
+          "word_definitions": {
+            "pumunta": "went"
+          }
         },
         {
           "type": "teach",
@@ -2103,7 +2417,10 @@
           "translation": "What did you do?",
           "new_words": [
             "ginawa"
-          ]
+          ],
+          "word_definitions": {
+            "ginawa": "did"
+          }
         },
         {
           "type": "drill"
@@ -2146,7 +2463,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/future-actions-scene/1600/1000",
+          "image": "/static/images/scenes/future-actions.png",
           "caption": "Level 26: Future Actions."
         },
         {
@@ -2155,7 +2472,10 @@
           "translation": "I'll eat later.",
           "new_words": [
             "kakain"
-          ]
+          ],
+          "word_definitions": {
+            "kakain": "will eat"
+          }
         },
         {
           "type": "teach",
@@ -2163,7 +2483,10 @@
           "translation": "I'll drink water.",
           "new_words": [
             "iinom"
-          ]
+          ],
+          "word_definitions": {
+            "iinom": "will drink"
+          }
         },
         {
           "type": "teach",
@@ -2171,7 +2494,10 @@
           "translation": "I'll do it tomorrow.",
           "new_words": [
             "gagawin"
-          ]
+          ],
+          "word_definitions": {
+            "gagawin": "will do"
+          }
         },
         {
           "type": "teach",
@@ -2220,7 +2546,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/what-happened-scene/1600/1000",
+          "image": "/static/images/scenes/what-happened.png",
           "caption": "Level 27: What Happened?."
         },
         {
@@ -2229,7 +2555,10 @@
           "translation": "What happened?",
           "new_words": [
             "nangyari"
-          ]
+          ],
+          "word_definitions": {
+            "nangyari": "happened"
+          }
         },
         {
           "type": "teach",
@@ -2237,7 +2566,10 @@
           "translation": "Why?",
           "new_words": [
             "bakit"
-          ]
+          ],
+          "word_definitions": {
+            "bakit": "why"
+          }
         },
         {
           "type": "teach",
@@ -2245,7 +2577,10 @@
           "translation": "Because I'm tired.",
           "new_words": [
             "dahil"
-          ]
+          ],
+          "word_definitions": {
+            "dahil": "because"
+          }
         },
         {
           "type": "teach",
@@ -2294,7 +2629,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/opinions-scene/1600/1000",
+          "image": "/static/images/scenes/opinions.png",
           "caption": "Level 28: Opinions."
         },
         {
@@ -2303,7 +2638,10 @@
           "translation": "I think this is expensive.",
           "new_words": [
             "tingin"
-          ]
+          ],
+          "word_definitions": {
+            "tingin": "opinion / think (in phrase)"
+          }
         },
         {
           "type": "teach",
@@ -2323,7 +2661,10 @@
           "translation": "You're right.",
           "new_words": [
             "tama"
-          ]
+          ],
+          "word_definitions": {
+            "tama": "correct / right"
+          }
         },
         {
           "type": "drill"
@@ -2366,7 +2707,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/preferences-scene/1600/1000",
+          "image": "/static/images/scenes/preferences.png",
           "caption": "Level 29: Preferences."
         },
         {
@@ -2375,7 +2716,10 @@
           "translation": "I prefer coffee.",
           "new_words": [
             "mas"
-          ]
+          ],
+          "word_definitions": {
+            "mas": "more"
+          }
         },
         {
           "type": "teach",
@@ -2389,7 +2733,10 @@
           "translation": "Coffee or water?",
           "new_words": [
             "o"
-          ]
+          ],
+          "word_definitions": {
+            "o": "or"
+          }
         },
         {
           "type": "teach",
@@ -2397,7 +2744,10 @@
           "translation": "I prefer coffee to water.",
           "new_words": [
             "kaysa"
-          ]
+          ],
+          "word_definitions": {
+            "kaysa": "than"
+          }
         },
         {
           "type": "drill"
@@ -2440,7 +2790,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/know-how-scene/1600/1000",
+          "image": "/static/images/scenes/know-how.png",
           "caption": "Level 30: Knowing How."
         },
         {
@@ -2450,7 +2800,11 @@
           "new_words": [
             "marunong",
             "sumayaw"
-          ]
+          ],
+          "word_definitions": {
+            "marunong": "know how to",
+            "sumayaw": "to dance"
+          }
         },
         {
           "type": "teach",
@@ -2458,7 +2812,10 @@
           "translation": "I know how to cook.",
           "new_words": [
             "magluto"
-          ]
+          ],
+          "word_definitions": {
+            "magluto": "to cook"
+          }
         },
         {
           "type": "teach",
@@ -2513,7 +2870,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/requests-scene/1600/1000",
+          "image": "/static/images/scenes/requests.png",
           "caption": "Level 31: Requests."
         },
         {
@@ -2522,7 +2879,10 @@
           "translation": "Please give me the water.",
           "new_words": [
             "pakibigay"
-          ]
+          ],
+          "word_definitions": {
+            "pakibigay": "please give"
+          }
         },
         {
           "type": "teach",
@@ -2530,7 +2890,10 @@
           "translation": "Help me.",
           "new_words": [
             "tulungan"
-          ]
+          ],
+          "word_definitions": {
+            "tulungan": "help (someone)"
+          }
         },
         {
           "type": "teach",
@@ -2538,7 +2901,10 @@
           "translation": "Can you help me?",
           "new_words": [
             "akong"
-          ]
+          ],
+          "word_definitions": {
+            "akong": "me / I (linked form)"
+          }
         },
         {
           "type": "teach",
@@ -2587,7 +2953,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/permission-scene/1600/1000",
+          "image": "/static/images/scenes/permission.png",
           "caption": "Level 32: Permission & Rules."
         },
         {
@@ -2596,7 +2962,10 @@
           "translation": "May I enter?",
           "new_words": [
             "pumasok"
-          ]
+          ],
+          "word_definitions": {
+            "pumasok": "to enter"
+          }
         },
         {
           "type": "teach",
@@ -2604,7 +2973,10 @@
           "translation": "May I sit down?",
           "new_words": [
             "umupo"
-          ]
+          ],
+          "word_definitions": {
+            "umupo": "to sit down"
+          }
         },
         {
           "type": "teach",
@@ -2612,7 +2984,10 @@
           "translation": "It's not allowed here.",
           "new_words": [
             "bawal"
-          ]
+          ],
+          "word_definitions": {
+            "bawal": "not allowed"
+          }
         },
         {
           "type": "teach",
@@ -2661,7 +3036,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/possession-scene/1600/1000",
+          "image": "/static/images/scenes/possession.png",
           "caption": "Level 33: Mine, Yours & Theirs."
         },
         {
@@ -2670,7 +3045,10 @@
           "translation": "This is mine.",
           "new_words": [
             "akin"
-          ]
+          ],
+          "word_definitions": {
+            "akin": "mine"
+          }
         },
         {
           "type": "teach",
@@ -2678,7 +3056,10 @@
           "translation": "This is yours.",
           "new_words": [
             "iyo"
-          ]
+          ],
+          "word_definitions": {
+            "iyo": "yours"
+          }
         },
         {
           "type": "teach",
@@ -2686,7 +3067,10 @@
           "translation": "This is his/hers.",
           "new_words": [
             "kanya"
-          ]
+          ],
+          "word_definitions": {
+            "kanya": "his / hers"
+          }
         },
         {
           "type": "teach",
@@ -2694,7 +3078,10 @@
           "translation": "Whose is this?",
           "new_words": [
             "kanino"
-          ]
+          ],
+          "word_definitions": {
+            "kanino": "whose"
+          }
         },
         {
           "type": "drill"
@@ -2737,7 +3124,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/location-scene/1600/1000",
+          "image": "/static/images/scenes/location.png",
           "caption": "Level 34: Location Relationships."
         },
         {
@@ -2746,7 +3133,10 @@
           "translation": "Near the house.",
           "new_words": [
             "malapit"
-          ]
+          ],
+          "word_definitions": {
+            "malapit": "near"
+          }
         },
         {
           "type": "teach",
@@ -2754,7 +3144,10 @@
           "translation": "It's beside the house.",
           "new_words": [
             "tabi"
-          ]
+          ],
+          "word_definitions": {
+            "tabi": "beside / side"
+          }
         },
         {
           "type": "teach",
@@ -2762,7 +3155,10 @@
           "translation": "It's in front of the house.",
           "new_words": [
             "harap"
-          ]
+          ],
+          "word_definitions": {
+            "harap": "front"
+          }
         },
         {
           "type": "teach",
@@ -2770,7 +3166,10 @@
           "translation": "It's behind the house.",
           "new_words": [
             "likod"
-          ]
+          ],
+          "word_definitions": {
+            "likod": "back / behind"
+          }
         },
         {
           "type": "drill"
@@ -2813,7 +3212,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/time-scene/1600/1000",
+          "image": "/static/images/scenes/time.png",
           "caption": "Level 35: Time & Sequence."
         },
         {
@@ -2822,7 +3221,10 @@
           "translation": "What time is it?",
           "new_words": [
             "oras"
-          ]
+          ],
+          "word_definitions": {
+            "oras": "time / hour"
+          }
         },
         {
           "type": "teach",
@@ -2836,7 +3238,10 @@
           "translation": "Before working.",
           "new_words": [
             "bago"
-          ]
+          ],
+          "word_definitions": {
+            "bago": "before"
+          }
         },
         {
           "type": "teach",
@@ -2844,7 +3249,10 @@
           "translation": "After work.",
           "new_words": [
             "pagkatapos"
-          ]
+          ],
+          "word_definitions": {
+            "pagkatapos": "after"
+          }
         },
         {
           "type": "drill"
@@ -2887,7 +3295,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/frequency-scene/1600/1000",
+          "image": "/static/images/scenes/frequency.png",
           "caption": "Level 36: Frequency."
         },
         {
@@ -2897,7 +3305,11 @@
           "new_words": [
             "lagi",
             "umiinom"
-          ]
+          ],
+          "word_definitions": {
+            "lagi": "always",
+            "umiinom": "drinking / drink"
+          }
         },
         {
           "type": "teach",
@@ -2906,7 +3318,11 @@
           "new_words": [
             "madalas",
             "magkape"
-          ]
+          ],
+          "word_definitions": {
+            "madalas": "often",
+            "magkape": "to drink coffee"
+          }
         },
         {
           "type": "teach",
@@ -2914,7 +3330,10 @@
           "translation": "Sometimes I walk.",
           "new_words": [
             "minsan"
-          ]
+          ],
+          "word_definitions": {
+            "minsan": "sometimes"
+          }
         },
         {
           "type": "teach",
@@ -2922,7 +3341,10 @@
           "translation": "I rarely drink coffee.",
           "new_words": [
             "bihira"
-          ]
+          ],
+          "word_definitions": {
+            "bihira": "rarely"
+          }
         },
         {
           "type": "drill"
@@ -2965,7 +3387,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/comparisons-scene/1600/1000",
+          "image": "/static/images/scenes/comparisons.png",
           "caption": "Level 37: Comparisons."
         },
         {
@@ -2992,7 +3414,10 @@
           "translation": "This is more expensive than that one.",
           "new_words": [
             "doon"
-          ]
+          ],
+          "word_definitions": {
+            "doon": "there"
+          }
         },
         {
           "type": "drill"
@@ -3035,7 +3460,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/connectors-scene/1600/1000",
+          "image": "/static/images/scenes/connectors.png",
           "caption": "Level 38: Connecting Ideas."
         },
         {
@@ -3044,7 +3469,10 @@
           "translation": "I'm tired because I'm working.",
           "new_words": [
             "kasi"
-          ]
+          ],
+          "word_definitions": {
+            "kasi": "because"
+          }
         },
         {
           "type": "teach",
@@ -3052,7 +3480,10 @@
           "translation": "I want coffee, but it's cold.",
           "new_words": [
             "pero"
-          ]
+          ],
+          "word_definitions": {
+            "pero": "but"
+          }
         },
         {
           "type": "teach",
@@ -3060,7 +3491,10 @@
           "translation": "It's raining, so I'm at home.",
           "new_words": [
             "kaya"
-          ]
+          ],
+          "word_definitions": {
+            "kaya": "can / able"
+          }
         },
         {
           "type": "teach",
@@ -3068,7 +3502,10 @@
           "translation": "I'm happy because you're here.",
           "new_words": [
             "nandito"
-          ]
+          ],
+          "word_definitions": {
+            "nandito": "here / present"
+          }
         },
         {
           "type": "drill"
@@ -3111,7 +3548,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/conversation-tools-scene/1600/1000",
+          "image": "/static/images/scenes/conversation-tools.png",
           "caption": "Level 39: Natural Conversation."
         },
         {
@@ -3120,7 +3557,10 @@
           "translation": "Really?",
           "new_words": [
             "talaga"
-          ]
+          ],
+          "word_definitions": {
+            "talaga": "really"
+          }
         },
         {
           "type": "teach",
@@ -3128,7 +3568,10 @@
           "translation": "Maybe tomorrow.",
           "new_words": [
             "siguro"
-          ]
+          ],
+          "word_definitions": {
+            "siguro": "maybe"
+          }
         },
         {
           "type": "teach",
@@ -3136,7 +3579,10 @@
           "translation": "It depends.",
           "new_words": [
             "depende"
-          ]
+          ],
+          "word_definitions": {
+            "depende": "it depends"
+          }
         },
         {
           "type": "teach",
@@ -3150,7 +3596,10 @@
           "translation": "Okay / go ahead.",
           "new_words": [
             "sige"
-          ]
+          ],
+          "word_definitions": {
+            "sige": "okay / go ahead"
+          }
         },
         {
           "type": "drill"
@@ -3193,7 +3642,7 @@
       "steps": [
         {
           "type": "scene",
-          "image": "https://picsum.photos/seed/real-conversation-scene/1600/1000",
+          "image": "/static/images/scenes/real-conversation.png",
           "caption": "Level 40: Real Conversation."
         },
         {

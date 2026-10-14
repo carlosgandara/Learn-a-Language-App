@@ -1,17 +1,35 @@
+
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ level.title }} — Tagalog</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <title>{{ level.title }} — {{ language_name }}</title>
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+  >
 </head>
-<body>
+
+<body
+  data-language="{{ current_language }}"
+  data-language-name="{{ language_name }}"
+>
   <header class="topbar">
     <div class="topbar-inner">
-      <a href="/menu" class="brand">← Levels</a>
-      <div class="topbar-center">{{ level.title }}</div>
-      <div class="step-counter">{{ step_index + 1 }} / {{ total_steps }}</div>
+      <a href="{{ url_for('menu') }}" class="brand">
+        ← Levels
+      </a>
+
+      <div class="topbar-center">
+        {{ level.title }}
+      </div>
+
+      <div class="step-counter">
+        {{ step_index + 1 }} / {{ total_steps }}
+      </div>
     </div>
   </header>
 
