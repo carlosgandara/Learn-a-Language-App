@@ -3,343 +3,151 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>Word Rain — Tagalog Practice</title>
-
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='games/word-rain/word-rain.css') }}"
-  >
-
-  <style>
-    .wr-words-button {
-      padding: 9px 15px;
-      border: 1px solid #64748b;
-      border-radius: 9px;
-      background: #1e293b;
-      color: white;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .wr-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.8);
-    }
-
-    .wr-modal[hidden] {
-      display: none !important;
-    }
-
-    .wr-modal-content {
-      width: 100%;
-      max-width: 580px;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 24px;
-      border-radius: 16px;
-      background: #172338;
-      color: #fff;
-      box-shadow: 0 20px 60px rgba(0,0,0,.4);
-    }
-
-    .wr-modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .wr-modal-header h2 {
-      margin: 0;
-    }
-
-    .wr-vocab-list {
-      display: grid;
-      gap: 8px;
-      margin: 20px 0;
-    }
-
-    .wr-vocab-item {
-      display: grid;
-      grid-template-columns: 35% 1fr;
-      gap: 12px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #25344b;
-    }
-
-    .wr-vocab-tagalog {
-      color: #93c5fd;
-      font-weight: bold;
-    }
-
-    .wr-vocab-english {
-      color: #e2e8f0;
-    }
-
-    .wr-modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .wr-modal-actions button {
-      padding: 12px 20px;
-      border: 0;
-      border-radius: 9px;
-      background: #2563eb;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .wr-modal-actions button:hover {
-      background: #1d4ed8;
-    }
-  </style>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Word Rain — Despacio.ai</title>
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='games/word-rain/word-rain.css') }}">
 </head>
-
 <body>
+<div class="wr-page {{ 'wr-page--menu' if level is none else 'wr-page--playing' }}">
 
-  <main class="wr-page">
+  <header class="wr-header">
+    <a class="wr-back" href="{{ url_for('menu') }}">← Menu</a>
+    <div class="wr-title">🌧️ WORD RAIN</div>
+    {% if level is none %}
+      <span class="wr-header-end">LEVELS</span>
+    {% else %}
+      <button id="wr-words-button"
+              class="wr-words-button"
+              type="button">📖 Words</button>
+    {% endif %}
+  </header>
 
-    <header class="wr-header">
-      <div>
-        <h1>🌧️ Word Rain</h1>
-        <p>Translate falling Tagalog words into English.</p>
-      </div>
+  {% if level is none %}
 
-      <div class="wr-header-actions">
-        <button
-          id="wr-words-button"
-          class="wr-words-button"
-          type="button"
-        >
-          📖 Words
-        </button>
+  <main class="wr-levels">
+    <h1>WORD RAIN LEVELS</h1>
+    <p>
+      Translate falling words into English.
+      Master each word with 3 consecutive correct answers.
+      Completed levels can be replayed.
+    </p>
 
-        <a href="{{ url_for('menu') }}">
-          ← Menu
-        </a>
-      </div>
-    </header>
-
-    <section class="wr-stats">
-      <div>
-        <span>Level</span>
-        <strong id="wr-level">{{ level }}</strong>
-      </div>
-
-      <div>
-        <span>Score</span>
-        <strong id="wr-score">0</strong>
-      </div>
-
-      <div>
-        <span>Lives</span>
-        <strong id="wr-lives">❤️❤️❤️</strong>
-      </div>
-
-      <div>
-        <span>Mastered</span>
-        <strong id="wr-mastered">0</strong>
-      </div>
-    </section>
-
-    <section class="wr-progress">
-      <div
-        id="wr-progress-fill"
-        class="wr-progress-fill"
-      ></div>
-    </section>
-
-    <section class="wr-game">
-      <div
-        id="wr-arena"
-        class="wr-arena"
-      ></div>
-
-      <div class="wr-controls">
-        <input
-          id="wr-input"
-          type="text"
-          placeholder="Type English translation..."
-          autocomplete="off"
-          autocapitalize="off"
-          spellcheck="false"
-          disabled
-        >
-
-        <button
-          id="wr-start"
-          type="button"
-        >
-          Start Game
-        </button>
-
-        <button
-          id="wr-restart"
-          type="button"
-          hidden
-        >
-          Restart
-        </button>
-      </div>
-
-      <div
-        id="wr-feedback"
-        class="wr-feedback"
-        aria-live="polite"
-      ></div>
-    </section>
-
+    <div class="wr-level-grid">
+      {% for item in rain_levels %}
+        {% if item.unlocked or item.complete %}
+          <a class="wr-level-card {{ item.status }}"
+             href="{{ url_for('word_rain_game', level=item.number) }}">
+            <strong>LEVEL {{ item.number }}</strong>
+            <span>{{ item.mastered }}/{{ item.total }} mastered</span>
+            <span class="wr-level-status">
+              {% if item.complete %}✓ Completed · Replay
+              {% else %}▶ Play{% endif %}
+            </span>
+          </a>
+        {% else %}
+          <div class="wr-level-card locked">
+            <strong>LEVEL {{ item.number }}</strong>
+            <span>🔒 Locked</span>
+          </div>
+        {% endif %}
+      {% else %}
+        <p>No vocabulary levels available.</p>
+      {% endfor %}
+    </div>
   </main>
 
-  <!-- Vocabulary preview / review popup -->
-  <div
-    id="wr-vocab-modal"
-    class="wr-modal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="wr-vocab-title"
-    hidden
-  >
+  {% else %}
+
+  <div class="wr-level-bar">
+    <strong>LEVEL {{ level }}</strong>
+    <span id="wr-mastered">
+      {{ rain_levels[level - 1].mastered }}/{{ rain_levels[level - 1].total }}
+    </span>
+    <a href="{{ url_for('word_rain_game') }}">All Levels</a>
+  </div>
+
+  <section class="wr-stats" aria-label="Game statistics">
+    <div><span>Score</span><strong id="wr-score">0</strong></div>
+    <div><span>Lives</span><strong id="wr-lives">❤️❤️❤️</strong></div>
+    <div><span>Streak</span><strong id="wr-streak">0</strong></div>
+  </section>
+
+  <div class="wr-progress">
+    <div id="wr-progress-fill" class="wr-progress-fill"></div>
+  </div>
+
+  <main class="wr-game">
+    <div id="wr-arena" class="wr-arena"
+         aria-label="Falling vocabulary words"></div>
+
+    <form id="wr-form" class="wr-controls" autocomplete="off">
+      <input id="wr-input"
+             type="text"
+             placeholder="English translation..."
+             aria-label="English translation"
+             autocapitalize="off"
+             autocomplete="off"
+             spellcheck="false"
+             enterkeyhint="go"
+             maxlength="120"
+             disabled>
+
+      <button id="wr-submit" type="submit" disabled>ENTER</button>
+      <button id="wr-start" type="button">START</button>
+      <button id="wr-restart" type="button" hidden>REPLAY</button>
+    </form>
+
+    <div id="wr-feedback" class="wr-feedback"
+         aria-live="polite"></div>
+  </main>
+
+  <div id="wr-vocab-modal" class="wr-modal" role="dialog"
+       aria-modal="true" aria-labelledby="wr-vocab-title" hidden>
     <div class="wr-modal-content">
+      <h2 id="wr-vocab-title">Level {{ level }} Vocabulary</h2>
+      <p>Study these words. Any listed English meaning is accepted.</p>
 
-      <div class="wr-modal-header">
-        <h2 id="wr-vocab-title">
-          📖 Level {{ level }} Vocabulary
-        </h2>
+      <div class="wr-vocab-list">
+        {% for word in words %}
+          <div class="wr-vocab-item">
+            <strong>{{ word.tagalog }}</strong>
+            <span>
+              {% if word.english is string %}
+                {{ word.english }}
+              {% else %}
+                {{ word.english | join(' / ') }}
+              {% endif %}
+            </span>
+          </div>
+        {% endfor %}
       </div>
 
-      <p>
-        Study these Tagalog words before playing.
-        Any listed English translation is accepted.
-      </p>
-
-      <div
-        id="wr-vocab-list"
-        class="wr-vocab-list"
-      ></div>
-
-      <div class="wr-modal-actions">
-        <button
-          id="wr-vocab-close"
-          type="button"
-        >
-          Start Level {{ level }}
-        </button>
-      </div>
-
+      <button id="wr-vocab-close" class="wr-primary"
+              type="button">START LEVEL {{ level }}</button>
     </div>
   </div>
 
-  <!-- Flask data -->
-  <div
-    id="wr-config"
-    data-words='{{ words | tojson | forceescape }}'
-    data-level='{{ level }}'
-    data-progress='{{ word_progress | tojson | forceescape }}'
-    hidden
-  ></div>
-
-  <script>
-    const wrConfig = document.getElementById("wr-config");
-
-    window.WORD_RAIN = {
-      words: JSON.parse(wrConfig.dataset.words),
-      level: Number(wrConfig.dataset.level),
-      progress: JSON.parse(wrConfig.dataset.progress)
-    };
-
-    (function () {
-      const config = window.WORD_RAIN;
-
-      const modal = document.getElementById("wr-vocab-modal");
-      const list = document.getElementById("wr-vocab-list");
-      const wordsButton = document.getElementById("wr-words-button");
-      const closeButton = document.getElementById("wr-vocab-close");
-
-      let previewSeen = false;
-
-      // These events let word-rain.js pause and resume.
-      function notifyGame(eventName) {
-        document.dispatchEvent(new Event(eventName));
-      }
-
-      function openVocabulary() {
-        list.replaceChildren();
-
-        const level = config.level;
-        const count = 10 + (level - 1) * 5;
-        const previous = level - 1;
-        const start = previous * (20 + (previous - 1) * 5) / 2;
-
-        const levelWords = config.words.slice(
-          start,
-          start + count
-        );
-
-        for (const word of levelWords) {
-          const item = document.createElement("div");
-          item.className = "wr-vocab-item";
-
-          const tagalog = document.createElement("span");
-          tagalog.className = "wr-vocab-tagalog";
-          tagalog.textContent = word.tagalog;
-
-          const english = document.createElement("span");
-          english.className = "wr-vocab-english";
-          english.textContent = Array.isArray(word.english)
-            ? word.english.join(" / ")
-            : word.english;
-
-          item.append(tagalog, english);
-          list.appendChild(item);
-        }
-
-        modal.hidden = false;
-        closeButton.textContent = previewSeen
-          ? "Resume Game"
-          : `Start Level ${level}`;
-
-        notifyGame("wordrain:pause");
-      }
-
-      function closeVocabulary() {
-        modal.hidden = true;
-        previewSeen = true;
-
-        notifyGame("wordrain:resume");
-      }
-
-      wordsButton.addEventListener(
-        "click",
-        openVocabulary
-      );
-
-      closeButton.addEventListener(
-        "click",
-        closeVocabulary
-      );
-
-      // Show vocabulary automatically before gameplay.
-      openVocabulary();
-    })();
+  <script id="wr-config" type="application/json">
+    {{
+      {
+        "words": words,
+        "level": level,
+        "progress": word_progress,
+        "mastery": rain_mastery,
+        "hasNextLevel": level < (rain_levels | length),
+        "answerUrl": url_for("word_rain_answer"),
+        "levelsUrl": url_for("word_rain_game")
+      } | tojson
+    }}
   </script>
 
-  <script
-    src="{{ url_for('static', filename='games/word-rain/word-rain.js') }}"
-    defer
-  ></script>
+  <script defer
+          src="{{ url_for('static', filename='games/word-rain/word-rain.js') }}">
+  </script>
 
+  {% endif %}
+</div>
 </body>
 </html>

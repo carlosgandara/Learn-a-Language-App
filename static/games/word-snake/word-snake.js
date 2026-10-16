@@ -1,1206 +1,1054 @@
-// /static/game/word-snake/word-snake.js
 
+/* ============================================================
+   WORD SNAKE
+   Saved mastery, sequential levels, replay, responsive board
+   ============================================================ */
 
-// --------------------------------------------------
-// ELEMENTS
-// --------------------------------------------------
+(() => {
+  "use strict";
 
-const gameBoard =
-  document.getElementById(
-    "gameBoard"
-  );
+  const $ = id => document.getElementById(id);
 
-const lettersContainer =
-  document.getElementById(
-    "letters"
-  );
+  const board = $("gameBoard");
+  if (!board) return;
 
-const snakeContainer =
-  document.getElementById(
-    "snake"
-  );
+  const lettersLayer = $("letters");
+  const snakeLayer = $("snake");
+  const prompt = $("englishPrompt");
+  const progress = $("wordProgress");
+  const scoreLabel = $("score");
+  const livesLabel = $("lives");
+  const roundLabel = $("round");
+  const masteredLabel = $("masteredCount");
+  const masteryFill = $("masteryFill");
+  const message = $("message");
 
-const englishPrompt =
-  document.getElementById(
-    "englishPrompt"
-  );
+  const gameOver = $("gameOver");
+  const gameOverTitle = $("gameOverTitle");
+  const finalScore = $("finalScore");
+  const restartButton = $("restartButton");
 
-const wordProgress =
-  document.getElementById(
-    "wordProgress"
-  );
+  const wordsButton = $("wordsButton");
+  const wordsModal = $("wordsModal");
+  const wordsList = $("wordsList");
+  const closeWordsButton = $("closeWordsButton");
 
-const scoreElement =
-  document.getElementById(
-    "score"
-  );
+  const pauseButton = $("pauseButton");
+  const pauseModal = $("pauseModal");
+  const resumeButton = $("resumeButton");
 
-const livesElement =
-  document.getElementById(
-    "lives"
-  );
+  let WORDS;
+  let CONFIG;
 
-const roundElement =
-  document.getElementById(
-    "round"
-  );
-
-const message =
-  document.getElementById(
-    "message"
-  );
-
-const gameOverScreen =
-  document.getElementById(
-    "gameOver"
-  );
-
-const gameOverTitle =
-  document.getElementById(
-    "gameOverTitle"
-  );
-
-const finalScore =
-  document.getElementById(
-    "finalScore"
-  );
-
-const restartButton =
-  document.getElementById(
-    "restartButton"
-  );
-
-
-// --------------------------------------------------
-// LOAD WORDS FROM FLASK
-// --------------------------------------------------
-
-const wordDataElement =
-  document.getElementById(
-    "wordSnakeData"
-  );
-
-let WORDS = [];
-
-if (wordDataElement) {
   try {
-    const parsedWords =
-      JSON.parse(
-        wordDataElement.textContent
-      );
+    WORDS = JSON.parse($("wordSnakeData").textContent);
+    CONFIG = JSON.parse($("wordSnakeConfig").textContent);
 
-    if (
-      Array.isArray(
-        parsedWords
-      )
-    ) {
-      WORDS = parsedWords;
+    if (!Array.isArray(WORDS)) {
+      throw new Error("Invalid vocabulary");
     }
-
   } catch (error) {
-    console.error(
-      "Could not load Word Snake vocabulary:",
-      error
-    );
-  }
-}
-
-
-// --------------------------------------------------
-// GAME SETTINGS
-// --------------------------------------------------
-
-const CELL_SIZE = 32;
-
-const MOVE_INTERVAL = 300;
-
-const DISTRACTOR_COUNT = 10;
-
-
-// --------------------------------------------------
-// GAME STATE
-// --------------------------------------------------
-
-let score = 0;
-
-let lives = 3;
-
-let round = 1;
-
-let currentWord = null;
-
-let currentLetterIndex = 0;
-
-let direction = {
-  x: 1,
-  y: 0
-};
-
-let nextDirection = {
-  x: 1,
-  y: 0
-};
-
-let snake = [];
-
-let letters = [];
-
-let gameRunning = true;
-
-let roundLocked = false;
-
-let moveTimer = null;
-
-
-// --------------------------------------------------
-// HELPERS
-// --------------------------------------------------
-
-function randomItem(array) {
-  return array[
-    Math.floor(
-      Math.random() *
-      array.length
-    )
-  ];
-}
-
-
-function randomLetter() {
-  const alphabet =
-    "abcdefghijklmnopqrstuvwxyz";
-
-  return alphabet[
-    Math.floor(
-      Math.random() *
-      alphabet.length
-    )
-  ];
-}
-
-
-function shuffle(array) {
-  const copy = [...array];
-
-  for (
-    let i =
-      copy.length - 1;
-
-    i > 0;
-
-    i--
-  ) {
-    const j =
-      Math.floor(
-        Math.random() *
-        (i + 1)
-      );
-
-    [
-      copy[i],
-      copy[j]
-    ] = [
-      copy[j],
-      copy[i]
-    ];
-  }
-
-  return copy;
-}
-
-
-// --------------------------------------------------
-// WORD SELECTION
-// --------------------------------------------------
-
-function chooseWord() {
-  if (
-    WORDS.length === 0
-  ) {
-    return null;
-  }
-
-  if (
-    WORDS.length === 1
-  ) {
-    return WORDS[0];
-  }
-
-  /*
-    Weak words appear more often.
-
-    A word with more recorded mistakes
-    receives a larger selection weight.
-  */
-
-  const weightedWords = [];
-
-  WORDS.forEach(
-    word => {
-      const wrong =
-        Number(
-          word.wrong || 0
-        );
-
-      const weight =
-        Math.max(
-          1,
-          wrong
-        );
-
-      for (
-        let i = 0;
-        i < weight;
-        i++
-      ) {
-        weightedWords.push(
-          word
-        );
-      }
-    }
-  );
-
-  let nextWord;
-
-  do {
-    nextWord =
-      randomItem(
-        weightedWords
-      );
-
-  } while (
-    currentWord &&
-    WORDS.length > 1 &&
-    nextWord.answer ===
-      currentWord.answer
-  );
-
-  return nextWord;
-}
-
-
-// --------------------------------------------------
-// BOARD SIZE
-// --------------------------------------------------
-
-function getBoardGrid() {
-  const width =
-    gameBoard.clientWidth;
-
-  const height =
-    gameBoard.clientHeight;
-
-  return {
-    columns:
-      Math.max(
-        8,
-        Math.floor(
-          width /
-          CELL_SIZE
-        )
-      ),
-
-    rows:
-      Math.max(
-        8,
-        Math.floor(
-          height /
-          CELL_SIZE
-        )
-      )
-  };
-}
-
-
-// --------------------------------------------------
-// START ROUND
-// --------------------------------------------------
-
-function startRound() {
-  if (
-    !gameRunning
-  ) {
+    console.error("Word Snake configuration:", error);
+    prompt.textContent = "COULD NOT LOAD WORDS";
     return;
   }
 
-  roundLocked = false;
+  const LEVEL = Number(CONFIG.level);
+  const TOTAL_LEVELS = Number(CONFIG.totalLevels);
+  const MASTERY = Number(CONFIG.mastery) || 3;
 
-  currentLetterIndex = 0;
+  const ANSWER_URL = CONFIG.answerUrl;
+  const LEVELS_URL = CONFIG.levelsUrl;
 
-  letters = [];
+  const START_LIVES = 3;
+  const MOVE_INTERVAL = 300;
+  const DISTRACTORS = 10;
 
-  lettersContainer.innerHTML =
-    "";
+  const stats = {};
 
-  snakeContainer.innerHTML =
-    "";
-
-  currentWord =
-    chooseWord();
-
-  if (!currentWord) {
-    englishPrompt.textContent =
-      "NO PRACTICE WORDS FOUND";
-
-    gameRunning = false;
-
-    return;
+  for (const word of WORDS) {
+    stats[word.id] = {
+      correct: Number(word.correct) || 0,
+      wrong: Number(word.wrong) || 0,
+      recall_streak: Number(word.recall_streak) || 0,
+      mastered: Boolean(word.mastered)
+    };
   }
 
-  englishPrompt.textContent =
-    String(
-      currentWord.english
-    ).toUpperCase();
+  let replayMode = Boolean(CONFIG.levelComplete);
+  let replayStreaks = {};
 
-  createWordProgress();
+  let cellSize = 32;
+  let columns = 8;
+  let rows = 8;
 
-  createSnake();
+  let score = 0;
+  let lives = START_LIVES;
+  let round = 1;
 
-  createLetters();
+  let currentWord = null;
+  let letterIndex = 0;
 
-  renderSnake();
-}
+  let snake = [];
+  let letters = [];
 
+  let direction = { x: 1, y: 0 };
+  let nextDirection = { x: 1, y: 0 };
 
-// --------------------------------------------------
-// WORD PROGRESS
-// --------------------------------------------------
+  let running = false;
+  let paused = false;
+  let locked = false;
+  let pending = false;
+  let ended = false;
+  let won = false;
 
-function createWordProgress() {
-  wordProgress.innerHTML =
-    "";
+  let moveTimer = null;
+  let roundTimer = null;
+  let messageTimer = null;
+  let resizeTimer = null;
 
-  const answer =
-    String(
-      currentWord.answer
-    );
+  // ==========================================================
+  // HELPERS
+  // ==========================================================
 
-  for (
-    let i = 0;
-    i < answer.length;
-    i++
-  ) {
-    const slot =
-      document.createElement(
-        "div"
-      );
+  function shuffle(array) {
+    const copy = [...array];
 
-    slot.className =
-      "word-slot";
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
 
-    slot.dataset.index =
-      i;
-
-    slot.textContent =
-      "";
-
-    wordProgress.appendChild(
-      slot
-    );
+    return copy;
   }
-}
 
+  function randomItem(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
 
-function updateWordProgress() {
-  const answer =
-    String(
-      currentWord.answer
+  function allMastered() {
+    return WORDS.length > 0 &&
+      WORDS.every(word => stats[word.id].mastered);
+  }
+
+  function isComplete(word) {
+    if (replayMode) {
+      return (replayStreaks[word.id] || 0) >= MASTERY;
+    }
+
+    return stats[word.id].mastered;
+  }
+
+  function remainingWords() {
+    return WORDS.filter(word => !isComplete(word));
+  }
+
+  function masteredCount() {
+    return WORDS.filter(isComplete).length;
+  }
+
+  function updateUI() {
+    scoreLabel.textContent = score;
+    livesLabel.textContent = lives;
+    roundLabel.textContent = round;
+
+    masteredLabel.textContent =
+      `${masteredCount()} / ${WORDS.length}`;
+
+    const percent = WORDS.length
+      ? (masteredCount() / WORDS.length) * 100
+      : 0;
+
+    masteryFill.style.width = `${percent}%`;
+  }
+
+  function showMessage(text, correct) {
+    clearTimeout(messageTimer);
+
+    message.textContent = text;
+    message.className =
+      `message ${correct ? "correct" : "wrong"} show`;
+
+    messageTimer = setTimeout(() => {
+      message.className = "message";
+    }, 800);
+  }
+
+  // ==========================================================
+  // GRID
+  // ==========================================================
+
+  function calculateGrid() {
+    const width = Math.max(1, board.clientWidth);
+    const height = Math.max(1, board.clientHeight);
+
+    let target = 32;
+
+    if (width < 480) target = 28;
+    if (width < 350 || height < 350) target = 24;
+
+    cellSize = Math.max(
+      14,
+      Math.min(target, Math.floor(height / 8))
     );
 
-  const slots =
-    wordProgress
-      .querySelectorAll(
-        ".word-slot"
+    columns = Math.max(3, Math.floor(width / cellSize));
+    rows = Math.max(3, Math.floor(height / cellSize));
+  }
+
+  function position(element, x, y) {
+    element.style.left =
+      `${x * cellSize + cellSize / 2}px`;
+
+    element.style.top =
+      `${y * cellSize + cellSize / 2}px`;
+  }
+
+  // ==========================================================
+  // WORD SELECTION
+  // ==========================================================
+
+  function chooseWord() {
+    const available = remainingWords();
+    if (!available.length) return null;
+
+    const alternatives = available.filter(
+      word => !currentWord || word.id !== currentWord.id
+    );
+
+    const pool = alternatives.length
+      ? alternatives
+      : available;
+
+    const weighted = [];
+
+    for (const word of pool) {
+      const weight = Math.min(
+        10,
+        Math.max(1, Number(stats[word.id].wrong) || 0)
       );
 
-  slots.forEach(
-    (slot, index) => {
-
-      if (
-        index <
-        currentLetterIndex
-      ) {
-        slot.textContent =
-          answer[index]
-            .toUpperCase();
-
-        slot.classList.add(
-          "filled"
-        );
-
-      } else {
-        slot.textContent =
-          "";
-
-        slot.classList.remove(
-          "filled"
-        );
+      for (let i = 0; i < weight; i++) {
+        weighted.push(word);
       }
     }
-  );
-}
 
+    return randomItem(weighted);
+  }
 
-// --------------------------------------------------
-// SNAKE
-// --------------------------------------------------
+  // ==========================================================
+  // WORD DISPLAY
+  // ==========================================================
 
-function createSnake() {
-  const grid =
-    getBoardGrid();
+  function answerCharacters() {
+    return Array.from(String(currentWord.answer));
+  }
 
-  const startX =
-    Math.floor(
-      grid.columns / 2
-    );
+  function isCollectible(character) {
+    return /[\p{L}\p{N}]/u.test(character);
+  }
 
-  const startY =
-    Math.floor(
-      grid.rows / 2
-    );
+  function advanceSeparators() {
+    const chars = answerCharacters();
 
-  snake = [
-    {
-      x: startX,
-      y: startY
-    },
-    {
-      x: startX - 1,
-      y: startY
-    },
-    {
-      x: startX - 2,
-      y: startY
+    while (
+      letterIndex < chars.length &&
+      !isCollectible(chars[letterIndex])
+    ) {
+      letterIndex++;
     }
-  ];
+  }
 
-  direction = {
-    x: 1,
-    y: 0
-  };
+  function createWordProgress() {
+    progress.replaceChildren();
 
-  nextDirection = {
-    x: 1,
-    y: 0
-  };
-}
+    for (const character of answerCharacters()) {
+      const slot = document.createElement("div");
+      slot.className = "word-slot";
 
+      if (!isCollectible(character)) {
+        slot.textContent = character === " " ? "\u00a0" : character;
+        slot.style.borderBottom = "none";
+      }
 
-// --------------------------------------------------
-// LETTER CREATION
-// --------------------------------------------------
+      progress.appendChild(slot);
+    }
 
-function createLetters() {
-  const answer =
-    String(
-      currentWord.answer
-    ).toLowerCase();
+    updateWordProgress();
+  }
 
-  /*
-    Put every required letter for the word
-    onto the board.
+  function updateWordProgress() {
+    const chars = answerCharacters();
+    const slots = progress.querySelectorAll(".word-slot");
 
-    Example:
+    slots.forEach((slot, index) => {
+      if (!isCollectible(chars[index])) return;
 
-    pupunta
+      const filled = index < letterIndex;
 
-    p u p u n t a
+      slot.textContent = filled
+        ? chars[index].toUpperCase()
+        : "";
 
-    Duplicate letters remain separate objects.
-  */
-
-  const requiredLetters =
-    answer
-      .split("")
-      .map(
-        letter => ({
-          letter: letter,
-          required: true
-        })
-      );
-
-
-  /*
-    Add random distractor letters.
-  */
-
-  const distractors = [];
-
-  for (
-    let i = 0;
-    i < DISTRACTOR_COUNT;
-    i++
-  ) {
-    distractors.push({
-      letter:
-        randomLetter(),
-
-      required:
-        false
+      slot.classList.toggle("filled", filled);
     });
   }
 
+  // ==========================================================
+  // SNAKE
+  // ==========================================================
 
-  const allLetters =
-    shuffle([
-      ...requiredLetters,
-      ...distractors
-    ]);
+  function createSnake() {
+    const x = Math.floor(columns / 2);
+    const y = Math.floor(rows / 2);
 
+    snake = [
+      { x, y },
+      { x: (x - 1 + columns) % columns, y },
+      { x: (x - 2 + columns) % columns, y }
+    ];
 
-  allLetters.forEach(
-    item => {
-      const position =
-        findFreePosition();
+    direction = { x: 1, y: 0 };
+    nextDirection = { x: 1, y: 0 };
+  }
 
-      if (!position) {
-        return;
-      }
+  function renderSnake() {
+    snakeLayer.replaceChildren();
 
-      letters.push({
-        letter:
-          item.letter,
+    snake.forEach((segment, index) => {
+      const element = document.createElement("div");
 
-        x:
-          position.x,
+      element.className = index === 0
+        ? "snake-segment snake-head"
+        : "snake-segment";
 
-        y:
-          position.y,
+      if (index === 0) element.textContent = "●";
 
-        element:
-          null
-      });
+      position(element, segment.x, segment.y);
+      snakeLayer.appendChild(element);
+    });
+  }
+
+  // ==========================================================
+  // LETTERS
+  // ==========================================================
+
+  function occupiedCells() {
+    return new Set(
+      snake.map(segment => `${segment.x},${segment.y}`)
+    );
+  }
+
+  function freeCells() {
+    const occupied = occupiedCells();
+
+    for (const letter of letters) {
+      occupied.add(`${letter.x},${letter.y}`);
     }
-  );
 
+    const free = [];
 
-  renderLetters();
-}
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < columns; x++) {
+        if (!occupied.has(`${x},${y}`)) {
+          free.push({ x, y });
+        }
+      }
+    }
 
+    return free;
+  }
 
-// --------------------------------------------------
-// FREE POSITION
-// --------------------------------------------------
+  function addLetter(character, required = false) {
+    const free = freeCells();
+    if (!free.length) return false;
 
-function findFreePosition() {
-  const grid =
-    getBoardGrid();
+    const location = randomItem(free);
 
-  for (
-    let attempt = 0;
-    attempt < 200;
-    attempt++
-  ) {
-    const x =
-      Math.floor(
-        Math.random() *
-        grid.columns
-      );
+    letters.push({
+      letter: character,
+      required,
+      x: location.x,
+      y: location.y
+    });
 
-    const y =
-      Math.floor(
-        Math.random() *
-        grid.rows
-      );
+    return true;
+  }
 
-    const onSnake =
-      snake.some(
-        segment =>
-          segment.x === x &&
-          segment.y === y
-      );
+  function createLetters() {
+    letters = [];
 
-    const onLetter =
-      letters.some(
-        item =>
-          item.x === x &&
-          item.y === y
-      );
+    const required = answerCharacters()
+      .filter(isCollectible)
+      .map(character => character.toLowerCase());
 
-    if (
-      !onSnake &&
-      !onLetter
+    const available = freeCells().length;
+
+    if (required.length > available) {
+      showMessage("Board too small for this word", false);
+      return false;
+    }
+
+    for (const character of shuffle(required)) {
+      addLetter(character, true);
+    }
+
+    const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+    for (
+      let i = 0;
+      i < Math.min(DISTRACTORS, freeCells().length);
+      i++
     ) {
-      return {
-        x: x,
-        y: y
+      addLetter(randomItem(Array.from(alphabet)));
+    }
+
+    renderLetters();
+    return true;
+  }
+
+  function renderLetters() {
+    lettersLayer.replaceChildren();
+
+    for (const item of letters) {
+      const element = document.createElement("div");
+
+      element.className = "letter";
+      element.textContent = item.letter.toUpperCase();
+
+      position(element, item.x, item.y);
+      lettersLayer.appendChild(element);
+    }
+  }
+
+  function removeLetter(item) {
+    letters = letters.filter(letter => letter !== item);
+  }
+
+  function ensureNextLetter() {
+    const chars = answerCharacters();
+    const expected = chars[letterIndex]?.toLowerCase();
+
+    if (!expected) return;
+
+    const available = letters.some(
+      item => item.letter.toLowerCase() === expected
+    );
+
+    if (!available) {
+      addLetter(expected, true);
+    }
+
+    renderLetters();
+  }
+
+  // ==========================================================
+  // SERVER PROGRESS
+  // ==========================================================
+
+  async function saveResult(word, correct) {
+    const response = await fetch(ANSWER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        level: LEVEL,
+        word_id: word.id,
+        correct,
+        replay: replayMode
+      })
+    });
+
+    let result;
+
+    try {
+      result = await response.json();
+    } catch {
+      throw new Error("Invalid server response");
+    }
+
+    if (!response.ok || !result.ok) {
+      throw new Error(
+        result.error || "Could not save progress"
+      );
+    }
+
+    return result;
+  }
+
+  function applyResult(word, result) {
+    if (replayMode) return;
+
+    if (result.stats) {
+      stats[word.id] = {
+        ...stats[word.id],
+        ...result.stats
       };
     }
   }
 
-  return null;
-}
+  // ==========================================================
+  // GAME COMPLETION
+  // ==========================================================
 
+  function finish(success) {
+    running = false;
+    ended = true;
+    locked = true;
+    won = success;
 
-// --------------------------------------------------
-// RENDER LETTERS
-// --------------------------------------------------
+    clearTimeout(roundTimer);
 
-function renderLetters() {
-  lettersContainer.innerHTML =
-    "";
+    const levelComplete = success &&
+      (replayMode
+        ? remainingWords().length === 0
+        : allMastered());
 
-  letters.forEach(
-    item => {
-      const element =
-        document.createElement(
-          "div"
-        );
+    gameOverTitle.textContent = levelComplete
+      ? (replayMode ? "REPLAY COMPLETE!" : "LEVEL COMPLETE!")
+      : "GAME OVER";
 
-      element.className =
-        "letter";
+    finalScore.textContent = `Score: ${score}`;
 
-      element.textContent =
-        item.letter
-          .toUpperCase();
-
-      element.style.left =
-        (
-          item.x *
-          CELL_SIZE +
-          CELL_SIZE / 2
-        ) +
-        "px";
-
-      element.style.top =
-        (
-          item.y *
-          CELL_SIZE +
-          CELL_SIZE / 2
-        ) +
-        "px";
-
-      item.element =
-        element;
-
-      lettersContainer
-        .appendChild(
-          element
-        );
+    if (!levelComplete) {
+      restartButton.textContent = "Try Again";
+    } else if (replayMode) {
+      restartButton.textContent = "Replay Again";
+    } else if (LEVEL < TOTAL_LEVELS) {
+      restartButton.textContent = "Next Level";
+    } else {
+      restartButton.textContent = "All Levels Complete";
     }
-  );
-}
 
+    gameOver.classList.remove("hidden");
+  }
 
-// --------------------------------------------------
-// RENDER SNAKE
-// --------------------------------------------------
+  // ==========================================================
+  // WORD COMPLETION
+  // ==========================================================
 
-function renderSnake() {
-  snakeContainer.innerHTML =
-    "";
+  async function completeWord() {
+    locked = true;
+    pending = true;
 
-  snake.forEach(
-    (segment, index) => {
-      const element =
-        document.createElement(
-          "div"
-        );
+    try {
+      const word = currentWord;
+      const result = await saveResult(word, true);
 
-      element.className =
-        "snake-segment";
-
-      if (
-        index === 0
-      ) {
-        element.classList.add(
-          "snake-head"
-        );
-
-        element.textContent =
-          "●";
+      if (replayMode) {
+        replayStreaks[word.id] =
+          (replayStreaks[word.id] || 0) + 1;
+      } else {
+        applyResult(word, result);
       }
 
-      element.style.left =
-        (
-          segment.x *
-          CELL_SIZE +
-          CELL_SIZE / 2
-        ) +
-        "px";
+      score += 5;
+      updateUI();
 
-      element.style.top =
-        (
-          segment.y *
-          CELL_SIZE +
-          CELL_SIZE / 2
-        ) +
-        "px";
+      showMessage(
+        `${word.answer.toUpperCase()} ✓`,
+        true
+      );
 
-      snakeContainer
-        .appendChild(
-          element
-        );
+      if (remainingWords().length === 0) {
+        finish(true);
+        return;
+      }
+
+      roundTimer = setTimeout(() => {
+        if (!running) return;
+
+        if (paused) {
+          // The next round waits until the player resumes.
+          return;
+        }
+
+        round++;
+        startRound();
+      }, 1000);
+
+    } catch (error) {
+      showMessage(error.message, false);
+      finish(false);
+    } finally {
+      pending = false;
     }
-  );
-}
-
-
-// --------------------------------------------------
-// MOVE SNAKE
-// --------------------------------------------------
-
-function moveSnake() {
-  if (
-    !gameRunning ||
-    roundLocked
-  ) {
-    return;
   }
 
-  direction = {
-    ...nextDirection
-  };
+  // ==========================================================
+  // LETTER COLLISION
+  // ==========================================================
 
-  const grid =
-    getBoardGrid();
+  async function handleLetter(item) {
+    if (locked || pending) return;
 
-  const head =
-    snake[0];
+    const chars = answerCharacters();
+    const expected = chars[letterIndex];
 
-  let newX =
-    head.x +
-    direction.x;
-
-  let newY =
-    head.y +
-    direction.y;
-
-
-  /*
-    Wrap around the board.
-
-    Leaving one side enters from
-    the opposite side.
-  */
-
-  if (
-    newX < 0
-  ) {
-    newX =
-      grid.columns - 1;
-  }
-
-  if (
-    newX >=
-    grid.columns
-  ) {
-    newX = 0;
-  }
-
-  if (
-    newY < 0
-  ) {
-    newY =
-      grid.rows - 1;
-  }
-
-  if (
-    newY >=
-    grid.rows
-  ) {
-    newY = 0;
-  }
-
-
-  const newHead = {
-    x: newX,
-    y: newY
-  };
-
-
-  snake.unshift(
-    newHead
-  );
-
-
-  const eatenLetter =
-    letters.find(
-      item =>
-        item.x ===
-          newHead.x &&
-        item.y ===
-          newHead.y
-    );
-
-
-  if (
-    eatenLetter
-  ) {
-    handleLetter(
-      eatenLetter
-    );
-
-  } else {
-    snake.pop();
-  }
-
-
-  renderSnake();
-}
-
-
-// --------------------------------------------------
-// HANDLE LETTER
-// --------------------------------------------------
-
-function handleLetter(
-  item
-) {
-  if (
-    roundLocked
-  ) {
-    return;
-  }
-
-  const answer =
-    String(
-      currentWord.answer
-    ).toLowerCase();
-
-  const expectedLetter =
-    answer[
-      currentLetterIndex
-    ];
-
-
-  if (
-    item.letter
-      .toLowerCase() ===
-    expectedLetter
-      .toLowerCase()
-  ) {
-    /*
-      Correct letter.
-
-      Snake grows because we do NOT
-      remove the tail during this move.
-    */
-
-    score += 1;
-
-    scoreElement.textContent =
-      score;
-
-    currentLetterIndex++;
-
-    showMessage(
-      `+1 ${item.letter.toUpperCase()}`,
-      true
-    );
-
-    removeLetter(
-      item
-    );
-
-    updateWordProgress();
-
-
-    /*
-      Entire word completed.
-    */
+    if (!expected) return;
 
     if (
-      currentLetterIndex >=
-      answer.length
+      item.letter.toLowerCase() === expected.toLowerCase()
     ) {
-      completeWord();
+      removeLetter(item);
+
+      letterIndex++;
+      advanceSeparators();
+
+      score++;
+      updateWordProgress();
+      updateUI();
+
+      showMessage(`+1 ${item.letter.toUpperCase()}`, true);
+
+      if (letterIndex >= chars.length) {
+        renderLetters();
+        await completeWord();
+      } else {
+        ensureNextLetter();
+      }
+
+      return;
     }
 
-  } else {
-    /*
-      Wrong letter.
+    locked = true;
+    pending = true;
 
-      Lose a life and remove the
-      wrong letter from the board.
+    try {
+      const result = await saveResult(currentWord, false);
 
-      The expected letter does NOT change.
-    */
+      if (replayMode) {
+        replayStreaks[currentWord.id] = 0;
+      } else {
+        applyResult(currentWord, result);
+      }
 
-    lives--;
+      lives--;
 
-    livesElement.textContent =
-      lives;
+      removeLetter(item);
+      ensureNextLetter();
 
-    showMessage(
-      `WRONG — FIND ${expectedLetter.toUpperCase()}`,
-      false
-    );
+      showMessage(
+        `WRONG — FIND ${expected.toUpperCase()}`,
+        false
+      );
 
-    removeLetter(
-      item
-    );
+      updateUI();
 
+      if (lives <= 0) {
+        finish(false);
+      }
+    } catch (error) {
+      showMessage(error.message, false);
+      finish(false);
+    } finally {
+      pending = false;
 
-    /*
-      Because eating normally grows the snake,
-      remove the tail for a wrong letter.
-    */
+      if (running) locked = false;
+    }
+  }
 
-    snake.pop();
+  // ==========================================================
+  // ROUND
+  // ==========================================================
 
+  function startRound() {
+    if (!running || paused) return;
 
+    clearTimeout(roundTimer);
+    roundTimer = null;
+
+    locked = true;
+    letterIndex = 0;
+
+    letters = [];
+    snake = [];
+
+    lettersLayer.replaceChildren();
+    snakeLayer.replaceChildren();
+
+    currentWord = chooseWord();
+
+    if (!currentWord) {
+      finish(true);
+      return;
+    }
+
+    prompt.textContent =
+      String(currentWord.english).toUpperCase();
+
+    calculateGrid();
+    createSnake();
+    advanceSeparators();
+    createWordProgress();
+
+    if (!createLetters()) {
+      finish(false);
+      return;
+    }
+
+    renderSnake();
+    updateUI();
+
+    locked = false;
+  }
+
+  // ==========================================================
+  // MOVEMENT
+  // ==========================================================
+
+  function moveSnake() {
     if (
-      lives <= 0
+      !running ||
+      paused ||
+      locked ||
+      pending ||
+      !snake.length
     ) {
-      endGame();
+      return;
     }
-  }
-}
 
+    direction = { ...nextDirection };
 
-// --------------------------------------------------
-// REMOVE LETTER
-// --------------------------------------------------
+    const head = snake[0];
 
-function removeLetter(
-  item
-) {
-  if (
-    item.element
-  ) {
-    item.element.remove();
-  }
+    const newHead = {
+      x: (head.x + direction.x + columns) % columns,
+      y: (head.y + direction.y + rows) % rows
+    };
 
-  letters =
-    letters.filter(
+    snake.unshift(newHead);
+
+    const item = letters.find(
       letter =>
-        letter !== item
-    );
-}
-
-
-// --------------------------------------------------
-// COMPLETE WORD
-// --------------------------------------------------
-
-function completeWord() {
-  roundLocked = true;
-
-  /*
-    Bonus for completing the whole word.
-  */
-
-  score += 5;
-
-  scoreElement.textContent =
-    score;
-
-  showMessage(
-    `${String(
-      currentWord.answer
-    ).toUpperCase()} ✓`,
-    true
-  );
-
-
-  /*
-    Move to the next word.
-  */
-
-  setTimeout(
-    () => {
-      round++;
-
-      roundElement.textContent =
-        round;
-
-      startRound();
-    },
-    1000
-  );
-}
-
-
-// --------------------------------------------------
-// MESSAGE
-// --------------------------------------------------
-
-function showMessage(
-  text,
-  correct
-) {
-  message.textContent =
-    text;
-
-  message.className =
-    correct
-      ? "message correct show"
-      : "message wrong show";
-
-  setTimeout(
-    () => {
-      message.className =
-        "message";
-    },
-    700
-  );
-}
-
-
-// --------------------------------------------------
-// GAME OVER
-// --------------------------------------------------
-
-function endGame() {
-  gameRunning = false;
-
-  roundLocked = true;
-
-  finalScore.textContent =
-    score;
-
-  gameOverTitle.textContent =
-    "GAME OVER";
-
-  gameOverScreen
-    .classList
-    .remove(
-      "hidden"
-    );
-}
-
-
-// --------------------------------------------------
-// RESTART
-// --------------------------------------------------
-
-function restartGame() {
-  score = 0;
-
-  lives = 3;
-
-  round = 1;
-
-  currentWord = null;
-
-  currentLetterIndex = 0;
-
-  scoreElement.textContent =
-    score;
-
-  livesElement.textContent =
-    lives;
-
-  roundElement.textContent =
-    round;
-
-  gameRunning = true;
-
-  roundLocked = false;
-
-  gameOverScreen
-    .classList
-    .add(
-      "hidden"
+        letter.x === newHead.x &&
+        letter.y === newHead.y
     );
 
-  startRound();
-}
+    if (item) {
+      const expected =
+        answerCharacters()[letterIndex]?.toLowerCase();
 
+      const correct =
+        item.letter.toLowerCase() === expected;
 
-// --------------------------------------------------
-// KEYBOARD
-// --------------------------------------------------
-
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.code ===
-      "ArrowUp"
-    ) {
-      event.preventDefault();
-
-      if (
-        direction.y !== 1
-      ) {
-        nextDirection = {
-          x: 0,
-          y: -1
-        };
+      // Grow only for a correct letter.
+      // Never remove the tail a second time.
+      if (!correct) {
+        snake.pop();
       }
-    }
 
-
-    if (
-      event.code ===
-      "ArrowDown"
-    ) {
-      event.preventDefault();
-
-      if (
-        direction.y !== -1
-      ) {
-        nextDirection = {
-          x: 0,
-          y: 1
-        };
-      }
-    }
-
-
-    if (
-      event.code ===
-      "ArrowLeft"
-    ) {
-      event.preventDefault();
-
-      if (
-        direction.x !== 1
-      ) {
-        nextDirection = {
-          x: -1,
-          y: 0
-        };
-      }
-    }
-
-
-    if (
-      event.code ===
-      "ArrowRight"
-    ) {
-      event.preventDefault();
-
-      if (
-        direction.x !== -1
-      ) {
-        nextDirection = {
-          x: 1,
-          y: 0
-        };
-      }
+      renderSnake();
+      void handleLetter(item);
+    } else {
+      snake.pop();
+      renderSnake();
     }
   }
-);
 
+  function changeDirection(x, y) {
+    if (!running || paused || locked || pending) return;
 
-// --------------------------------------------------
-// START / RESTART
-// --------------------------------------------------
+    if (
+      direction.x === -x &&
+      direction.y === -y
+    ) {
+      return;
+    }
 
-restartButton.addEventListener(
-  "click",
-  restartGame
-);
+    nextDirection = { x, y };
+  }
 
+  // ==========================================================
+  // KEYBOARD
+  // ==========================================================
 
-if (
-  WORDS.length > 0
-) {
-  startRound();
+  document.addEventListener("keydown", event => {
+    if (event.code === "Escape") {
+      if (!wordsModal.classList.contains("hidden")) {
+        closeWords();
+      } else if (!pauseModal.classList.contains("hidden")) {
+        resumeGame();
+      }
+      return;
+    }
 
-  moveTimer =
-    setInterval(
-      moveSnake,
-      MOVE_INTERVAL
-    );
+    const directions = {
+      ArrowUp: [0, -1],
+      ArrowDown: [0, 1],
+      ArrowLeft: [-1, 0],
+      ArrowRight: [1, 0],
+      KeyW: [0, -1],
+      KeyS: [0, 1],
+      KeyA: [-1, 0],
+      KeyD: [1, 0]
+    };
 
-} else {
-  englishPrompt.textContent =
-    "NO PRACTICE WORDS FOUND";
+    const selected = directions[event.code];
+    if (!selected) return;
 
-  gameRunning = false;
-}
+    event.preventDefault();
+    changeDirection(...selected);
+  });
+
+  // ==========================================================
+  // TOUCH
+  // ==========================================================
+
+  let touchX = null;
+  let touchY = null;
+
+  board.addEventListener("touchstart", event => {
+    if (!event.touches.length) return;
+
+    touchX = event.touches[0].clientX;
+    touchY = event.touches[0].clientY;
+  }, { passive: true });
+
+  board.addEventListener("touchend", event => {
+    if (
+      touchX === null ||
+      touchY === null ||
+      !event.changedTouches.length
+    ) {
+      return;
+    }
+
+    const dx = event.changedTouches[0].clientX - touchX;
+    const dy = event.changedTouches[0].clientY - touchY;
+
+    touchX = null;
+    touchY = null;
+
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) {
+      return;
+    }
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      changeDirection(dx > 0 ? 1 : -1, 0);
+    } else {
+      changeDirection(0, dy > 0 ? 1 : -1);
+    }
+  }, { passive: true });
+
+  board.addEventListener("touchcancel", () => {
+    touchX = null;
+    touchY = null;
+  });
+
+  // ==========================================================
+  // VOCABULARY
+  // ==========================================================
+
+  function renderVocabulary() {
+    wordsList.replaceChildren();
+
+    for (const word of WORDS) {
+      const row = document.createElement("div");
+      row.className = "vocab-row";
+
+      const translation = document.createElement("div");
+
+      const name = document.createElement("strong");
+      name.textContent = word.answer;
+
+      const english = document.createElement("small");
+      english.textContent = word.english;
+
+      translation.appendChild(name);
+      translation.appendChild(english);
+
+      const status = document.createElement("span");
+      status.className = "vocab-status";
+
+      if (replayMode) {
+        status.textContent =
+          `${replayStreaks[word.id] || 0}/${MASTERY}`;
+      } else if (stats[word.id].mastered) {
+        status.textContent = "✓ Mastered";
+      } else {
+        status.textContent =
+          `${stats[word.id].recall_streak}/${MASTERY}`;
+      }
+
+      row.appendChild(translation);
+      row.appendChild(status);
+      wordsList.appendChild(row);
+    }
+  }
+
+  function openWords() {
+    if (!running || ended) return;
+
+    paused = true;
+    renderVocabulary();
+    wordsModal.classList.remove("hidden");
+  }
+
+  function resumePendingRound() {
+    if (
+      running &&
+      !paused &&
+      locked &&
+      !pending &&
+      roundTimer
+    ) {
+      clearTimeout(roundTimer);
+      roundTimer = null;
+      round++;
+      startRound();
+    }
+  }
+
+  function closeWords() {
+    wordsModal.classList.add("hidden");
+    paused = !pauseModal.classList.contains("hidden");
+    resumePendingRound();
+  }
+
+  wordsButton.addEventListener("click", openWords);
+  closeWordsButton.addEventListener("click", closeWords);
+
+  // ==========================================================
+  // PAUSE
+  // ==========================================================
+
+  function pauseGame() {
+    if (!running || ended) return;
+
+    paused = true;
+    pauseModal.classList.remove("hidden");
+  }
+
+  function resumeGame() {
+    pauseModal.classList.add("hidden");
+    paused = !wordsModal.classList.contains("hidden");
+    resumePendingRound();
+  }
+
+  pauseButton.addEventListener("click", pauseGame);
+  resumeButton.addEventListener("click", resumeGame);
+
+  // ==========================================================
+  // START / RESTART / NEXT LEVEL
+  // ==========================================================
+
+  function startGame() {
+    clearTimeout(roundTimer);
+    roundTimer = null;
+
+    if (!WORDS.length) {
+      prompt.textContent = "NO PRACTICE WORDS FOUND";
+      return;
+    }
+
+    replayMode = allMastered();
+
+    replayStreaks = {};
+    for (const word of WORDS) {
+      replayStreaks[word.id] = 0;
+    }
+
+    score = 0;
+    lives = START_LIVES;
+    round = 1;
+
+    currentWord = null;
+    letterIndex = 0;
+
+    running = true;
+    paused = false;
+    locked = false;
+    pending = false;
+    ended = false;
+    won = false;
+
+    gameOver.classList.add("hidden");
+    wordsModal.classList.add("hidden");
+    pauseModal.classList.add("hidden");
+
+    updateUI();
+    startRound();
+
+    if (!moveTimer) {
+      moveTimer = setInterval(moveSnake, MOVE_INTERVAL);
+    }
+  }
+
+  restartButton.addEventListener("click", () => {
+    // A completed level advances to the next level.
+    if (ended && won && !replayMode && allMastered()) {
+      if (LEVEL < TOTAL_LEVELS) {
+        window.location.assign(
+          `${LEVELS_URL}?level=${LEVEL + 1}`
+        );
+      } else {
+        window.location.assign(LEVELS_URL);
+      }
+      return;
+    }
+
+    // Failure retries the SAME level.
+    // Replay completion replays the SAME level.
+    startGame();
+  });
+
+  // ==========================================================
+  // RESIZE
+  // ==========================================================
+
+  let previousWidth = board.clientWidth;
+  let previousHeight = board.clientHeight;
+
+  function handleResize() {
+    const width = board.clientWidth;
+    const height = board.clientHeight;
+
+    if (
+      width === previousWidth &&
+      height === previousHeight
+    ) {
+      return;
+    }
+
+    previousWidth = width;
+    previousHeight = height;
+
+    clearTimeout(resizeTimer);
+
+    resizeTimer = setTimeout(() => {
+      if (!running || pending || paused || locked) return;
+
+      // Preserve score, lives and saved mastery.
+      // Rebuild only the unfinished word.
+      letterIndex = 0;
+      calculateGrid();
+      createSnake();
+      advanceSeparators();
+      createWordProgress();
+
+      if (!createLetters()) {
+        finish(false);
+        return;
+      }
+
+      renderSnake();
+    }, 180);
+  }
+
+  if (typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(handleResize).observe(board);
+  } else {
+    window.addEventListener("resize", handleResize);
+  }
+
+  // ==========================================================
+  // INITIALIZE
+  // ==========================================================
+
+  calculateGrid();
+  updateUI();
+  startGame();
+
+})();

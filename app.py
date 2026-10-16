@@ -6,7 +6,6 @@ import re
 import threading
 import unicodedata
 from datetime import date
-from pathlib import Path
 from flask import (
     Flask, render_template, request,
     redirect, url_for, jsonify, g
@@ -107,7 +106,7 @@ def expand_steps(steps):
                 "key": key,
                 "phrase": step["phrase"],
                 "translation": step["translation"],
-                "definition": definitions.get(key, ""),
+                "english": definitions.get(key, ""),
             })
         out.append({
             "type": "preview",
@@ -224,11 +223,7 @@ def load_vocabulary_data(language):
 
 
 def get_lesson_words(level):
-    """Word-card data drawn solely from this level's own teaching steps.
-
-    When a word_definitions mapping is absent, the English field is blank;
-    the full phrase translation remains available as contextual guidance.
-    """
+    """Word-card data from one level's expanded teaching steps."""
     words = {}
     for step in level.get("steps", []):
         if step.get("type") != "word":
@@ -236,12 +231,28 @@ def get_lesson_words(level):
         key = step.get("key")
         if not key:
             continue
-        words.setdefault(key, {
-            "english": step.get("definition", ""),
-            "image": "",
-            "phrase": step.get("phrase", ""),
-            "translation": step.get("translation", ""),
-        })
+        english = step.get("english") or step.get("definition", "")
+        if key not in words or (not words[key]["english"] and english):
+            words[key] = {
+                "english": english,
+                "image": "",
+                "phrase": step.get("phrase", ""),
+                "translation": step.get("translation", ""),
+            }
+    return words
+
+
+def get_all_lesson_words():
+    """English definitions from ALL levels in the selected language.
+
+    Used by lesson word cards and drills; independent vocabulary games
+    continue using their separate concept-based vocabulary data.
+    """
+    words = {}
+    for level in get_levels()["levels"]:
+        for key, details in get_lesson_words(level).items():
+            if key not in words or (not words[key]["english"] and details["english"]):
+                words[key] = details
     return words
 
 
@@ -314,6 +325,8 @@ def progress_path():
 def default_progress():
     levels = get_levels()["levels"]
     return {
+        "daily_dose": {"number": 0, "word_ids": [], "completed": False},
+        "mastery": {},
         "level_id": (
             levels[0]["id"]
             if levels else None
@@ -330,6 +343,41 @@ def default_progress():
             "days": {}
         }
     }
+def synchronize_game_mastery(progress):
+    """Unify mastered concept IDs across all four vocabulary games.
+
+    Existing correct/wrong counts stay game-specific. Mastery is shared.
+    Legacy Word Rain word keys are migrated before merging.
+    """
+    catalog = dose_catalog()
+    rain = word_rain_store(progress)
+    changed = word_rain_migrate_progress(rain, catalog)
+    games = progress.setdefault("games", {})
+    stores = [
+        progress.setdefault("mastery", {}),
+        rain.setdefault("words", {}),
+        games.setdefault("word_shooter", {}).setdefault("words", {}),
+        games.setdefault("word_snake", {}).setdefault("words", {}),
+    ]
+
+    for cid in catalog:
+        mastered = any(
+            bool(store.get(cid, {}).get("mastered", False))
+            for store in stores
+        ) or word_rain_is_mastered(rain, cid)
+        if not mastered:
+            continue
+        for store in stores:
+            stats = store.setdefault(cid, {})
+            if not stats.get("mastered", False):
+                stats["mastered"] = True
+                changed = True
+            if stats.get("recall_streak", 0) < 3:
+                stats["recall_streak"] = 3
+                changed = True
+    return changed
+
+
 def get_progress():
     p = load_json(
         progress_path(),
@@ -341,11 +389,14 @@ def get_progress():
             p[key] = value
     for key, value in defaults["study"].items():
         p["study"].setdefault(key, value)
+    if synchronize_game_mastery(p):
+        save_progress(p)
     return p
 def save_progress(p):
     """
     Atomically replace the language's progress file.
     """
+    synchronize_game_mastery(p)
     path = progress_path()
     path.parent.mkdir(
         parents=True,
@@ -573,7 +624,7 @@ def level_view(level_id):
         step=step,
         step_index=idx,
         total_steps=len(steps),
-        vocab=get_lesson_words(level),
+        vocab=get_all_lesson_words(),
         progress=p
     )
 # ============================================================
@@ -764,6 +815,206 @@ def colors_reset():
         )
     })
 # ============================================================
+# DAILY DOSE — 10 WORDS PER LEVEL, 3 CONSECUTIVE RECALLS
+# ============================================================
+DAILY_DOSE_SIZE = 10
+DAILY_DOSE_RECALL_TARGET = 3
+
+
+def dose_catalog():
+    """Read concepts in source order, with translations for this language."""
+    raw = load_json(DATA_DIR / "concepts.json", {})
+    translations = load_json(
+        DATA_DIR / "languages" / "vocabulary" / f"{current_language()}.json", {}
+    )
+    if isinstance(raw, dict):
+        raw = raw.get("concepts", raw)
+    if isinstance(translations, dict):
+        translations = translations.get("translations", translations)
+    if not isinstance(translations, dict):
+        return {}
+    if isinstance(raw, dict):
+        items = [dict(details, id=cid) for cid, details in raw.items()
+                 if isinstance(details, dict)]
+    elif isinstance(raw, list):
+        items = raw
+    else:
+        items = []
+
+    catalog = {}
+    folder = app.config.get("VOCABULARY_IMAGE_FOLDER", "images/vocabulary")
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        cid = item.get("id")
+        english = item.get("label") or item.get("english")
+        translated = translations.get(cid) if isinstance(cid, str) else None
+        if not (cid and english and isinstance(translated, str) and translated.strip()):
+            continue
+        image = str(item.get("image") or "").strip()
+        catalog[cid] = {
+            "id": cid,
+            "english": str(english),
+            "tagalog": translated.strip(),
+            "image_url": url_for("static", filename=f"{folder}/{image}") if image else "",
+        }
+    return catalog
+
+
+def dose_stats(progress, concept_id):
+    stats = progress.setdefault("mastery", {}).setdefault(concept_id, {})
+    for field in ("correct", "wrong", "recall_correct", "recall_wrong", "recall_streak"):
+        stats.setdefault(field, 0)
+    stats.setdefault("mastered", False)
+    return stats
+
+
+def dose_is_mastered(progress, concept_id):
+    return bool(progress.get("mastery", {}).get(concept_id, {}).get("mastered", False))
+
+
+def dose_levels(catalog):
+    words = list(catalog.values())
+    return [
+        {"number": i // DAILY_DOSE_SIZE + 1,
+         "id": f"dose-level-{i // DAILY_DOSE_SIZE + 1}",
+         "words": words[i:i + DAILY_DOSE_SIZE]}
+        for i in range(0, len(words), DAILY_DOSE_SIZE)
+    ]
+
+
+def dose_level_complete(progress, level):
+    return bool(level["words"]) and all(
+        dose_is_mastered(progress, word["id"]) for word in level["words"]
+    )
+
+
+def dose_dashboard(progress, catalog):
+    levels = dose_levels(catalog)
+    cards = []
+    previous_complete = True
+    current_level = None
+    for level in levels:
+        total = len(level["words"])
+        mastered = sum(dose_is_mastered(progress, word["id"]) for word in level["words"])
+        complete = mastered == total
+        unlocked = previous_complete
+        if unlocked and not complete and current_level is None:
+            current_level = level["number"]
+        cards.append({
+            "number": level["number"], "id": level["id"],
+            "total": total, "mastered": mastered,
+            "complete": complete, "unlocked": unlocked,
+            "status": "completed" if complete else ("unlocked" if unlocked else "locked"),
+            "percent": round(mastered * 100 / total) if total else 0,
+        })
+        previous_complete = complete
+    total_words = len(catalog)
+    total_mastered = sum(dose_is_mastered(progress, cid) for cid in catalog)
+    return {
+        "total_words": total_words, "total_levels": len(levels),
+        "mastered_words": total_mastered,
+        "learning_words": total_words - total_mastered,
+        "completed_levels": sum(card["complete"] for card in cards),
+        "current_level": current_level if current_level is not None else len(levels),
+        "overall_percent": round(total_mastered * 100 / total_words) if total_words else 0,
+        "levels": cards,
+    }
+
+
+def dose_normalize(value):
+    return " ".join(unicodedata.normalize("NFKC", value).casefold().split())
+
+
+def dose_apply_result(stats, correct, activity="picture_recall"):
+    """Games may record recognition, but only typed recall earns mastery."""
+    if correct:
+        stats["correct"] = stats.get("correct", 0) + 1
+    else:
+        stats["wrong"] = stats.get("wrong", 0) + 1
+    if activity != "picture_recall":
+        return
+    if correct:
+        stats["recall_correct"] = stats.get("recall_correct", 0) + 1
+        if not stats.get("mastered", False):
+            stats["recall_streak"] = stats.get("recall_streak", 0) + 1
+            if stats["recall_streak"] >= DAILY_DOSE_RECALL_TARGET:
+                stats["recall_streak"] = DAILY_DOSE_RECALL_TARGET
+                stats["mastered"] = True
+    else:
+        stats["recall_wrong"] = stats.get("recall_wrong", 0) + 1
+        if not stats.get("mastered", False):
+            stats["recall_streak"] = 0
+
+
+@app.route("/daily-dose")
+def daily_dose_page():
+    catalog = dose_catalog()
+    with progress_lock:
+        progress = get_progress()
+        dashboard = dose_dashboard(progress, catalog)
+        requested = request.args.get("level", type=int)
+        levels = dose_levels(catalog)
+        selected_words = []
+        if requested is not None:
+            if not 1 <= requested <= len(levels):
+                return redirect(url_for("daily_dose_page"))
+            if not dashboard["levels"][requested - 1]["unlocked"]:
+                return redirect(url_for("daily_dose_page"))
+            selected_words = levels[requested - 1]["words"]
+        config = {
+            "dashboard": dashboard,
+            "level": requested,
+            "words": selected_words,
+            "progress": {
+                word["id"]: dict(progress.get("mastery", {}).get(word["id"], {}))
+                for word in selected_words
+            },
+            "settings": {"masteryCorrect": DAILY_DOSE_RECALL_TARGET},
+            "urls": {
+                "answer": url_for("daily_dose_answer"),
+                "dashboard": url_for("daily_dose_page"),
+                "menu": url_for("menu"),
+            },
+        }
+    return render_template("daily-dose.html", daily_dose_config=config)
+
+
+@app.route("/daily-dose/answer", methods=["POST"])
+def daily_dose_answer():
+    data = request.get_json(silent=True) or {}
+    cid, answer, number = data.get("word_id"), data.get("answer"), data.get("level")
+    if not (isinstance(cid, str) and isinstance(answer, str)
+            and 0 < len(answer) <= 120 and type(number) is int):
+        return jsonify(ok=False, error="Invalid answer or level"), 400
+    catalog = dose_catalog()
+    levels = dose_levels(catalog)
+    if not 1 <= number <= len(levels):
+        return jsonify(ok=False, error="Invalid level"), 400
+    level = levels[number - 1]
+    if cid not in {word["id"] for word in level["words"]}:
+        return jsonify(ok=False, error="Word does not belong to this level"), 400
+    expected = catalog[cid]["tagalog"]
+    received = dose_normalize(answer)
+    correct = bool(received) and received == dose_normalize(expected)
+    with progress_lock:
+        progress = get_progress()
+        if not dose_dashboard(progress, catalog)["levels"][number - 1]["unlocked"]:
+            return jsonify(ok=False, error="Level is locked"), 403
+        stats = dose_stats(progress, cid)
+        dose_apply_result(stats, correct)
+        level_complete = dose_level_complete(progress, level)
+        dashboard = dose_dashboard(progress, catalog)
+        save_progress(progress)
+        saved = dict(stats)
+    return jsonify({
+        "ok": True, "correct": correct, "answer": expected,
+        "stats": saved, "word_mastered": saved["mastered"],
+        "level_complete": level_complete, "level": number,
+        "dashboard": dashboard,
+    })
+
+# ============================================================
 # VOCABULARY GAME HELPERS
 # ============================================================
 def game_vocabulary():
@@ -796,17 +1047,190 @@ def game_vocabulary():
 # ============================================================
 # WORD SHOOTER
 # ============================================================
+# ============================================================
+# WORD SHOOTER — SHARED 10-WORD LEVELS, INDEPENDENT PROGRESS
+# ============================================================
+
+WORD_SHOOTER_MASTERY = 3
+
+
+def shooter_store(progress):
+    games = progress.setdefault("games", {})
+    return games.setdefault("word_shooter", {"words": {}})
+
+
+def shooter_word_stats(store, concept_id):
+    stats = store.setdefault("words", {}).setdefault(
+        concept_id,
+        {
+            "correct": 0,
+            "wrong": 0,
+            "wrong_streak": 0,
+            "recall_streak": 0,
+            "mastered": False,
+        },
+    )
+    for key in ("correct", "wrong", "wrong_streak", "recall_streak"):
+        stats.setdefault(key, 0)
+    stats.setdefault("mastered", False)
+    return stats
+
+
+def shooter_dashboard(progress, catalog):
+    levels = dose_levels(catalog)
+    store = shooter_store(progress)
+    saved = store.get("words", {})
+
+    cards = []
+    previous_complete = True
+
+    for level in levels:
+        mastered = sum(
+            bool(saved.get(word["id"], {}).get("mastered", False))
+            for word in level["words"]
+        )
+        total = len(level["words"])
+        complete = total > 0 and mastered == total
+
+        cards.append({
+            "number": level["number"],
+            "total": total,
+            "mastered": mastered,
+            "complete": complete,
+            "unlocked": previous_complete,
+            "status": (
+                "completed" if complete
+                else "unlocked" if previous_complete
+                else "locked"
+            ),
+        })
+        previous_complete = complete
+
+    return cards
+
+
 @app.route("/word-shooter")
 def word_shooter():
+    catalog = dose_catalog()
+    levels = dose_levels(catalog)
+
+    with progress_lock:
+        progress = get_progress()
+        dashboard = shooter_dashboard(progress, catalog)
+        store = shooter_store(progress)
+
+        requested = request.args.get("level", type=int)
+
+        if requested is None:
+            selected = None
+        elif not 1 <= requested <= len(levels):
+            return redirect(url_for("word_shooter"))
+        elif not dashboard[requested - 1]["unlocked"]:
+            return redirect(url_for("word_shooter"))
+        else:
+            selected = requested
+
+        words = []
+        if selected is not None:
+            for item in levels[selected - 1]["words"]:
+                stats = store["words"].get(item["id"], {})
+                words.append({
+                    "id": item["id"],
+                    "answer": item["tagalog"],
+                    "english": item["english"],
+                    "correct": stats.get("correct", 0),
+                    "wrong": stats.get("wrong", 0),
+                    "wrong_streak": stats.get("wrong_streak", 0),
+                    "recall_streak": stats.get("recall_streak", 0),
+                    "mastered": stats.get("mastered", False),
+                })
+
     return render_template(
         "word-shooter.html",
-        game_words=game_vocabulary()
+        game_words=words,
+        shooter_levels=dashboard,
+        shooter_level=selected,
+        shooter_mastery=WORD_SHOOTER_MASTERY,
     )
-@app.route(
-    "/word-shooter-answer",
-    methods=["POST"]
-)
+
+
+@app.route("/word-shooter-answer", methods=["POST"])
 def word_shooter_answer():
+    data = request.get_json(silent=True) or {}
+
+    concept_id = data.get("word_id")
+    answer = data.get("answer")
+    number = data.get("level")
+
+    if not (
+        isinstance(concept_id, str)
+        and isinstance(answer, str)
+        and type(number) is int
+        and 0 < len(answer) <= 120
+    ):
+        return jsonify(ok=False, error="Invalid answer or level"), 400
+
+    catalog = dose_catalog()
+    levels = dose_levels(catalog)
+
+    if not 1 <= number <= len(levels):
+        return jsonify(ok=False, error="Invalid level"), 400
+
+    level = levels[number - 1]
+
+    if concept_id not in {word["id"] for word in level["words"]}:
+        return jsonify(
+            ok=False,
+            error="Word does not belong to this level",
+        ), 400
+
+    expected = catalog[concept_id]["tagalog"]
+    correct = dose_normalize(answer) == dose_normalize(expected)
+
+    with progress_lock:
+        progress = get_progress()
+        dashboard = shooter_dashboard(progress, catalog)
+
+        if not dashboard[number - 1]["unlocked"]:
+            return jsonify(ok=False, error="Level is locked"), 403
+
+        store = shooter_store(progress)
+        stats = shooter_word_stats(store, concept_id)
+
+        if correct:
+            stats["correct"] += 1
+            stats["wrong_streak"] = 0
+
+            if not stats["mastered"]:
+                stats["recall_streak"] += 1
+
+                if stats["recall_streak"] >= WORD_SHOOTER_MASTERY:
+                    stats["recall_streak"] = WORD_SHOOTER_MASTERY
+                    stats["mastered"] = True
+        else:
+            stats["wrong"] += 1
+            stats["wrong_streak"] += 1
+
+            if not stats["mastered"]:
+                stats["recall_streak"] = 0
+
+        dashboard = shooter_dashboard(progress, catalog)
+        save_progress(progress)
+
+        saved_stats = dict(stats)
+        level_card = dict(dashboard[number - 1])
+
+    return jsonify({
+        "ok": True,
+        "correct": correct,
+        "answer": expected,
+        "stats": saved_stats,
+        "word_mastered": saved_stats["mastered"],
+        "level_complete": level_card["complete"],
+        "level_progress": level_card,
+        "levels": dashboard,
+    })
+
     data = request.get_json(silent=True) or {}
     word = data.get("word")
     correct = data.get("correct")
@@ -841,6 +1265,13 @@ def word_shooter_answer():
         else:
             stats["wrong"] += 1
             stats["wrong_streak"] += 1
+        # Recognition practice is recorded but cannot independently
+        # qualify a word as mastered: typed recall is required.
+        catalog = dose_catalog()
+        for cid, item in catalog.items():
+            if item["tagalog"] == word and cid in p.get("mastery", {}):
+                dose_apply_result(dose_stats(p, cid), correct, "word_shooter")
+                break
         save_progress(p)
     return jsonify({
         "ok": True,
@@ -852,8 +1283,273 @@ def word_shooter_answer():
 # ============================================================
 # WORD SNAKE
 # ============================================================
+
+# ============================================================
+# WORD SNAKE — LEVELS AND INDEPENDENT MASTERY
+# ============================================================
+
+WORD_SNAKE_MASTERY = 3
+
+
+def word_snake_levels():
+    # Uses the same concept ordering as Daily Dose,
+    # Word Shooter, and Word Rain.
+    return dose_levels(dose_catalog())
+
+
+def word_snake_store(progress):
+    games = progress.setdefault("games", {})
+    return games.setdefault("word_snake", {"words": {}})
+
+
+def word_snake_stats(store, concept_id):
+    words = store.setdefault("words", {})
+    stats = words.setdefault(concept_id, {})
+
+    stats.setdefault("correct", 0)
+    stats.setdefault("wrong", 0)
+    stats.setdefault("recall_streak", 0)
+    stats.setdefault("mastered", False)
+
+    return stats
+
+
+def word_snake_mastered(store, concept_id):
+    return bool(
+        store.get("words", {})
+        .get(concept_id, {})
+        .get("mastered", False)
+    )
+
+
+def word_snake_level_complete(store, level):
+    return bool(level["words"]) and all(
+        word_snake_mastered(store, word["id"])
+        for word in level["words"]
+    )
+
+
+def word_snake_dashboard(store, levels, progress=None, catalog=None):
+    """
+    Share unlocked level access with Daily Dose, Word Shooter and Word Rain.
+    Keep Word Snake mastery/completion independent.
+    """
+    shared_highest = 1
+
+    if progress is not None and catalog is not None:
+        dose_cards = dose_dashboard(progress, catalog)["levels"]
+        shooter_cards = shooter_dashboard(progress, catalog)
+        rain_store = word_rain_store(progress)
+        rain_cards = word_rain_dashboard(rain_store, catalog)
+
+        for game_cards in (dose_cards, shooter_cards, rain_cards):
+            for card in game_cards:
+                if card["unlocked"] or card["complete"]:
+                    shared_highest = max(shared_highest, card["number"])
+
+        # Include Word Rain's previously recorded highest level.
+        shared_highest = max(
+            shared_highest,
+            int(rain_store.get("highest_unlocked_level", 1)),
+        )
+
+    cards = []
+    previous_complete = True
+
+    for level in levels:
+        words = level["words"]
+        mastered = sum(
+            word_snake_mastered(store, word["id"])
+            for word in words
+        )
+        complete = len(words) > 0 and mastered == len(words)
+        unlocked = (
+            level["number"] <= shared_highest
+            or previous_complete
+            or complete
+        )
+
+        cards.append({
+            "number": level["number"],
+            "total": len(words),
+            "mastered": mastered,
+            "complete": complete,
+            "unlocked": unlocked,
+        })
+
+        previous_complete = complete
+
+    return cards
+
+
 @app.route("/word-snake")
 def word_snake():
+    levels = word_snake_levels()
+
+    with progress_lock:
+        progress = get_progress()
+        store = word_snake_store(progress)
+        cards = word_snake_dashboard(store, levels, progress, dose_catalog())
+
+        saved = {
+            cid: dict(stats)
+            for cid, stats in store.get("words", {}).items()
+        }
+
+    selected = request.args.get("level", type=int)
+
+    # No level selected: show level menu.
+    if selected is None:
+        return render_template(
+            "word-snake.html",
+            level=None,
+            cards=cards,
+            game_words=[],
+            game_progress={},
+            mastery_target=WORD_SNAKE_MASTERY,
+        )
+
+    if selected < 1 or selected > len(levels):
+        return redirect(url_for("word_snake"))
+
+    card = cards[selected - 1]
+
+    if not card["unlocked"]:
+        return redirect(url_for("word_snake"))
+
+    chosen = levels[selected - 1]
+
+    words = []
+
+    for word in chosen["words"]:
+        cid = word["id"]
+        stats = saved.get(cid, {})
+
+        words.append({
+            "id": cid,
+            "english": word["english"],
+            "answer": word["tagalog"],
+            "correct": stats.get("correct", 0),
+            "wrong": stats.get("wrong", 0),
+            "recall_streak": stats.get("recall_streak", 0),
+            "mastered": bool(stats.get("mastered", False)),
+        })
+
+    return render_template(
+        "word-snake.html",
+        level=selected,
+        cards=cards,
+        game_words=words,
+        game_progress=saved,
+        mastery_target=WORD_SNAKE_MASTERY,
+    )
+
+
+@app.route("/word-snake/answer", methods=["POST"])
+def word_snake_answer():
+    data = request.get_json(silent=True) or {}
+
+    level_number = data.get("level")
+    concept_id = data.get("word_id")
+    correct = data.get("correct")
+    replay = data.get("replay") is True
+
+    if (
+        type(level_number) is not int
+        or type(concept_id) is not str
+        or type(correct) is not bool
+    ):
+        return jsonify(
+            ok=False,
+            error="Invalid answer data"
+        ), 400
+
+    levels = word_snake_levels()
+
+    if not 1 <= level_number <= len(levels):
+        return jsonify(
+            ok=False,
+            error="Invalid level"
+        ), 400
+
+    level = levels[level_number - 1]
+
+    if not any(
+        word["id"] == concept_id
+        for word in level["words"]
+    ):
+        return jsonify(
+            ok=False,
+            error="Word does not belong to this level"
+        ), 400
+
+    with progress_lock:
+        progress = get_progress()
+        store = word_snake_store(progress)
+
+        cards = word_snake_dashboard(store, levels, progress, dose_catalog())
+
+        if not cards[level_number - 1]["unlocked"]:
+            return jsonify(
+                ok=False,
+                error="Level is locked"
+            ), 403
+
+        # Replay is only permitted for completed levels.
+        if replay:
+            if not word_snake_level_complete(store, level):
+                return jsonify(
+                    ok=False,
+                    error="Replay requires a completed level"
+                ), 403
+
+            return jsonify(
+                ok=True,
+                replay=True,
+                correct=correct,
+                level_complete=True,
+            )
+
+        stats = word_snake_stats(store, concept_id)
+
+        # Completed words retain mastery permanently.
+        if not stats["mastered"]:
+            if correct:
+                stats["correct"] += 1
+                stats["recall_streak"] += 1
+
+                if stats["recall_streak"] >= WORD_SNAKE_MASTERY:
+                    stats["mastered"] = True
+            else:
+                stats["wrong"] += 1
+                stats["recall_streak"] = 0
+
+        level_complete = word_snake_level_complete(
+            store, level
+        )
+
+        cards = word_snake_dashboard(store, levels, progress, dose_catalog())
+
+        save_progress(progress)
+
+        result_stats = dict(stats)
+
+    return jsonify(
+        ok=True,
+        correct=correct,
+        stats=result_stats,
+        mastered=result_stats["mastered"],
+        level_complete=level_complete,
+        highest_unlocked_level=max(
+            (
+                card["number"]
+                for card in cards
+                if card["unlocked"]
+            ),
+            default=1,
+        ),
+    )
+
     return render_template(
         "word-snake.html",
         game_words=game_vocabulary()
@@ -1177,286 +1873,407 @@ def reset():
     sentences = p.get("sentences", {})
     fresh = default_progress()
     fresh["study"] = study
+    fresh["daily_dose"] = p.get("daily_dose", {})
+    fresh["mastery"] = p.get("mastery", {})
     fresh["sentences"] = sentences
     fresh["vocabulary_words"] = p.get("vocabulary_words", {})
     # Preserve existing game progress.
     fresh["games"] = p.get("games", {})
     save_progress(fresh)
     return redirect(url_for("menu"))
+
 # ============================================================
-# WORD RAIN GAME
+# WORD RAIN — SHARED LEVELS, INDEPENDENT MASTERY
 # ============================================================
+
+WORD_RAIN_MASTERY = 3
+WORD_RAIN_MAX_ANSWER_LENGTH = 120
+
+
 def word_rain_normalize(value):
-    value = unicodedata.normalize(
-        "NFKC",
-        str(value or "")
-    )
+    """Normalize typed answers consistently."""
+    value = unicodedata.normalize("NFKC", str(value or ""))
     return " ".join(
-        value.strip().lower()
-        .rstrip(".!?").split()
+        value.strip().casefold().rstrip(".!?").split()
     )
+
+
 def word_rain_translations(english):
+    """Accept multiple explicitly listed English meanings."""
     if isinstance(english, list):
         parts = english
     else:
-        parts = re.split(
-            r"[/;,]",
-            str(english or "")
-        )
+        parts = re.split(r"[/;,]", str(english or ""))
+
     return {
         word_rain_normalize(part)
         for part in parts
         if word_rain_normalize(part)
     }
-def word_rain_vocabulary():
-    result = []
-    for word, details in get_vocabulary().get(
-        "words", {}
-    ).items():
-        if not isinstance(details, dict):
-            continue
-        english = details.get("english")
-        if not english or not word:
-            continue
-        result.append({
-            "id": word,
-            # Preserve frontend compatibility.
-            "tagalog": word,
-            "english": english
-        })
-    return result
-def word_rain_required(level):
-    return 10 + (level - 1) * 5
-def word_rain_start_index(level):
-    n = level - 1
-    return n * (
-        20 + (n - 1) * 5
-    ) // 2
-def word_rain_level_words(
-    vocabulary,
-    level
-):
-    start = word_rain_start_index(level)
-    end = start + word_rain_required(level)
-    return vocabulary[start:end]
+
+
 def word_rain_store(progress):
     games = progress.setdefault("games", {})
-    return games.setdefault(
-        "word_rain",
+    store = games.setdefault("word_rain", {})
+
+    store.setdefault("words", {})
+    store.setdefault("highest_unlocked_level", 1)
+    store.setdefault("best_score", 0)
+
+    return store
+
+
+def word_rain_stats(store, concept_id):
+    words = store.setdefault("words", {})
+
+    stats = words.setdefault(
+        concept_id,
         {
-            "words": {},
-            "highest_unlocked_level": 1,
-            "best_score": 0
+            "correct": 0,
+            "wrong": 0,
+            "wrong_streak": 0,
+            "recall_streak": 0,
+            "mastered": False,
+        },
+    )
+
+    for field in (
+        "correct",
+        "wrong",
+        "wrong_streak",
+        "recall_streak",
+    ):
+        stats.setdefault(field, 0)
+
+    stats.setdefault("mastered", False)
+
+    return stats
+
+
+def word_rain_migrate_progress(store, catalog):
+    """
+    Preserve legacy Word Rain progress.
+
+    Older versions keyed stats by translated words.
+    New versions use stable concept IDs.
+
+    If multiple concepts share one translation,
+    legacy progress cannot identify which concept
+    earned it, so it is not assigned ambiguously.
+    """
+    saved = store.setdefault("words", {})
+
+    translation_ids = {}
+
+    for concept_id, item in catalog.items():
+        translation_ids.setdefault(
+            word_rain_normalize(item["tagalog"]), []
+        ).append(concept_id)
+
+    changed = False
+
+    for translation, ids in translation_ids.items():
+        if len(ids) != 1:
+            continue
+
+        concept_id = ids[0]
+
+        if concept_id in saved:
+            continue
+
+        legacy_key = next(
+            (
+                key for key in saved
+                if key != concept_id
+                and word_rain_normalize(key) == translation
+            ),
+            None,
+        )
+
+        if legacy_key is None:
+            continue
+
+        old = saved[legacy_key]
+
+        if not isinstance(old, dict):
+            continue
+
+        correct = max(0, int(old.get("correct", 0)))
+        wrong = max(0, int(old.get("wrong", 0)))
+
+        saved[concept_id] = {
+            "correct": correct,
+            "wrong": wrong,
+            "wrong_streak": max(
+                0, int(old.get("wrong_streak", 0))
+            ),
+            "recall_streak": min(
+                correct, WORD_RAIN_MASTERY
+            ),
+            "mastered": correct >= WORD_RAIN_MASTERY,
         }
+
+        changed = True
+
+    return changed
+
+
+def word_rain_is_mastered(store, concept_id):
+    stats = store.get("words", {}).get(concept_id, {})
+
+    return bool(
+        stats.get("mastered", False)
+        or stats.get("correct", 0) >= WORD_RAIN_MASTERY
     )
-def word_rain_level_mastered(
-    store,
-    vocabulary,
-    level
-):
-    level_words = word_rain_level_words(
-        vocabulary,
-        level
-    )
-    if (
-        len(level_words)
-        < word_rain_required(level)
-    ):
-        return False
-    saved_words = store.get("words", {})
-    return all(
-        saved_words.get(
-            word["id"], {}
-        ).get("correct", 0)
-        >= WORD_RAIN_MASTERY
-        for word in level_words
-    )
-def word_rain_unlock_levels(
-    store,
-    vocabulary
-):
-    level = 1
-    while word_rain_level_mastered(
-        store,
-        vocabulary,
-        level
-    ):
-        next_level = level + 1
-        if (
-            len(
-                word_rain_level_words(
-                    vocabulary,
-                    next_level
-                )
-            )
-            < word_rain_required(next_level)
-        ):
-            break
-        level = next_level
-    store["highest_unlocked_level"] = level
-    return level
+
+
+def word_rain_dashboard(store, catalog):
+    """
+    Uses exactly the same concept groups as
+    Daily Dose and Word Shooter.
+    """
+    levels = dose_levels(catalog)
+    cards = []
+    previous_complete = True
+
+    for level in levels:
+        words = level["words"]
+        total = len(words)
+
+        mastered = sum(
+            word_rain_is_mastered(store, word["id"])
+            for word in words
+        )
+
+        complete = total > 0 and mastered == total
+
+        # Completed levels remain replayable.
+        unlocked = previous_complete or complete
+
+        cards.append({
+            "number": level["number"],
+            "total": total,
+            "mastered": mastered,
+            "complete": complete,
+            "unlocked": unlocked,
+            "status": (
+                "completed" if complete
+                else "unlocked" if unlocked
+                else "locked"
+            ),
+        })
+
+        previous_complete = complete
+
+    return cards
+
+
+def word_rain_game_words(level, store):
+    """Provide only the selected level's words."""
+    result = []
+
+    for item in level["words"]:
+        stats = store.get("words", {}).get(item["id"], {})
+
+        result.append({
+            "id": item["id"],
+            "tagalog": item["tagalog"],
+            "english": item["english"],
+            "correct": stats.get("correct", 0),
+            "wrong": stats.get("wrong", 0),
+            "recall_streak": stats.get("recall_streak", 0),
+            "mastered": word_rain_is_mastered(
+                store, item["id"]
+            ),
+        })
+
+    return result
+
+
 @app.route("/games/word-rain")
 def word_rain_game():
-    vocabulary = word_rain_vocabulary()
+    catalog = dose_catalog()
+    levels = dose_levels(catalog)
+
+    requested = request.args.get("level", type=int)
+
     with progress_lock:
         progress = get_progress()
         store = word_rain_store(progress)
-        level = word_rain_unlock_levels(
-            store,
-            vocabulary
-        )
-        save_progress(progress)
-        saved_words = dict(
-            store.get("words", {})
-        )
+
+        migrated = word_rain_migrate_progress(store, catalog)
+        dashboard = word_rain_dashboard(store, catalog)
+
+        if requested is None:
+            selected = None
+        elif not 1 <= requested <= len(levels):
+            return redirect(url_for("word_rain_game"))
+        elif not dashboard[requested - 1]["unlocked"]:
+            return redirect(url_for("word_rain_game"))
+        else:
+            selected = requested
+
+        words = []
+
+        if selected is not None:
+            words = word_rain_game_words(
+                levels[selected - 1], store
+            )
+
+        if migrated:
+            save_progress(progress)
+
     return render_template(
         "games/word-rain.html",
-        words=vocabulary,
-        level=level,
-        word_progress=saved_words
+        words=words,
+        level=selected,
+        rain_levels=dashboard,
+        word_progress={
+            word["id"]: {
+                "correct": word["correct"],
+                "wrong": word["wrong"],
+                "recall_streak": word["recall_streak"],
+                "mastered": word["mastered"],
+            }
+            for word in words
+        },
+        rain_mastery=WORD_RAIN_MASTERY,
     )
-@app.route(
-    "/games/word-rain/answer",
-    methods=["POST"]
-)
+
+
+@app.route("/games/word-rain/answer", methods=["POST"])
 def word_rain_answer():
     data = request.get_json(silent=True) or {}
-    word_id = str(
-        data.get("word_id", "")
-    )
-    answer = word_rain_normalize(
-        data.get("answer", "")
-    )
+
+    concept_id = data.get("word_id")
+    raw_answer = data.get("answer", "")
+    number = data.get("level")
     missed = data.get("missed") is True
-    try:
-        level = int(data.get("level", 1))
-    except (TypeError, ValueError):
-        return jsonify(
-            ok=False,
-            error="Invalid level"
-        ), 400
-    if level < 1:
-        return jsonify(
-            ok=False,
-            error="Invalid level"
-        ), 400
-    if (
-        (not missed and not answer)
-        or len(answer)
-        > WORD_RAIN_MAX_ANSWER_LENGTH
+
+    if not (
+        isinstance(concept_id, str)
+        and type(number) is int
+        and isinstance(raw_answer, str)
+        and len(raw_answer) <= WORD_RAIN_MAX_ANSWER_LENGTH
     ):
         return jsonify(
-            ok=False,
-            error="Invalid translation"
+            ok=False, error="Invalid answer or level"
         ), 400
-    vocabulary = word_rain_vocabulary()
-    level_words = word_rain_level_words(
-        vocabulary,
-        level
-    )
-    word = next(
-        (
-            item for item in level_words
-            if item["id"] == word_id
-        ),
-        None
-    )
-    if word is None:
+
+    answer = word_rain_normalize(raw_answer)
+
+    if not missed and not answer:
+        return jsonify(
+            ok=False, error="Translation is required"
+        ), 400
+
+    catalog = dose_catalog()
+    levels = dose_levels(catalog)
+
+    if not 1 <= number <= len(levels):
+        return jsonify(
+            ok=False, error="Invalid level"
+        ), 400
+
+    level = levels[number - 1]
+
+    if concept_id not in {
+        item["id"] for item in level["words"]
+    }:
         return jsonify(
             ok=False,
-            error=(
-                "Word does not belong "
-                "to this level"
-            )
+            error="Word does not belong to this level",
         ), 400
+
+    word = catalog[concept_id]
+
     correct = (
         not missed
-        and answer in word_rain_translations(
-            word["english"]
-        )
+        and answer in word_rain_translations(word["english"])
     )
+
     with progress_lock:
         progress = get_progress()
         store = word_rain_store(progress)
-        unlocked = word_rain_unlock_levels(
-            store,
-            vocabulary
-        )
-        if level > unlocked:
+
+        word_rain_migrate_progress(store, catalog)
+
+        dashboard = word_rain_dashboard(store, catalog)
+
+        if not dashboard[number - 1]["unlocked"]:
             return jsonify(
-                ok=False,
-                error="Level is locked"
+                ok=False, error="Level is locked"
             ), 403
-        saved_words = store.setdefault(
-            "words", {}
-        )
-        stats = saved_words.setdefault(
-            word_id,
-            {
-                "correct": 0,
-                "wrong": 0,
-                "wrong_streak": 0
-            }
-        )
+
+        stats = word_rain_stats(store, concept_id)
+
         if correct:
-            if (
-                stats["correct"]
-                < WORD_RAIN_MASTERY
-            ):
-                stats["correct"] += 1
+            stats["correct"] += 1
             stats["wrong_streak"] = 0
+
+            if not stats["mastered"]:
+                stats["recall_streak"] += 1
+
+                if stats["recall_streak"] >= WORD_RAIN_MASTERY:
+                    stats["recall_streak"] = WORD_RAIN_MASTERY
+                    stats["mastered"] = True
         else:
             stats["wrong"] += 1
             stats["wrong_streak"] += 1
-        mastered = (
-            stats["correct"]
-            >= WORD_RAIN_MASTERY
+
+            if not stats["mastered"]:
+                stats["recall_streak"] = 0
+
+        dashboard = word_rain_dashboard(store, catalog)
+        level_card = dashboard[number - 1]
+
+        store["highest_unlocked_level"] = max(
+            (
+                card["number"]
+                for card in dashboard
+                if card["unlocked"]
+            ),
+            default=1,
         )
-        level_complete = (
-            word_rain_level_mastered(
-                store,
-                vocabulary,
-                level
-            )
-        )
-        unlocked = word_rain_unlock_levels(
-            store,
-            vocabulary
-        )
+
         save_progress(progress)
         saved_stats = dict(stats)
+
     return jsonify(
         ok=True,
         correct=correct,
         missed=missed,
-        word_id=word_id,
+        word_id=concept_id,
         answer=word["english"],
         stats=saved_stats,
-        mastered=mastered,
-        level_complete=level_complete,
-        highest_unlocked_level=unlocked
+        mastered=word_rain_is_mastered(
+            {"words": {concept_id: saved_stats}},
+            concept_id,
+        ),
+        level_complete=level_card["complete"],
+        highest_unlocked_level=store["highest_unlocked_level"],
     )
-@app.route(
-    "/games/word-rain/reset",
-    methods=["POST"]
-)
+
+
+@app.route("/games/word-rain/reset", methods=["POST"])
 def word_rain_reset():
     with progress_lock:
         progress = get_progress()
-        games = progress.setdefault(
-            "games", {}
-        )
-        games["word_rain"] = {
+
+        progress.setdefault("games", {})["word_rain"] = {
             "words": {},
             "highest_unlocked_level": 1,
-            "best_score": 0
+            "best_score": 0,
         }
+
         save_progress(progress)
+
     return jsonify(
         ok=True,
         level=1,
-        message="Word Rain progress reset"
+        message="Word Rain progress reset",
     )
+
 # ============================================================
 # START APPLICATION
 # ============================================================
