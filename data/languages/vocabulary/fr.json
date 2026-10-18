@@ -9,6 +9,7 @@
   "concept-0008": "salle de bains",
   "concept-0009": "canapé",
   "concept-0010": "lampe",
+
   "concept-0011": "café",
   "concept-0012": "eau",
   "concept-0013": "pain",
@@ -19,6 +20,7 @@
   "concept-0018": "lait",
   "concept-0019": "fromage",
   "concept-0020": "carotte",
+
   "concept-0021": "chien",
   "concept-0022": "chat",
   "concept-0023": "oiseau",
@@ -29,6 +31,7 @@
   "concept-0028": "poule",
   "concept-0029": "papillon",
   "concept-0030": "éléphant",
+
   "concept-0031": "tête",
   "concept-0032": "main",
   "concept-0033": "pied",
@@ -39,6 +42,7 @@
   "concept-0038": "bras",
   "concept-0039": "jambe",
   "concept-0040": "dent",
+
   "concept-0041": "soleil",
   "concept-0042": "lune",
   "concept-0043": "arbre",
@@ -49,6 +53,7 @@
   "concept-0048": "rocher",
   "concept-0049": "nuage",
   "concept-0050": "étoile",
+
   "concept-0051": "voiture",
   "concept-0052": "bus",
   "concept-0053": "vélo",
@@ -59,6 +64,7 @@
   "concept-0058": "camion",
   "concept-0059": "hélicoptère",
   "concept-0060": "taxi",
+
   "concept-0061": "chemise",
   "concept-0062": "chaussures",
   "concept-0063": "pantalon",
@@ -69,6 +75,7 @@
   "concept-0068": "jupe",
   "concept-0069": "ceinture",
   "concept-0070": "gants",
+
   "concept-0071": "rouge",
   "concept-0072": "bleu",
   "concept-0073": "vert",
@@ -79,6 +86,7 @@
   "concept-0078": "violet",
   "concept-0079": "rose",
   "concept-0080": "marron",
+
   "concept-0081": "téléphone",
   "concept-0082": "livre",
   "concept-0083": "stylo",
@@ -89,6 +97,7 @@
   "concept-0088": "bouteille",
   "concept-0089": "tasse",
   "concept-0090": "parapluie",
+
   "concept-0091": "assiette",
   "concept-0092": "cuillère",
   "concept-0093": "fourchette",
@@ -98,5 +107,60 @@
   "concept-0097": "poêle",
   "concept-0098": "réfrigérateur",
   "concept-0099": "cuisinière",
-  "concept-0100": "verre"
+  "concept-0100": "verre",
+
+  "concept-0101": "soupe",
+  "concept-0102": "viande",
+  "concept-0103": "sandwich",
+  "concept-0104": "salade",
+  "concept-0105": "gâteau",
+  "concept-0106": "beurre",
+  "concept-0107": "sel",
+  "concept-0108": "sucre",
+  "concept-0109": "miel",
+  "concept-0110": "farine",
+
+  "concept-0111": "mangue",
+  "concept-0112": "ananas",
+  "concept-0113": "raisins",
+  "concept-0114": "pastèque",
+  "concept-0115": "citron",
+  "concept-0116": "tomate",
+  "concept-0117": "pomme de terre",
+  "concept-0118": "oignon",
+  "concept-0119": "concombre",
+  "concept-0120": "chou",
+
+  "concept-0121": "école",
+  "concept-0122": "hôpital",
+  "concept-0123": "restaurant",
+  "concept-0124": "supermarché",
+  "concept-0125": "pharmacie",
+  "concept-0126": "banque",
+  "concept-0127": "parc",
+  "concept-0128": "plage",
+  "concept-0129": "bibliothèque",
+  "concept-0130": "aéroport",
+
+  "concept-0131": "mère",
+  "concept-0132": "père",
+  "concept-0133": "sœur",
+  "concept-0134": "frère",
+  "concept-0135": "grand-mère",
+  "concept-0136": "grand-père",
+  "concept-0137": "bébé",
+  "concept-0138": "enfant",
+  "concept-0139": "femme",
+  "concept-0140": "homme",
+
+  "concept-0141": "manger",
+  "concept-0142": "boire",
+  "concept-0143": "dormir",
+  "concept-0144": "marcher",
+  "concept-0145": "courir",
+  "concept-0146": "s’asseoir",
+  "concept-0147": "se tenir debout",
+  "concept-0148": "lire",
+  "concept-0149": "écrire",
+  "concept-0150": "nager"
 }

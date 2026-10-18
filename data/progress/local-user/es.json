@@ -1,14 +1,14 @@
 {
   "level_id": "level-1-cafe",
-  "step_index": 6,
+  "step_index": 2,
   "words": {
     "quiero": {
-      "correct": 8,
+      "correct": 9,
       "wrong": 4,
       "wrong_streak": 0
     },
     "café": {
-      "correct": 7,
+      "correct": 8,
       "wrong": 2,
       "wrong_streak": 0
     },
@@ -121,6 +121,76 @@
           "correct": 3,
           "wrong": 0,
           "wrong_streak": 0
+        },
+        "concept-0001": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0,
+          "recall_streak": 3,
+          "mastered": true
+        },
+        "concept-0002": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0,
+          "recall_streak": 3,
+          "mastered": true
+        },
+        "concept-0003": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0,
+          "recall_streak": 3,
+          "mastered": true
+        },
+        "concept-0004": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0,
+          "recall_streak": 3,
+          "mastered": true
+        },
+        "concept-0005": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0,
+          "recall_streak": 3,
+          "mastered": true
+        },
+        "concept-0006": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0,
+          "recall_streak": 3,
+          "mastered": true
+        },
+        "concept-0007": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0,
+          "recall_streak": 3,
+          "mastered": true
+        },
+        "concept-0008": {
+          "correct": 2,
+          "wrong": 0,
+          "wrong_streak": 0,
+          "recall_streak": 3,
+          "mastered": true
+        },
+        "concept-0009": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0,
+          "recall_streak": 3,
+          "mastered": true
+        },
+        "concept-0010": {
+          "correct": 3,
+          "wrong": 0,
+          "wrong_streak": 0,
+          "recall_streak": 3,
+          "mastered": true
         }
       },
       "highest_unlocked_level": 1,
@@ -132,15 +202,105 @@
           "correct": 1,
           "wrong": 0,
           "wrong_streak": 0,
-          "recall_streak": 1,
-          "mastered": false
+          "recall_streak": 3,
+          "mastered": true
         },
         "concept-0001": {
           "correct": 1,
           "wrong": 0,
           "wrong_streak": 0,
+          "recall_streak": 3,
+          "mastered": true
+        },
+        "concept-0002": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0003": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0004": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0005": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0006": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0009": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0010": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0008": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0013": {
+          "correct": 1,
+          "wrong": 0,
+          "wrong_streak": 0,
           "recall_streak": 1,
           "mastered": false
+        },
+        "concept-0020": {
+          "correct": 1,
+          "wrong": 0,
+          "wrong_streak": 0,
+          "recall_streak": 1,
+          "mastered": false
+        }
+      }
+    },
+    "word_snake": {
+      "words": {
+        "concept-0001": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0002": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0003": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0004": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0005": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0006": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0007": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0009": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0010": {
+          "mastered": true,
+          "recall_streak": 3
+        },
+        "concept-0008": {
+          "mastered": true,
+          "recall_streak": 3
         }
       }
     }
@@ -151,10 +311,12 @@
   ],
   "study": {
     "daily_goal_minutes": 120,
-    "total_seconds": 549,
+    "total_seconds": 653,
     "days": {
       "2026-10-14": 327,
-      "2026-10-15": 222
+      "2026-10-15": 222,
+      "2026-10-16": 63,
+      "2026-10-17": 41
     }
   },
   "vocabulary_words": {
@@ -204,5 +366,74 @@
     "word_ids": [],
     "completed": false
   },
-  "mastery": {}
+  "mastery": {
+    "concept-0001": {
+      "mastered": true,
+      "recall_streak": 3
+    },
+    "concept-0002": {
+      "mastered": true,
+      "recall_streak": 3
+    },
+    "concept-0003": {
+      "mastered": true,
+      "recall_streak": 3
+    },
+    "concept-0004": {
+      "mastered": true,
+      "recall_streak": 3
+    },
+    "concept-0005": {
+      "mastered": true,
+      "recall_streak": 3
+    },
+    "concept-0006": {
+      "mastered": true,
+      "recall_streak": 3
+    },
+    "concept-0007": {
+      "mastered": true,
+      "recall_streak": 3
+    },
+    "concept-0009": {
+      "mastered": true,
+      "recall_streak": 3
+    },
+    "concept-0010": {
+      "mastered": true,
+      "recall_streak": 3
+    },
+    "concept-0008": {
+      "correct": 3,
+      "wrong": 1,
+      "recall_correct": 3,
+      "recall_wrong": 1,
+      "recall_streak": 3,
+      "mastered": true
+    },
+    "concept-0011": {
+      "correct": 0,
+      "wrong": 1,
+      "recall_correct": 0,
+      "recall_wrong": 1,
+      "recall_streak": 0,
+      "mastered": false
+    },
+    "concept-0012": {
+      "correct": 1,
+      "wrong": 0,
+      "recall_correct": 1,
+      "recall_wrong": 0,
+      "recall_streak": 1,
+      "mastered": false
+    },
+    "concept-0013": {
+      "correct": 1,
+      "wrong": 0,
+      "recall_correct": 1,
+      "recall_wrong": 0,
+      "recall_streak": 1,
+      "mastered": false
+    }
+  }
 }

@@ -1,16 +1,21 @@
 {
   "level_id": "level-1-cafe",
-  "step_index": 3,
+  "step_index": 10,
   "words": {
     "veux": {
-      "correct": 2,
-      "wrong": 6,
+      "correct": 6,
+      "wrong": 31,
       "wrong_streak": 0
     },
     "café": {
+      "correct": 6,
+      "wrong": 34,
+      "wrong_streak": 0
+    },
+    "plaît": {
       "correct": 1,
-      "wrong": 7,
-      "wrong_streak": 1
+      "wrong": 17,
+      "wrong_streak": 0
     }
   },
   "vocabulary_words": {
@@ -41,15 +46,45 @@
       "words": {},
       "highest_unlocked_level": 1,
       "best_score": 0
+    },
+    "word_shooter": {
+      "words": {
+        "concept-0003": {
+          "correct": 0,
+          "wrong": 1,
+          "wrong_streak": 1,
+          "recall_streak": 0,
+          "mastered": false
+        },
+        "concept-0004": {
+          "correct": 0,
+          "wrong": 1,
+          "wrong_streak": 1,
+          "recall_streak": 0,
+          "mastered": false
+        },
+        "concept-0010": {
+          "correct": 0,
+          "wrong": 1,
+          "wrong_streak": 1,
+          "recall_streak": 0,
+          "mastered": false
+        }
+      }
+    },
+    "word_snake": {
+      "words": {}
     }
   },
   "completed_levels": [],
   "study": {
     "daily_goal_minutes": 120,
-    "total_seconds": 125,
+    "total_seconds": 330,
     "days": {
       "2026-10-14": 80,
-      "2026-10-15": 45
+      "2026-10-15": 45,
+      "2026-10-16": 131,
+      "2026-10-17": 74
     }
   },
   "daily_dose": {

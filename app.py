@@ -2274,6 +2274,13 @@ def word_rain_reset():
         message="Word Rain progress reset",
     )
 
+
+
+
+@app.route("/despacio")
+def despacio_home():
+    return render_template("despacio_home.html")
+
 # ============================================================
 # START APPLICATION
 # ============================================================

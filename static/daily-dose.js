@@ -31,6 +31,20 @@
   let rotationIndex = 0;
   let lastWordId = null;
 
+  // A completed level opens in Replay Mode.
+  const levelCard = (dashboard.levels || []).find(
+    (item) => item.number === Number(level)
+  );
+
+  const replayMode = Boolean(
+    levelCard?.complete ||
+    (words.length > 0 &&
+      words.every((word) => progress[word.id]?.mastered === true))
+  );
+
+  // Replay tracks words attempted in this session.
+  const replayCompleted = new Set();
+
   // ------------------------------------------
   // SCREEN HELPERS
   // ------------------------------------------
@@ -159,7 +173,7 @@
       const status = document.createElement("span");
 
       status.textContent = item.complete
-        ? "✓ Completed"
+        ? "✓ Completed — Replay →"
         : item.unlocked
           ? "Continue →"
           : "Locked";
@@ -177,10 +191,29 @@
   }
 
   // ------------------------------------------
-  // OVERALL LEVEL PROGRESS ONLY
+  // LEVEL PROGRESS
   // ------------------------------------------
 
   function renderProgress() {
+    if (replayMode) {
+      const done = replayCompleted.size;
+
+      const percent = words.length
+        ? Math.round(100 * done / words.length)
+        : 0;
+
+      $("level-count").textContent =
+        `${done}/${words.length} reviewed`;
+
+      $("level-percent").textContent =
+        `${percent}%`;
+
+      $("level-fill").style.width =
+        `${percent}%`;
+
+      return;
+    }
+
     const done = masteredCount();
 
     const percent = words.length
@@ -198,10 +231,18 @@
   }
 
   // ------------------------------------------
-  // ROTATE UNMASTERED WORDS
+  // WORD ROTATION
   // ------------------------------------------
 
   function nextWord() {
+    // Replay: include mastered words, once each.
+    if (replayMode) {
+      return words.find(
+        (word) => !replayCompleted.has(word.id)
+      ) || null;
+    }
+
+    // Learn: rotate only unmastered words.
     const unfinished = words.filter(
       (word) => !isMastered(word)
     );
@@ -248,7 +289,6 @@
 
   // ------------------------------------------
   // IMAGE
-  // Uses image_url supplied by app.py.
   // ------------------------------------------
 
   function setImage(word, onReady) {
@@ -299,7 +339,9 @@
       word.english;
 
     $("phase-text").textContent =
-      "Memorize — 3 seconds";
+      replayMode
+        ? "Replay — Memorize for 3 seconds"
+        : "Memorize — 3 seconds";
 
     $("tagalog-preview").textContent =
       word.tagalog;
@@ -318,7 +360,7 @@
   }
 
   // ------------------------------------------
-  // HIDE TRANSLATION; KEEP IMAGE + ENGLISH
+  // RECALL
   // ------------------------------------------
 
   function showRecall() {
@@ -347,7 +389,7 @@
   }
 
   // ------------------------------------------
-  // LEVEL COMPLETE
+  // COMPLETE
   // ------------------------------------------
 
   function complete() {
@@ -357,6 +399,20 @@
 
     const next = Number(level) + 1;
     const button = $("next-level-button");
+
+    if (replayMode) {
+      $("complete-title").textContent =
+        `Level ${level} replay complete!`;
+
+      button.textContent = "Replay level again →";
+      button.classList.remove("hidden");
+
+      button.onclick = () => {
+        goLevel(level);
+      };
+
+      return;
+    }
 
     if (next <= Number(dashboard.total_levels || 0)) {
       $("complete-title").textContent =
@@ -390,7 +446,12 @@
     clearError();
     renderProgress();
 
-    if (
+    if (replayMode) {
+      if (replayCompleted.size >= words.length) {
+        complete();
+        return;
+      }
+    } else if (
       words.length &&
       masteredCount() === words.length
     ) {
@@ -402,6 +463,8 @@
 
     if (word) {
       startPreview(word);
+    } else if (replayMode && words.length) {
+      complete();
     } else {
       error(
         "No vocabulary available for this level."
@@ -473,29 +536,38 @@
         );
       }
 
+      if (replayMode) {
+        replayCompleted.add(current.id);
+      }
+
       const feedback = $("feedback");
 
       if (result.correct) {
-        feedback.textContent = result.word_mastered
-          ? "✓ Correct — word mastered!"
-          : `✓ Correct — ${streak(current)}/${target} consecutive.`;
+        feedback.textContent = replayMode
+          ? "✓ Correct!"
+          : result.word_mastered
+            ? "✓ Correct — word mastered!"
+            : `✓ Correct — ${streak(current)}/${target} consecutive.`;
 
-        feedback.className =
-          "feedback good";
+        feedback.className = "feedback good";
       } else {
         feedback.textContent =
           `Incorrect. Correct answer: ${result.answer}`;
 
-        feedback.className =
-          "feedback bad";
+        feedback.className = "feedback bad";
       }
 
       $("answer-input").disabled = true;
 
       $("check-button").classList.add("hidden");
 
+      const sessionComplete = replayMode
+        ? replayCompleted.size >= words.length
+        : words.length > 0 &&
+          masteredCount() === words.length;
+
       $("continue-button").textContent =
-        result.level_complete
+        sessionComplete
           ? "Complete level →"
           : "Continue →";
 
@@ -554,9 +626,10 @@
     showScreen("level-screen");
 
     $("level-title").textContent =
-      `Level ${level}`;
+      replayMode
+        ? `Level ${level} — Replay`
+        : `Level ${level}`;
 
     advance();
   }
-
 })();
