@@ -40,13 +40,7 @@
       "wrong_streak": 1
     }
   },
-  "sentences": {},
   "games": {
-    "word_rain": {
-      "words": {},
-      "highest_unlocked_level": 1,
-      "best_score": 0
-    },
     "word_shooter": {
       "words": {
         "concept-0003": {
@@ -71,9 +65,6 @@
           "mastered": false
         }
       }
-    },
-    "word_snake": {
-      "words": {}
     }
   },
   "completed_levels": [],

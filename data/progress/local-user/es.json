@@ -68,134 +68,7 @@
       "wrong_streak": 0
     }
   },
-  "sentences": {},
   "games": {
-    "word_rain": {
-      "words": {
-        "ventana": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0
-        },
-        "lámpara": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0
-        },
-        "baño": {
-          "correct": 2,
-          "wrong": 0,
-          "wrong_streak": 0
-        },
-        "casa": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0
-        },
-        "cama": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0
-        },
-        "puerta": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0
-        },
-        "sofá": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0
-        },
-        "mesa": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0
-        },
-        "cocina": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0
-        },
-        "silla": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0
-        },
-        "concept-0001": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0,
-          "recall_streak": 3,
-          "mastered": true
-        },
-        "concept-0002": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0,
-          "recall_streak": 3,
-          "mastered": true
-        },
-        "concept-0003": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0,
-          "recall_streak": 3,
-          "mastered": true
-        },
-        "concept-0004": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0,
-          "recall_streak": 3,
-          "mastered": true
-        },
-        "concept-0005": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0,
-          "recall_streak": 3,
-          "mastered": true
-        },
-        "concept-0006": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0,
-          "recall_streak": 3,
-          "mastered": true
-        },
-        "concept-0007": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0,
-          "recall_streak": 3,
-          "mastered": true
-        },
-        "concept-0008": {
-          "correct": 2,
-          "wrong": 0,
-          "wrong_streak": 0,
-          "recall_streak": 3,
-          "mastered": true
-        },
-        "concept-0009": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0,
-          "recall_streak": 3,
-          "mastered": true
-        },
-        "concept-0010": {
-          "correct": 3,
-          "wrong": 0,
-          "wrong_streak": 0,
-          "recall_streak": 3,
-          "mastered": true
-        }
-      },
-      "highest_unlocked_level": 1,
-      "best_score": 0
-    },
     "word_shooter": {
       "words": {
         "concept-0007": {
@@ -260,49 +133,209 @@
         }
       }
     },
-    "word_snake": {
+    "word_match": {
       "words": {
-        "concept-0001": {
-          "mastered": true,
-          "recall_streak": 3
+        "concept-0013": {
+          "clean_matches": 0,
+          "wrong": 3,
+          "last_missed_at": 1792882109.6884587,
+          "last_matched_at": 1792882134.293866
         },
-        "concept-0002": {
-          "mastered": true,
-          "recall_streak": 3
+        "concept-0089": {
+          "clean_matches": 0,
+          "wrong": 11,
+          "last_missed_at": 1792882187.0748868,
+          "last_matched_at": 1792882193.6724842
         },
-        "concept-0003": {
-          "mastered": true,
-          "recall_streak": 3
+        "concept-0018": {
+          "clean_matches": 0,
+          "wrong": 11,
+          "last_missed_at": 1792882197.1917777,
+          "last_matched_at": 1792882202.3181224
         },
-        "concept-0004": {
-          "mastered": true,
-          "recall_streak": 3
+        "concept-0011": {
+          "clean_matches": 0,
+          "wrong": 4,
+          "last_missed_at": 1792882143.0227885,
+          "last_matched_at": 1792882146.938345
         },
-        "concept-0005": {
-          "mastered": true,
-          "recall_streak": 3
+        "concept-0012": {
+          "clean_matches": 0,
+          "wrong": 4,
+          "last_missed_at": 1792882153.751431,
+          "last_matched_at": 1792882156.4471772
         },
-        "concept-0006": {
-          "mastered": true,
-          "recall_streak": 3
+        "concept-0108": {
+          "clean_matches": 0,
+          "wrong": 2,
+          "last_missed_at": 1792882226.1776395,
+          "last_matched_at": 1792882158.992138
         },
-        "concept-0007": {
-          "mastered": true,
-          "recall_streak": 3
+        "concept-0092": {
+          "clean_matches": 0,
+          "wrong": 3,
+          "last_missed_at": 1792882126.2729087,
+          "last_matched_at": 1792882129.6976979
         },
-        "concept-0009": {
-          "mastered": true,
-          "recall_streak": 3
+        "concept-0106": {
+          "clean_matches": 0,
+          "wrong": 2,
+          "last_missed_at": 1792882226.1776395,
+          "last_matched_at": 1792882119.6748502
         },
-        "concept-0010": {
-          "mastered": true,
-          "recall_streak": 3
+        "concept-0105": {
+          "clean_matches": 0,
+          "wrong": 6,
+          "last_missed_at": 1792882190.2056458,
+          "last_matched_at": 1792882204.1369166
         },
         "concept-0008": {
-          "mastered": true,
-          "recall_streak": 3
+          "clean_matches": 0,
+          "wrong": 6,
+          "last_missed_at": 1792882197.1917777,
+          "last_matched_at": 1792882200.2570953
         }
-      }
+      },
+      "good_rounds": 0,
+      "board": {
+        "id": "bb3250b15ef3405a8199e6ae4fcbffa4",
+        "level_id": "level-1-cafe",
+        "cards": [
+          {
+            "id": "4b0802f1023d48baa634ab3a1ed6fabb",
+            "concept_id": "concept-0013",
+            "side": "target",
+            "text": "pan"
+          },
+          {
+            "id": "9436742574e94009a5ceedf072eeba5e",
+            "concept_id": "concept-0089",
+            "side": "english",
+            "text": "cup"
+          },
+          {
+            "id": "0b952dc211fa46af92f838254da04482",
+            "concept_id": "concept-0105",
+            "side": "english",
+            "text": "cake"
+          },
+          {
+            "id": "400cb711058e4d9d8ae1992a953601bd",
+            "concept_id": "concept-0012",
+            "side": "target",
+            "text": "agua"
+          },
+          {
+            "id": "3211f108985142f89ad0effb2f325d03",
+            "concept_id": "concept-0106",
+            "side": "english",
+            "text": "butter"
+          },
+          {
+            "id": "276b889a33a7436ba48c0e328773b3e4",
+            "concept_id": "concept-0018",
+            "side": "english",
+            "text": "milk"
+          },
+          {
+            "id": "62f5ed71f22c42edada06f515233d997",
+            "concept_id": "concept-0089",
+            "side": "target",
+            "text": "taza"
+          },
+          {
+            "id": "d29db1f29c40486a8992e3bf22738b4d",
+            "concept_id": "concept-0108",
+            "side": "english",
+            "text": "sugar"
+          },
+          {
+            "id": "4e9997fb123e4ed8b8099f35b96c45ca",
+            "concept_id": "concept-0106",
+            "side": "target",
+            "text": "mantequilla"
+          },
+          {
+            "id": "f184f4d93cc24070a55d194bd896017c",
+            "concept_id": "concept-0012",
+            "side": "english",
+            "text": "water"
+          },
+          {
+            "id": "43644096ac684dfcb27a0c99f54aea80",
+            "concept_id": "concept-0011",
+            "side": "english",
+            "text": "coffee"
+          },
+          {
+            "id": "7b1ea10ba568453398e12789eea6ed19",
+            "concept_id": "concept-0008",
+            "side": "english",
+            "text": "bathroom"
+          },
+          {
+            "id": "c9aedc4578fa45b2b1fc2e5d5c45cd49",
+            "concept_id": "concept-0008",
+            "side": "target",
+            "text": "baño"
+          },
+          {
+            "id": "1921970f9cf8427f814ba3774b8145d0",
+            "concept_id": "concept-0092",
+            "side": "english",
+            "text": "spoon"
+          },
+          {
+            "id": "21231f97fba24dc9b1fdc4fdbcb42826",
+            "concept_id": "concept-0011",
+            "side": "target",
+            "text": "café"
+          },
+          {
+            "id": "d37d3434b2834e1f908cc0828856a9db",
+            "concept_id": "concept-0092",
+            "side": "target",
+            "text": "cuchara"
+          },
+          {
+            "id": "a794b63923f54b488fdf168cfd3ca0db",
+            "concept_id": "concept-0108",
+            "side": "target",
+            "text": "azúcar"
+          },
+          {
+            "id": "c56bcff5eaf44f669d41cfd8569e10e7",
+            "concept_id": "concept-0013",
+            "side": "english",
+            "text": "bread"
+          },
+          {
+            "id": "6226d65d7adc4f948a824258733e6414",
+            "concept_id": "concept-0018",
+            "side": "target",
+            "text": "leche"
+          },
+          {
+            "id": "31d83439834f4452ae35675f7f4c48b6",
+            "concept_id": "concept-0105",
+            "side": "target",
+            "text": "pastel"
+          }
+        ],
+        "matched": [],
+        "open": [
+          "0b952dc211fa46af92f838254da04482"
+        ],
+        "attempts": 1,
+        "mistakes": {
+          "concept-0106": 1,
+          "concept-0108": 1
+        },
+        "preview": [],
+        "preview_until": 0,
+        "hide_at": 1792882227.3776395
+      },
+      "completed_rounds": 1
     }
   },
   "completed_levels": [
@@ -311,12 +344,13 @@
   ],
   "study": {
     "daily_goal_minutes": 120,
-    "total_seconds": 653,
+    "total_seconds": 873,
     "days": {
       "2026-10-14": 327,
       "2026-10-15": 222,
       "2026-10-16": 63,
-      "2026-10-17": 41
+      "2026-10-17": 41,
+      "2026-10-24": 220
     }
   },
   "vocabulary_words": {
@@ -435,5 +469,7 @@
       "recall_streak": 1,
       "mastered": false
     }
-  }
+  },
+  "schema_version": 2,
+  "course": {}
 }

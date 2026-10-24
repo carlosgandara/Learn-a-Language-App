@@ -11,6 +11,7 @@
     rel="stylesheet"
     href="{{ url_for('static', filename='style.css') }}"
   >
+<script src="{{ url_for('static', filename='ui-diagnostics.js') }}" data-report-url="{{ url_for('browser_error') }}"></script>
 </head>
 
 <body
@@ -76,53 +77,11 @@
           >
 
             <a
-              href="{{ url_for('word_shooter') }}"
+              href="{{ url_for('word_match.page') }}"
               class="nav-dropdown-item"
             >
-              <strong>🎯 Word Shooter</strong>
-              <span>Shoot the correct spelling</span>
-            </a>
-
-            <a
-              href="{{ url_for('word_snake') }}"
-              class="nav-dropdown-item"
-            >
-              <strong>🐍 Word Snake</strong>
-              <span>Build words letter by letter</span>
-            </a>
-
-            <a
-              href="{{ url_for('restaurant_game') }}"
-              class="nav-dropdown-item"
-            >
-              <strong>🍽️ Restaurant</strong>
-              <span>Serve customers in {{ language_name }}</span>
-            </a>
-
-            <a
-              href="{{ url_for('sentence_practice') }}"
-              class="nav-dropdown-item"
-            >
-              <strong>🖼️ Sentence Practice</strong>
-              <span>Learn sentences with pictures</span>
-            </a>
-
-            <a
-              href="{{ url_for('colors_page') }}"
-              class="nav-dropdown-item"
-            >
-              <strong>🎨 Color Memory</strong>
-              <span>Master 10 {{ language_name }} colors</span>
-            </a>
-
-            <a
-              href="{{ url_for('word_rain_game') }}"
-              class="nav-dropdown-item"
-            >
-              <strong>🌧️ Word Rain</strong>
-              <span>
-                Translate falling {{ language_name }} words
-              </span>
+              <strong>🃏 Word Match</strong>
+              <span>Match words with their English meanings</span>
             </a>
 
             
@@ -275,7 +234,7 @@
         {% else %}
           <a
             class="level-card {{ lvl.status }} {% if lvl.is_current %}current{% endif %}"
-            href="{{ url_for('level_view', level_id=lvl.id) }}{% if lvl.status == 'completed' %}?restart=1{% endif %}"
+            href="{{ url_for('course.overview', level_id=lvl.id) }}"
           >
             <div class="level-badge">
               {% if lvl.status == "completed" %}

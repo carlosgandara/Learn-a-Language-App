@@ -36,7 +36,7 @@
     (item) => item.number === Number(level)
   );
 
-  const replayMode = Boolean(
+  const replayMode = !config.course && Boolean(
     levelCard?.complete ||
     (words.length > 0 &&
       words.every((word) => progress[word.id]?.mastered === true))
@@ -235,6 +235,7 @@
   // ------------------------------------------
 
   function nextWord() {
+    if (config.course) return words.find(word => word.id === config.next_word_id) || null;
     // Replay: include mastered words, once each.
     if (replayMode) {
       return words.find(
@@ -333,7 +334,7 @@
       words.findIndex((w) => w.id === word.id) + 1;
 
     $("word-position").textContent =
-      `Word ${position} of ${words.length}`;
+      config.course ? `Word ${config.cycle_position} of ${config.cycle_total} in this cycle` : `Word ${position} of ${words.length}`;
 
     $("english-word").textContent =
       word.english;
@@ -397,6 +398,14 @@
 
     showScreen("complete-screen");
 
+    if (config.course) {
+      $("complete-title").textContent = "Vocabulary learned!";
+      const nextButton = $("next-level-button");
+      nextButton.textContent = "Continue to practice and test →";
+      nextButton.classList.remove("hidden");
+      nextButton.onclick = () => window.location.assign(config.urls.continue);
+      return;
+    }
     const next = Number(level) + 1;
     const button = $("next-level-button");
 
@@ -452,7 +461,7 @@
         return;
       }
     } else if (
-      words.length &&
+      !config.course && words.length &&
       masteredCount() === words.length
     ) {
       complete();
@@ -511,7 +520,8 @@
           body: JSON.stringify({
             word_id: current.id,
             answer: answer,
-            level: Number(level)
+            level: Number(level),
+            cycle_id: config.cycle_id
           })
         }
       );
@@ -519,12 +529,23 @@
       const result = await response.json();
 
       if (!response.ok || !result.ok) {
+        if (result.next_url) {window.location.assign(result.next_url); return;}
         throw new Error(
           result.error ||
           "Could not save your answer."
         );
       }
 
+      if (config.course) {
+        if (result.next_url) {
+          window.location.assign(result.next_url);
+          return;
+        }
+        config.cycle_id = result.cycle_id;
+        config.next_word_id = result.next_word_id;
+        config.cycle_position = result.cycle_position;
+        config.cycle_total = result.cycle_total;
+      }
       answered = true;
 
       progress[current.id] = result.stats;

@@ -7,7 +7,8 @@
         content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Word Shooter — Despacio.ai</title>
   <link rel="stylesheet"
-        href="{{ url_for('static', filename='word-shooter.css') }}">
+        href="{{ url_for('static', filename='word-shooter.css', v='required-practice-2') }}">
+<script src="{{ url_for('static', filename='ui-diagnostics.js') }}" data-report-url="{{ url_for('browser_error') }}"></script>
 </head>
 
 <body>
@@ -69,15 +70,22 @@
     <span id="masteredCount">
       {{ shooter_levels[shooter_level - 1].mastered }}
     </span>/{{ shooter_levels[shooter_level - 1].total }}
-    MASTERED
-    <a href="{{ url_for('word_shooter') }}">All Levels</a>
+    PRACTICED
+    {% if course_return is defined %}<span>Required practice · Daily Dose resumes automatically</span>{% else %}<a href="{{ url_for('word_shooter') }}">All Levels</a>{% endif %}
   </div>
 
   <main id="gameArea" class="game-area">
+    <div id="practiceTransition" class="practice-transition hidden" role="status" aria-live="polite">
+      <div class="practice-transition-card">
+        <p class="practice-transition-label">DAILY DOSE · WORD PRACTICE</p>
+        <h1 id="practiceTransitionText">Let’s practice what you missed.</h1>
+        <p>Just the words from your last cycle. Then back to Daily Dose.</p>
+      </div>
+    </div>
 
     <div class="hud">
       <div class="prompt-label">
-        SHOOT THE CORRECT TAGALOG SPELLING
+        SHOOT THE CORRECT {{ language_name | upper }} SPELLING
       </div>
 
       <div id="englishPrompt"
@@ -87,7 +95,8 @@
       </div>
 
       <div class="game-stats">
-        <span>❤️ <span id="lives">3</span></span>
+        <span {% if course_return is defined %}hidden{% endif %}>❤️ <span id="lives">3</span></span>
+        {% if course_return is defined %}<span>Practice at your pace · 3 correct shots per word</span>{% endif %}
         <span>Round <span id="round">1</span></span>
       </div>
     </div>
@@ -113,14 +122,13 @@
 
         <button id="restartButton"
                 class="restart-button"
-                type="button">
-          PLAY AGAIN
+                type="button" {% if course_return is defined %}hidden{% endif %}>
+          {{ 'Practice' if course_return is defined else 'PLAY AGAIN' }}
         </button>
 
-        <a href="{{ url_for('word_shooter') }}"
-           class="menu-button">
-          BACK TO LEVELS
-        </a>
+        {% if course_return is not defined %}
+        <a href="{{ url_for('word_shooter') }}" class="menu-button">BACK TO LEVELS</a>
+        {% endif %}
 
         <a id="nextLevelButton"
            class="menu-button hidden"
@@ -157,14 +165,15 @@
         "level": shooter_level,
         "mastery": shooter_mastery,
         "total": game_words | length,
-        "answerUrl": url_for("word_shooter_answer"),
-        "levelsUrl": url_for("word_shooter"),
+        "answerUrl": course_answer if course_answer is defined else url_for("word_shooter_answer"),
+        "levelsUrl": course_return if course_return is defined else url_for("word_shooter"),
+        "returnUrl": course_return if course_return is defined else none,
         "hasNextLevel": shooter_level < (shooter_levels | length)
       } | tojson
     }}
   </script>
 
-  <script src="{{ url_for('static', filename='word-shooter.js') }}"></script>
+  <script src="{{ url_for('static', filename='word-shooter.js', v='required-practice-2') }}"></script>
   <script src="{{ url_for('static', filename='study-timer.js') }}"></script>
 
   {% endif %}

@@ -501,7 +501,7 @@ a.shooter-level-card:focus-visible {
 
 /* Touch-capable devices */
 
-@media (pointer: coarse) {
+@media (any-pointer: coarse), (max-width: 700px) {
   .touch-controls {
     display: flex;
   }
@@ -598,3 +598,15 @@ a.shooter-level-card:focus-visible {
     display: none;
   }
 }
+
+/* Brief learning transitions stay above the game and block input while visible. */
+.practice-transition {
+  position: absolute; inset: 0; z-index: 150;
+  display: grid; place-items: center; padding: 24px;
+  background: rgba(15, 23, 20, .97); text-align: center;
+}
+.practice-transition.hidden { display: none; }
+.practice-transition-card { max-width: 480px; color: #f6f7ef; }
+.practice-transition-card h1 { font-size: clamp(24px, 5vw, 36px); line-height: 1.25; }
+.practice-transition-card p { line-height: 1.6; color: #c6d7cd; }
+.practice-transition-label { font-size: 11px; letter-spacing: 2px; }

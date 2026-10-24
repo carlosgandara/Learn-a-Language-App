@@ -38,7 +38,7 @@ let round = 1;
 let currentWord = null;
 let playerX = 50;
 let bullets = [];
-let gameRunning = true;
+let gameRunning = !CONFIG.returnUrl;
 let canShoot = true;
 let roundLocked = false;
 let levelComplete = false;
@@ -476,7 +476,7 @@ async function handleHit(target) {
     showMessage("+5 CORRECT", true);
   } else {
     score = Math.max(0, score - 2);
-    lives--;
+    if (!CONFIG.returnUrl) lives--;
 
     target.classList.add("wrong-hit");
     showMessage("-2 WRONG", false);
@@ -490,7 +490,7 @@ async function handleHit(target) {
     return;
   }
 
-  if (lives <= 0) {
+  if (!CONFIG.returnUrl && lives <= 0) {
     setTimeout(endGame, 500);
     return;
   }
@@ -548,6 +548,13 @@ function showMessage(text, correct) {
 // GAME OVER
 
 function endGame() {
+  if (CONFIG.returnUrl) {
+    gameOverScreen.classList.add("hidden");
+    roundLocked = false;
+    gameRunning = true;
+    startRound();
+    return;
+  }
   gameRunning = false;
 
   finalScore.textContent = score;
@@ -571,7 +578,13 @@ function finishLevel() {
 
   restartButton.textContent = "PLAY AGAIN";
 
-  const hasNextLevel = WORDS.length === CONFIG.total;
+  if (CONFIG.returnUrl) {
+    gameOverScreen.classList.add("hidden");
+    showPracticeTransition("Nice practice! Let’s recall those words again.");
+    setTimeout(() => window.location.assign(CONFIG.returnUrl), 1100);
+    return;
+  }
+  const hasNextLevel = CONFIG.hasNextLevel;
 
   if (hasNextLevel) {
     nextLevelButton.href =
@@ -654,6 +667,44 @@ document.addEventListener("keyup", event => {
   }
 });
 
+// Pointer events work for touch, mouse, and pen, including simultaneous move/fire.
+function bindMovement(id, direction) {
+  const button = document.getElementById(id);
+  const activePointers = new Set();
+  button.addEventListener("pointerdown", event => {
+    event.preventDefault();
+    activePointers.add(event.pointerId);
+    button.setPointerCapture(event.pointerId);
+    keys[direction] = true;
+  });
+  function release(event) {
+    activePointers.delete(event.pointerId);
+    keys[direction] = activePointers.size > 0;
+  }
+  button.addEventListener("pointerup", release);
+  button.addEventListener("pointercancel", release);
+  button.addEventListener("lostpointercapture", release);
+}
+bindMovement("moveLeft", "left");
+bindMovement("moveRight", "right");
+document.getElementById("shootButton").addEventListener("pointerdown", event => {
+  event.preventDefault();
+  shoot();
+});
+// Keyboard activation of the visible buttons remains available for accessibility.
+document.getElementById("shootButton").addEventListener("click", event => {
+  if (event.detail === 0) shoot();
+});
+function releaseControls() { keys.left = false; keys.right = false; }
+window.addEventListener("blur", releaseControls);
+document.addEventListener("visibilitychange", () => {if (document.hidden) releaseControls();});
+
+function showPracticeTransition(text) {
+  const panel = document.getElementById("practiceTransition");
+  document.getElementById("practiceTransitionText").textContent = text;
+  panel.classList.remove("hidden");
+}
+
 // START
 
 restartButton.addEventListener("click", restartGame);
@@ -661,8 +712,18 @@ restartButton.addEventListener("click", restartGame);
 updateMasteredCount();
 
 if (WORDS.length > 0) {
-  startRound();
-  gameLoop();
+  if (CONFIG.returnUrl) {
+    showPracticeTransition("Let’s practice what you missed.");
+    setTimeout(() => {
+      document.getElementById("practiceTransition").classList.add("hidden");
+      gameRunning = true;
+      startRound();
+      gameLoop();
+    }, 1600);
+  } else {
+    startRound();
+    gameLoop();
+  }
 } else {
   englishPrompt.textContent = "NO PRACTICE WORDS FOUND";
   gameRunning = false;

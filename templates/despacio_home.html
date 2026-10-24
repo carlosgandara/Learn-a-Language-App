@@ -297,25 +297,16 @@
       background: linear-gradient(135deg, #244c47, #85ad95);
     }
 
-    .rain {
-      background: linear-gradient(135deg, #161b50, #6171db);
-    }
 
     .shooter {
       background: linear-gradient(135deg, #291b47, #aa528d);
     }
 
-    .snake {
-      background: linear-gradient(135deg, #173d32, #59a878);
-    }
 
-    .sentences {
+    .match {
       background: linear-gradient(135deg, #765040, #d29b73);
     }
 
-    .colors {
-      background: linear-gradient(135deg, #544580, #cf8fbf);
-    }
 
     .game-info {
       padding: 23px;
@@ -475,6 +466,7 @@
       }
     }
   </style>
+<script src="{{ url_for('static', filename='ui-diagnostics.js') }}" data-report-url="{{ url_for('browser_error') }}"></script>
 </head>
 
 <body>
@@ -626,20 +618,6 @@
           </article>
 
           <article class="game-card">
-            <div class="game-art rain">
-              Word Rain
-            </div>
-
-            <div class="game-info">
-              <h3>Word Rain</h3>
-              <p>
-                Practice vocabulary as words
-                fall across the screen.
-              </p>
-            </div>
-          </article>
-
-          <article class="game-card">
             <div class="game-art shooter">
               Word Shooter
             </div>
@@ -654,43 +632,15 @@
           </article>
 
           <article class="game-card">
-            <div class="game-art snake">
-              Word Snake
+            <div class="game-art match">
+              Word Match
             </div>
 
             <div class="game-info">
-              <h3>Word Snake</h3>
+              <h3>Word Match</h3>
               <p>
-                Explore vocabulary through
-                a classic-inspired game.
-              </p>
-            </div>
-          </article>
-
-          <article class="game-card">
-            <div class="game-art sentences">
-              Sentence Practice
-            </div>
-
-            <div class="game-info">
-              <h3>Sentence Practice</h3>
-              <p>
-                Learn to put words together
-                into meaningful sentences.
-              </p>
-            </div>
-          </article>
-
-          <article class="game-card">
-            <div class="game-art colors">
-              Color Memory
-            </div>
-
-            <div class="game-info">
-              <h3>Color Memory</h3>
-              <p>
-                Learn color vocabulary through
-                visual memory challenges.
+                Match vocabulary with its English meaning.
+                Practice missed words and discover new ones.
               </p>
             </div>
           </article>

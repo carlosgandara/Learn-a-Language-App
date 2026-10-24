@@ -1,0 +1,4 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Unable to continue — Despacio</title><link rel="stylesheet" href="{{ url_for('static',filename='course.css') }}"><script src="{{ url_for('static', filename='ui-diagnostics.js') }}" data-report-url="{{ url_for('browser_error') }}"></script>
+</head>
+<body><main class="course-shell"><h1>Unable to continue</h1><p>{{ message }}</p><p>Reference: <strong>{{ reference }}</strong></p><p><a href="{{ url_for('menu') }}">Return to the learning path</a></p></main></body></html>
