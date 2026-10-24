@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "course": {},
+  "daily_dose": {
+    "number": 0,
+    "word_ids": [],
+    "completed": false
+  },
+  "mastery": {},
+  "level_id": "level-1-cafe",
+  "step_index": 0,
+  "words": {},
+  "vocabulary_words": {},
+  "games": {},
+  "completed_levels": [],
+  "study": {
+    "daily_goal_minutes": 120,
+    "total_seconds": 2,
+    "days": {
+      "2026-10-24": 2
+    }
+  }
+}

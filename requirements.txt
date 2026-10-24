@@ -2,3 +2,5 @@ Flask==2.3.3
 langcodes==3.5.1
 language_data==1.4.0
 gunicorn==26.2.0
+
+SQLAlchemy>=2.0,<3

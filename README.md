@@ -1,20 +1,27 @@
 # Despacio language learning
 
-Run `python app.py`, then open http://127.0.0.1:5000/menu.
+All language features, content, assets, storage adapters and tests live in
+[learning/](learning/README.md). Root app.py is a small standalone launcher.
 
-Each configured level follows lesson → Daily Dose → untimed practice → final
-test. After a Daily Dose cycle, missed words automatically enter required Word Shooter
-practice, then return to Daily Dose for recall. Pass the final
-test with 16/20 to unlock the next level.
+Run from the repository root:
 
-See [INTEGRATION.md](INTEGRATION.md) for content assignments, tests, saved-progress
-behavior, and the planned Flask SaaS Starter / Neon integration boundary.
+    python -m pip install -r requirements.txt
+    python app.py
 
-Word Match is available from the Games menu at `/word-match`. Match ten translated
-words with their ten English meanings. Recent mistakes get priority; current-level
-words fill the remaining cards. Strong rounds gradually introduce other words
-with a short preview. Matching progress is separate from Daily Dose recall mastery.
+Open http://127.0.0.1:5000/menu. Restart an already running server after the package
+move. Your local profiles now live in learning/data/progress/local-user/.
 
-Errors include a reference linked to `logs/app.jsonl`. See
-[DEBUGGING.md](DEBUGGING.md) for storage checks and traceback lookup. Restart the
-running server to load these changes.
+Lessons lead to Daily Dose, required Word Shooter support, practice and a final
+test. Word Match provides adaptive matching practice. The final requires 16/20.
+
+JSON storage remains the default. Neon-compatible repository adapters and account
+integration hooks are prepared but no remote database or SaaS app is connected.
+See [integration](learning/docs/INTEGRATION.md) and
+[debugging](learning/docs/DEBUGGING.md).
+
+Verification:
+
+    python -m unittest discover -s learning/tests -v
+    node learning/tests/test_ui_diagnostics.cjs
+    node learning/tests/test_daily_dose_cycle.cjs
+    node learning/tests/test_shooter_controls.cjs
